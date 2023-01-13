@@ -2,7 +2,7 @@
 Frontend of the FoodSaviour project
 
 ## Team members
-Sydney Fang - Project Manager
-Mitch Hussack - Client liasion
-Paul Gray - Quality Assurance lead
-Anshul Dhariwal - Technical lead
+Sydney Fang - Project Manager <br>
+Mitch Hussack - Client liasion <br>
+Paul Gray - Quality Assurance lead <br>
+Anshul Dhariwal - Technical lead <br>
