@@ -57,11 +57,9 @@ button:focus{
   outline: none !important;
 }
 
-
 #subBtn {
     background-color: #6a1b9a
 }
-
 
 .all-steps{
     text-align: center;
