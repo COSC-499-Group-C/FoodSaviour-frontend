@@ -1,2 +1,8 @@
 # Ignore .idea folders
 .idea/
+
+# Ignore pycache folders
+Old/DjangoProject/Project/__pycache__/
+Old/DjangoProject/Project/Forms/__pycache__/
+Old/DjangoProject/Project/migrations/__pycache__/
+Old/DjangoProject/Project/additionaltags/__pycache__/
