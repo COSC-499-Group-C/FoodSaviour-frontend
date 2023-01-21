@@ -1,9 +1,3 @@
-var currentTab = 0;
-document.addEventListener("DOMContentLoaded", function (event) {
-
-    showTab(currentTab);
-
-});
 
 function showTab(n) {
     var x = document.getElementsByClassName("tab");
@@ -15,6 +9,31 @@ function showTab(n) {
     if (n < (x.length - 1)) {
         document.getElementById("nextBtn").innerHTML = '<i class="fa fa-angle-double-right"></i>';
     }
+    // ss Meta:
+    verbose_name_plural = "Organizations"
+
+
+    class OrgGroups(models.Model):
+    //     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    //     group = models.ForeignKey(Organizations, on_delete=models.CASCADE)
+    
+    //     class Meta:
+    //         verbose_name_plural = "OrgGroups"
+    //         unique_together = ["user", "group"]
+    
+    //         ss Meta:
+    //         verbose_name_plural = "Organizations"
+    
+    
+    // class OrgGroups(models.Model):
+    //     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    //     group = models.ForeignKey(Organizations, on_delete=models.CASCADE)
+    
+    //     class Meta:
+    //         verbose_name_plural = "OrgGroups"
+    //         unique_together = ["user", "group"]
+    
+        
     fixStepIndicator(n)
 }
 
@@ -42,18 +61,3 @@ function validateForm() {
             valid = false;
         }
 
-
-    }
-    if (valid) {
-        document.getElementsByClassName("step")[currentTab].className += " finish";
-    }
-    return valid;
-}
-
-function fixStepIndicator(n) {
-    var i, x = document.getElementsByClassName("step");
-    for (i = 0; i < x.length - 1; i++) {
-        x[i].className = x[i].className.replace(" active", "");
-    }
-    x[n].className += " active";
-}
