@@ -1,4 +1,3 @@
-import logo from './images/logo.png'
 import './css/App.css';
 
 function App() {
@@ -6,7 +5,7 @@ function App() {
     <div className="">
       <header className="App-header">
         <h1 className="">Food Saviour</h1>
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={"/images/logo.png"} className="App-logo" alt="logo" />
         <div className = "account-btn">
           <a href="/login" className="btn btn-home btn-primary">Login</a>
           <a href="/register" className="register-btn btn btn-home btn-primary">Register</a>
