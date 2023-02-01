@@ -1,18 +1,18 @@
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import './css/App.css';
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 function App() {
-  return (
-    <div className="">
-      <header className="App-header">
-        <h1 className="">Food Saviour</h1>
-        <img src={"/images/logo.png"} className="App-logo" alt="logo" />
-        <div className = "account-btn">
-          <a href="/login" className="btn btn-home btn-primary">Login</a>
-          <a href="/register" className="register-btn btn btn-home btn-primary">Register</a>
-        </div>
-      </header>
-    </div >
-
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/register" element={<Login/>}/>
+            </Routes>
+        </Router>
+    );
 }
+
 export default App;

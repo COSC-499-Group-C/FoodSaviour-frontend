@@ -82,7 +82,7 @@ function Login() {
           </div>
 
           <MDBBtn className="mb-4 w-100">Sign in</MDBBtn>
-          <p className="text-center">Not a member? <a href="#!">Register</a></p>
+          <p className="text-center">Not a member? <a href="food-saviour/src/pages/Login#!">Register</a></p>
 
         </MDBTabsPane>
 
