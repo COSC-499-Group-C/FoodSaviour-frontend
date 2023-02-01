@@ -27,7 +27,7 @@ function Login() {
 
   return (
     <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-      <div className="text-xxl-center text-black">
+      <div className="text-center text-black">
         <img src={'/images/logo.png'} height={"100px"} />
         <h1>Food Saviour</h1>
       </div>
