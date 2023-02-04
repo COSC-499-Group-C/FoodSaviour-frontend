@@ -1,55 +1,72 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-// import './css/sharing.css';
+import '../css/sharing.css';
 
 function Sharing() {
     return (
         <div>
             <div>
-                <h1 className = "fs-1">Test Sharing</h1>
-                <p>Have items to share? Need items? You've found the right place!</p>
+                <img className = 'd-flex justify-content-center m-0' src='/images/logo.png' height="50px" />
+                <h1 className='fs-1 text-center mt-5 fw-bold text-black'>Sharing</h1>
+                <p className='text-center text-black'>Have items to share? Need items? You've found the right place!</p>
             </div>
-            <nav className="">
+            {/* <nav className="">
                 <ul className="nav-list">
                     <div className="logo">
-                        <img src={'././public/images/logo.png'} height={"100px"} />
+                        <img src={'/images/logo.png'} height={"100px"} />
                     </div>
-                    {/* <li><a href="#"></a></li>
                     <li><a href="#"></a></li>
                     <li><a href="#"></a></li>
-                    <li><a href='#'></a></li> */}
+                    <li><a href="#"></a></li>
+                    <li><a href='#'></a></li>
                 </ul>
 
                 <div className="rightNav">
                     <input type="text" name="search" id="search" />
                     <button className="btn btn-sm">Search</button>
                 </div>
-            </nav>
-
-            <section className="section">
-                <div className="box-main">
+            </nav> */}
+            <section className='d-flex flex-wrap justify-content-center'>
+                <div className="bg-white p-4 m-3 rounded-4">
                     <div className="org-logo"></div>
                     <div>
-                        <h1 className="">Organization name</h1>
+                        <h1 className="fw-bold fs-4">Organization name</h1>
                         <p className="">Contact info</p>
                     </div>
                 </div>
-            </section>
-
-            <section className="section">
-                <div className="box-main">
+                <div className="bg-white p-4 m-3 rounded-4">
                     <div className="org-logo"></div>
                     <div>
-                        <h1 className="text-big">Organization name</h1>
-                        <p className="text-small">Contact info</p>
+                        <h1 className="fw-bold fs-4">Organization name</h1>
+                        <p className="">Contact info</p>
                     </div>
                 </div>
-            </section>
-            
-            <footer classNameName="footer">
-                <p classNameName="text-footer">
-                </p>
-            </footer>
+                <div className="bg-white p-4 m-3 rounded-4">
+                    <div className="org-logo"></div>
+                    <div>
+                        <h1 className="fw-bold fs-4">Organization name</h1>
+                        <p className="">Contact info</p>
+                    </div>
+                </div>
+                <div className="bg-white p-4 m-3 rounded-4">
+                    <div className="org-logo"></div>
+                    <div>
+                        <h1 className="fw-bold fs-4">Organization name</h1>
+                        <p className="">Contact info</p>
+                    </div>
+                </div>
+                <div className="bg-white p-4 m-3 rounded-4">
+                    <div className="org-logo"></div>
+                    <div>
+                        <h1 className="fw-bold fs-4">Organization name</h1>
+                        <p className="">Contact info</p>
+                    </div>
+                </div>
+
+                <footer classNameName="footer">
+                    <p classNameName="text-footer">
+                    </p>
+                </footer>
+            </section >
         </div>
     )
 }
