@@ -37,47 +37,44 @@ function Tracker() {
             </div>
             <div className="p-4 mb-4 shadow-5-strong rounded">
                 <MDBRow tag="form" className="g-3" between>
-                    <MDBCol md="4">
-                        <MDBDropdown>
-                            <MDBDropdownToggle>Waste Type</MDBDropdownToggle>
-                            <MDBDropdownMenu>
-                                <MDBDropdownItem link>Waste Type 1</MDBDropdownItem>
-                                <MDBDropdownItem link>Waste Type 2</MDBDropdownItem>
-                                <MDBDropdownItem link>Waste Type 3</MDBDropdownItem>
-                                <MDBDropdownItem link>Waste Type 4</MDBDropdownItem>
-                                <MDBDropdownItem link>Waste Type 5</MDBDropdownItem>
-                            </MDBDropdownMenu>
-                        </MDBDropdown>
+                    <MDBCol md="8">
+                        <MDBRow className="g-3" between>
+                            <MDBCol md="6">
+                                <MDBDropdown>
+                                    <MDBDropdownToggle>Waste Type</MDBDropdownToggle>
+                                    <MDBDropdownMenu>
+                                        <MDBDropdownItem link>Waste Type 1</MDBDropdownItem>
+                                        <MDBDropdownItem link>Waste Type 2</MDBDropdownItem>
+                                        <MDBDropdownItem link>Waste Type 3</MDBDropdownItem>
+                                        <MDBDropdownItem link>Waste Type 4</MDBDropdownItem>
+                                        <MDBDropdownItem link>Waste Type 5</MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBCol>
+                            <MDBCol md="6">
+                                <div className="input-group has-validation">
+                                    <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Total Amount"
+                                    required
+                                    />
+                                    <span className="input-group-text">
+                                        kg
+                                    </span>
+                                    <div className="invalid-feedback">Please enter an amount.</div>
+                                </div>
+                            </MDBCol>
+                            <MDBCol md="12">
+                                <MDBTextArea
+                                name="desc"
+                                required
+                                label="Description"
+                                />
+                            </MDBCol>
+                        </MDBRow>
                     </MDBCol>
                     <MDBCol md="4">
-                        <MDBInput
-                        name="name"
-                        required
-                        label="Waste Name"
-                        />
-                    </MDBCol>
-                    <MDBCol md="4">
-                        <div className="input-group has-validation">
-                            <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Total Amount"
-                            required
-                            />
-                            <span className="input-group-text">
-                                kg
-                            </span>
-                            <div className="invalid-feedback">Please enter an amount.</div>
-                        </div>
-                    </MDBCol>
-                    <MDBCol md="10">
-                        <MDBTextArea
-                        name="desc"
-                        required
-                        label="Description"
-                        />
-                    </MDBCol>
-                    <MDBCol md="2">
                         <MDBTabs pills>
                             <MDBTabsItem>
                                 <MDBTabsLink className="py-4 m-0" onClick={() => handleJustifyClick("step2")} active={justifyActive === "step2"}>
