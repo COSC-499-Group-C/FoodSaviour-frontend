@@ -25,8 +25,6 @@ function Login() {
     setJustifyActive(value);
   };
 
-  
-
   return (
     <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
       <div className="text-center text-black">
