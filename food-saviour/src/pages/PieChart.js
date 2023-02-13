@@ -51,13 +51,43 @@ const PieChart = props => {
     [props.data]
   );
 
+var legend = d3.select("#legend");
+
+legend.selectAll("mydots")
+  .data(props.data)
+  .enter()
+  .append("circle")
+    .attr("cx", 100)
+    .attr("cy", function(d,i){ return 25 + i*25})
+    .attr("r", 7)
+    .attr("fill", (d, i) => colors(i));
+
+
+legend.selectAll("mylabels")
+  .data(props.data)
+  .enter()
+  .append("text")
+    .attr("x", 120)
+    .attr("y", function(d,i){ return 25 + i*25})
+    .attr("fill", (d, i) => colors(i))
+    .text(d => d.label)
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle");
+
+const datetime = new Date();
+d3.select("#datetime").text(datetime.toString());
+
   return (
-    <svg width={props.width} height={props.height}>
-      <g
-        ref={ref}
-        transform={`translate(${props.outerRadius} ${props.outerRadius})`}
-      />
-    </svg>
+    <div>
+        <svg width={props.width} height={props.height}>
+          <g
+            ref={ref}
+            transform={`translate(${props.outerRadius} ${props.outerRadius})`}
+          />
+        </svg>
+        <svg id="legend" width={props.width} height={props.height}></svg>
+        <p id="datetime" className="mt-3 mb-0 float-end small"></p>
+    </div>
   );
 };
 

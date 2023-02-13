@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PieChart from "./PieChart.js";
+import "../css/tracker.css";
 import {
     MDBContainer,
     MDBDropdown,
@@ -8,123 +9,252 @@ import {
     MDBDropdownItem,
     MDBRow,
     MDBCol,
-    MDBInput,
-    MDBTabsLink,
-    MDBTabsItem,
-    MDBTabs,
-    MDBTabsPane, 
-    MDBTextArea
+    MDBTextArea,
+    MDBBtn,
+    MDBCard,
+    MDBCardBody
 }
     from "mdb-react-ui-kit";
 
 function Tracker() {
-    const data = [{ label: "Apples", value: 10 }, { label: "Oranges", value: 20 }, { label: "Bananas", value: 30 }];
+    const [data, setData] = useState(0);
+    const [total, setTotal] = useState(0);
 
-    const [justifyActive, setJustifyActive] = useState("step1");
+    const [percent1, setPercent1] = useState(0);
+    const [percent2, setPercent2] = useState(0);
+    const [percent3, setPercent3] = useState(0);
+    const [percent4, setPercent4] = useState(0);
+    const [percent5, setPercent5] = useState(0);
+    const [percent6, setPercent6] = useState(0);
+    const [percent7, setPercent7] = useState(0);
 
-    const handleJustifyClick = (value) => {
-        if (value === justifyActive) {
-            return;
-        }
+    const totalAmount = (e) => {
+        setTotal(e.target.value);
+    }
 
-        setJustifyActive(value);
+    const percentCalc1 = (e) => {
+        const percent = (e.target.value / total * 100);
+        setPercent1(percent);
     };
+    const percentCalc2 = (e) => {
+        const percent = (e.target.value / total * 100);
+        setPercent2(percent);
+    };
+    const percentCalc3 = (e) => {
+        const percent = (e.target.value / total * 100);
+        setPercent3(percent);
+    };
+    const percentCalc4 = (e) => {
+        const percent = (e.target.value / total * 100);
+        setPercent4(percent);
+    };
+    const percentCalc5 = (e) => {
+        const percent = (e.target.value / total * 100);
+        setPercent5(percent);
+    };
+    const percentCalc6 = (e) => {
+        const percent = (e.target.value / total * 100);
+        setPercent6(percent);
+    };
+    const percentCalc7 = (e) => {
+        const percent = (e.target.value / total * 100);
+        setPercent7(percent);
+    };
+
+    const submitData = (e) => {
+        const data = [{ label: "Donations", value: percent1.toString() },
+                      { label: "Compost", value: percent2.toString() },
+                      { label: "Partners", value: percent3.toString() },
+                      { label: "Farmers", value: percent4.toString() },
+                      { label: "Gardens", value: percent5.toString() },
+                      { label: "Landfill", value: percent6.toString() },
+                      { label: "Other", value: percent7.toString() }];
+        setData(data);
+    }
 
     return (
         <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-            <div>
-                <h2 className="mb-3">Tracker Page</h2>
+            <div className="mb-3 align-content-between">
+                <h2 className="d-inline">Tracker Page</h2>
+                <MDBBtn className="float-end">Generate Report</MDBBtn>
             </div>
-            <div className="p-4 mb-4 shadow-5-strong rounded">
-                <MDBRow tag="form" className="g-3" between>
-                    <MDBCol md="8">
-                        <MDBRow className="g-3" between>
-                            <MDBCol md="6">
-                                <MDBDropdown>
-                                    <MDBDropdownToggle>Waste Type</MDBDropdownToggle>
-                                    <MDBDropdownMenu>
-                                        <MDBDropdownItem link>Waste Type 1</MDBDropdownItem>
-                                        <MDBDropdownItem link>Waste Type 2</MDBDropdownItem>
-                                        <MDBDropdownItem link>Waste Type 3</MDBDropdownItem>
-                                        <MDBDropdownItem link>Waste Type 4</MDBDropdownItem>
-                                        <MDBDropdownItem link>Waste Type 5</MDBDropdownItem>
-                                    </MDBDropdownMenu>
-                                </MDBDropdown>
-                            </MDBCol>
-                            <MDBCol md="6">
-                                <div className="input-group has-validation">
-                                    <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Total Amount"
-                                    required
-                                    />
-                                    <span className="input-group-text">
-                                        kg
-                                    </span>
-                                    <div className="invalid-feedback">Please enter an amount.</div>
-                                </div>
-                            </MDBCol>
-                            <MDBCol md="12">
-                                <MDBTextArea
-                                name="desc"
+            <MDBCard className="mb-5 bg-pale-blue">
+                <MDBCardBody>
+                    <MDBRow tag="form" className="g-3" between>
+                        <MDBCol md="6">
+                            <MDBDropdown group>
+                                <MDBDropdownToggle color="info">Waste Category</MDBDropdownToggle>
+                                <MDBDropdownMenu>
+                                    <MDBDropdownItem link>Produce</MDBDropdownItem>
+                                    <MDBDropdownItem link>Meat</MDBDropdownItem>
+                                    <MDBDropdownItem link>Dairy</MDBDropdownItem>
+                                    <MDBDropdownItem link>Bread</MDBDropdownItem>
+                                    <MDBDropdownItem link>Canned Food</MDBDropdownItem>
+                                    <MDBDropdownItem link>Reclaimed Food</MDBDropdownItem>
+                                </MDBDropdownMenu>
+                            </MDBDropdown>
+                        </MDBCol>
+                        <MDBCol md="6">
+                            <div className="input-group has-validation" onChange={totalAmount}>
+                                <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Total Amount"
                                 required
-                                label="Description"
                                 />
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBCol>
-                    <MDBCol md="4">
-                        <MDBTabs pills>
-                            <MDBTabsItem>
-                                <MDBTabsLink className="py-4 m-0" onClick={() => handleJustifyClick("step2")} active={justifyActive === "step2"}>
-                                    Next
-                                </MDBTabsLink>
-                            </MDBTabsItem>
-                        </MDBTabs>
-                    </MDBCol>
-                </MDBRow>
-                <MDBTabsPane show={justifyActive === "step2"}>
-                    <MDBRow tag="form" className="g-3 mt-1" show={justifyActive === "step2"}>
-                        <MDBCol md="3">
-                            <MDBInput
-                            name="compost"
+                                <span className="input-group-text bg-white">
+                                    lbs
+                                </span>
+                                <div className="invalid-feedback">Please enter an amount.</div>
+                            </div>
+                        </MDBCol>
+                        <MDBCol md="12">
+                            <MDBTextArea
+                            name="desc"
                             required
-                            label="Compost"
+                            label="Description"
+                            className="bg-white"
                             />
                         </MDBCol>
-                        <MDBCol md="3">
-                            <MDBInput
-                            name="compost"
-                            required
-                            label="Donations"
-                            />
+                        <MDBCol md="4">
+                            <div className="input-group has-validation" onChange={percentCalc1}>
+                                <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Donations"
+                                required
+                                />
+                                <span className="input-group-text bg-white">
+                                    lbs
+                                </span>
+                                <div className="invalid-feedback">Please enter an amount.</div>
+                            </div>
                         </MDBCol>
-                        <MDBCol md="3">
-                            <MDBInput
-                            name="compost"
-                            required
-                            label="Frozen"
-                            />
+                        <MDBCol md="2">
+                            <p className="m-0 p-1">= {percent1.toFixed(2)}%</p>
                         </MDBCol>
-                        <MDBCol md="3">
-                            <MDBInput
-                            name="compost"
-                            required
-                            label="Landfill"
-                            />
+                        <MDBCol md="4">
+                            <div className="input-group has-validation" onChange={percentCalc2}>
+                                <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Compost"
+                                required
+                                />
+                                <span className="input-group-text bg-white">
+                                    lbs
+                                </span>
+                                <div className="invalid-feedback">Please enter an amount.</div>
+                            </div>
+                        </MDBCol>
+                        <MDBCol md="2">
+                            <p className="m-0 p-1">= {percent2.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <div className="input-group has-validation" onChange={percentCalc3}>
+                                <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Partners"
+                                required
+                                />
+                                <span className="input-group-text bg-white">
+                                    lbs
+                                </span>
+                                <div className="invalid-feedback">Please enter an amount.</div>
+                            </div>
+                        </MDBCol>
+                        <MDBCol md="2">
+                            <p className="m-0 p-1">= {percent3.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <div className="input-group has-validation" onChange={percentCalc4}>
+                                <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Farmers"
+                                required
+                                />
+                                <span className="input-group-text bg-white">
+                                    lbs
+                                </span>
+                                <div className="invalid-feedback">Please enter an amount.</div>
+                            </div>
+                        </MDBCol>
+                        <MDBCol md="2">
+                            <p className="m-0 p-1">= {percent4.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <div className="input-group has-validation" onChange={percentCalc5}>
+                                <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Gardens"
+                                required
+                                />
+                                <span className="input-group-text bg-white">
+                                    lbs
+                                </span>
+                                <div className="invalid-feedback">Please enter an amount.</div>
+                            </div>
+                        </MDBCol>
+                        <MDBCol md="2">
+                            <p className="m-0 p-1">= {percent5.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <div className="input-group has-validation" onChange={percentCalc6}>
+                                <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Landfill"
+                                required
+                                />
+                                <span className="input-group-text bg-white">
+                                    lbs
+                                </span>
+                                <div className="invalid-feedback">Please enter an amount.</div>
+                            </div>
+                        </MDBCol>
+                        <MDBCol md="2">
+                            <p className="m-0 p-1">= {percent6.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <div className="input-group has-validation" onChange={percentCalc7}>
+                                <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Other"
+                                required
+                                />
+                                <span className="input-group-text bg-white">
+                                    lbs
+                                </span>
+                                <div className="invalid-feedback">Please enter an amount.</div>
+                            </div>
+                        </MDBCol>
+                        <MDBCol md="2">
+                            <p className="m-0 p-1">= {percent7.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="6">
+                            <MDBBtn className="float-end" color="success" onClick={submitData}>
+                                Submit
+                            </MDBBtn>
                         </MDBCol>
                     </MDBRow>
-                </MDBTabsPane>
-            </div>
+                </MDBCardBody>
+            </MDBCard>
 
-            <PieChart
-                data = {data}
-                width = {200}
-                height = {200}
-                innerRadius = {60}
-                outerRadius = {100}
-            />
+            <MDBCard className="mb-5">
+                <MDBCardBody>
+                    <PieChart
+                        data = {data}
+                        width = {200}
+                        height = {200}
+                        innerRadius = {60}
+                        outerRadius = {100}
+                    />
+                </MDBCardBody>
+            </MDBCard>
         </MDBContainer>
         );
 }
