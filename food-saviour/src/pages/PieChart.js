@@ -46,47 +46,63 @@ const PieChart = props => {
         .attr("transform", d => `translate(${createArc.centroid(d)})`)
         .style("fill", "white")
         .style("font-size", 10)
-        .text(d => format(d.value));
+        .text(d => format(d.value) + "%");
+
+        group.selectAll("dots")
+          .data(props.data)
+          .enter()
+          .append("circle")
+            .attr("cx", 140)
+            .attr("cy", function(d,i){ return i*25 - 75})
+            .attr("r", 7)
+            .attr("fill", (d, i) => colors(i));
+
+
+        group.selectAll("labels")
+            .data(props.data)
+            .enter()
+            .append("text")
+            .attr("x", 160)
+            .attr("y", function(d,i){ return i*25 - 75})
+            .attr("fill", (d, i) => colors(i))
+            .text(d => d.label)
+            .attr("text-anchor", "left")
+            .style("alignment-baseline", "middle");
+
+        group.selectAll("desc")
+            .data(props.data)
+            .enter()
+            .append("text")
+            .attr("x", 260)
+            .attr("y", 0)
+            // .attr("fill", (d, i) => colors(i))
+            .text(props.desc)
+            .attr("text-anchor", "left")
+            .style("alignment-baseline", "middle");
+
+        // const datetime = d3.select(ref.current);
+        //
+        // datetime.selectAll("datetime")
+        //     .data(props.data)
+        //     .enter()
+        //     .append("text")
+        //     .attr("x", 220)
+        //     .attr("y", 100)
+        //     .text(new Date().toString())
+        //     .style("float", "end");
+
     },
     [props.data]
   );
 
-var legend = d3.select("#legend");
-
-legend.selectAll("mydots")
-  .data(props.data)
-  .enter()
-  .append("circle")
-    .attr("cx", 100)
-    .attr("cy", function(d,i){ return 25 + i*25})
-    .attr("r", 7)
-    .attr("fill", (d, i) => colors(i));
-
-
-legend.selectAll("mylabels")
-  .data(props.data)
-  .enter()
-  .append("text")
-    .attr("x", 120)
-    .attr("y", function(d,i){ return 25 + i*25})
-    .attr("fill", (d, i) => colors(i))
-    .text(d => d.label)
-    .attr("text-anchor", "left")
-    .style("alignment-baseline", "middle");
-
-const datetime = new Date();
-d3.select("#datetime").text(datetime.toString());
-
   return (
     <div>
-        <svg width={props.width} height={props.height}>
+        <svg width={"100%"} height={200}>
           <g
             ref={ref}
             transform={`translate(${props.outerRadius} ${props.outerRadius})`}
           />
         </svg>
-        <svg id="legend" width={props.width} height={props.height}></svg>
-        <p id="datetime" className="mt-3 mb-0 float-end small"></p>
     </div>
   );
 };

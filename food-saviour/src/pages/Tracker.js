@@ -17,8 +17,9 @@ import {
     from "mdb-react-ui-kit";
 
 function Tracker() {
-    const [data, setData] = useState(0);
     const [total, setTotal] = useState(0);
+    const [desc, setDesc] = useState("");
+    const [charts, setCharts] = useState([]);
 
     const [percent1, setPercent1] = useState(0);
     const [percent2, setPercent2] = useState(0);
@@ -32,34 +33,14 @@ function Tracker() {
         setTotal(e.target.value);
     }
 
-    const percentCalc1 = (e) => {
+    const percentCalc = (e, setPercent) => {
         const percent = (e.target.value / total * 100);
-        setPercent1(percent);
+        setPercent(percent);
     };
-    const percentCalc2 = (e) => {
-        const percent = (e.target.value / total * 100);
-        setPercent2(percent);
-    };
-    const percentCalc3 = (e) => {
-        const percent = (e.target.value / total * 100);
-        setPercent3(percent);
-    };
-    const percentCalc4 = (e) => {
-        const percent = (e.target.value / total * 100);
-        setPercent4(percent);
-    };
-    const percentCalc5 = (e) => {
-        const percent = (e.target.value / total * 100);
-        setPercent5(percent);
-    };
-    const percentCalc6 = (e) => {
-        const percent = (e.target.value / total * 100);
-        setPercent6(percent);
-    };
-    const percentCalc7 = (e) => {
-        const percent = (e.target.value / total * 100);
-        setPercent7(percent);
-    };
+
+    const description = (e) => {
+        setDesc(e.target.value);
+    }
 
     const submitData = (e) => {
         const data = [{ label: "Donations", value: percent1.toString() },
@@ -69,21 +50,34 @@ function Tracker() {
                       { label: "Gardens", value: percent5.toString() },
                       { label: "Landfill", value: percent6.toString() },
                       { label: "Other", value: percent7.toString() }];
-        setData(data);
+
+        setCharts([
+            <MDBCard className="mb-5">
+                <MDBCardBody>
+                    <PieChart
+                        data = {data}
+                        desc = {desc}
+                        innerRadius = {60}
+                        outerRadius = {100}
+                    />
+                </MDBCardBody>
+            </MDBCard>,
+        charts]);
+        e.preventDefault();
     }
 
     return (
         <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
             <div className="mb-3 align-content-between">
                 <h2 className="d-inline">Tracker Page</h2>
-                <MDBBtn className="float-end">Generate Report</MDBBtn>
+                {/*<MDBBtn className="float-end">Generate Report</MDBBtn>*/}
             </div>
             <MDBCard className="mb-5 bg-pale-blue">
                 <MDBCardBody>
                     <MDBRow tag="form" className="g-3" between>
                         <MDBCol md="6">
                             <MDBDropdown group>
-                                <MDBDropdownToggle color="info">Waste Category</MDBDropdownToggle>
+                                <MDBDropdownToggle>Waste Category</MDBDropdownToggle>
                                 <MDBDropdownMenu>
                                     <MDBDropdownItem link>Produce</MDBDropdownItem>
                                     <MDBDropdownItem link>Meat</MDBDropdownItem>
@@ -108,16 +102,16 @@ function Tracker() {
                                 <div className="invalid-feedback">Please enter an amount.</div>
                             </div>
                         </MDBCol>
-                        <MDBCol md="12">
+                        <MDBCol md="12" onChange={description}>
                             <MDBTextArea
-                            name="desc"
-                            required
-                            label="Description"
-                            className="bg-white"
+                                name="desc"
+                                label="Description"
+                                className="bg-white"
+                                required
                             />
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={percentCalc1}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent1)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -134,7 +128,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent1.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={percentCalc2}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent2)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -151,7 +145,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent2.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={percentCalc3}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent3)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -168,7 +162,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent3.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={percentCalc4}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent4)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -185,7 +179,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent4.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={percentCalc5}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent5)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -202,7 +196,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent5.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={percentCalc6}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent6)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -219,7 +213,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent6.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={percentCalc7}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent7)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -244,17 +238,7 @@ function Tracker() {
                 </MDBCardBody>
             </MDBCard>
 
-            <MDBCard className="mb-5">
-                <MDBCardBody>
-                    <PieChart
-                        data = {data}
-                        width = {200}
-                        height = {200}
-                        innerRadius = {60}
-                        outerRadius = {100}
-                    />
-                </MDBCardBody>
-            </MDBCard>
+            {charts}
         </MDBContainer>
         );
 }
