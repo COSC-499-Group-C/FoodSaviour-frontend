@@ -21,21 +21,22 @@ function Tracker() {
     const [desc, setDesc] = useState("");
     const [charts, setCharts] = useState([]);
 
-    const [percent1, setPercent1] = useState(0);
-    const [percent2, setPercent2] = useState(0);
-    const [percent3, setPercent3] = useState(0);
-    const [percent4, setPercent4] = useState(0);
-    const [percent5, setPercent5] = useState(0);
-    const [percent6, setPercent6] = useState(0);
-    const [percent7, setPercent7] = useState(0);
+    const [percent1, setPercent1] = useState(0), [amount1, setAmount1] = useState(0);
+    const [percent2, setPercent2] = useState(0), [amount2, setAmount2] = useState(0);
+    const [percent3, setPercent3] = useState(0), [amount3, setAmount3] = useState(0);
+    const [percent4, setPercent4] = useState(0), [amount4, setAmount4] = useState(0);
+    const [percent5, setPercent5] = useState(0), [amount5, setAmount5] = useState(0);
+    const [percent6, setPercent6] = useState(0), [amount6, setAmount6] = useState(0);
+    const [percent7, setPercent7] = useState(0), [amount7, setAmount7] = useState(0);
 
     const totalAmount = (e) => {
         setTotal(e.target.value);
     }
 
-    const percentCalc = (e, setPercent) => {
+    const percentCalc = (e, setPercent, setAmount) => {
         const percent = (e.target.value / total * 100);
         setPercent(percent);
+        setAmount(e.target.value);
     };
 
     const description = (e) => {
@@ -43,23 +44,24 @@ function Tracker() {
     }
 
     const submitData = (e) => {
-        const data = [{ label: "Donations", value: percent1.toString() },
-                      { label: "Compost", value: percent2.toString() },
-                      { label: "Partners", value: percent3.toString() },
-                      { label: "Farmers", value: percent4.toString() },
-                      { label: "Gardens", value: percent5.toString() },
-                      { label: "Landfill", value: percent6.toString() },
-                      { label: "Other", value: percent7.toString() }];
+        const data = [{ label: "Donations", value: percent1.toString(), amount: amount1.toString() },
+                      { label: "Compost", value: percent2.toString(), amount: amount2.toString() },
+                      { label: "Partners", value: percent3.toString(), amount: amount3.toString() },
+                      { label: "Farmers", value: percent4.toString(), amount: amount4.toString() },
+                      { label: "Gardens", value: percent5.toString(), amount: amount5.toString() },
+                      { label: "Landfill", value: percent6.toString(), amount: amount6.toString() },
+                      { label: "Other", value: percent7.toString(), amount: amount7.toString() }];
 
         setCharts([
             <MDBCard className="mb-5">
                 <MDBCardBody>
                     <PieChart
                         data = {data}
-                        desc = {desc}
-                        innerRadius = {60}
+                        innerRadius = {50}
                         outerRadius = {100}
                     />
+                    <p className="mt-4 mb-3">{desc}</p>
+                    <p className="m-0 small float-end">{new Date().toString()}</p>
                 </MDBCardBody>
             </MDBCard>,
         charts]);
@@ -111,7 +113,7 @@ function Tracker() {
                             />
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent1)}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent1, setAmount1)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -128,7 +130,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent1.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent2)}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent2, setAmount2)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -145,7 +147,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent2.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent3)}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent3, setAmount3)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -162,7 +164,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent3.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent4)}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent4, setAmount4)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -179,7 +181,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent4.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent5)}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent5, setAmount5)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -196,7 +198,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent5.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent6)}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent6, setAmount6)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -213,7 +215,7 @@ function Tracker() {
                             <p className="m-0 p-1">= {percent6.toFixed(2)}%</p>
                         </MDBCol>
                         <MDBCol md="4">
-                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent7)}>
+                            <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent7, setAmount7)}>
                                 <input
                                 type="text"
                                 className="form-control"
@@ -237,7 +239,6 @@ function Tracker() {
                     </MDBRow>
                 </MDBCardBody>
             </MDBCard>
-
             {charts}
         </MDBContainer>
         );
