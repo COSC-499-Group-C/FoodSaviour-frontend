@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { l } from '../actions/auth';
+import CSRFToken from '../components/CSRFToken';
 import {
   MDBContainer,
   MDBTabs,
@@ -13,7 +15,16 @@ import {
 }
 from 'mdb-react-ui-kit';
 
-function Login() {
+const Login = () => {
+
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
+  });
+
+  const { username, password } = formData;
+
+  const onChange = e => setFormData({...formData, [e.target.name]: e.target.value });
 
   const [justifyActive, setJustifyActive] = useState('tab1');;
 
@@ -31,7 +42,7 @@ function Login() {
         <img src={'/images/logo.png'} height={"100px"} />
         <h1>Food Saviour</h1>
       </div>
-
+      <CSRFToken />
       <MDBTabs pills justify className='mb-3 d-flex flex-row justify-content-between'>
         <MDBTabsItem>
           <MDBTabsLink onClick={() => handleJustifyClick('tab1')} active={justifyActive === 'tab1'}>
@@ -73,15 +84,15 @@ function Login() {
             <p className="text-center mt-3">or:</p>
           </div>
 
-          <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email'/>
-          <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'/>
+          <MDBInput wrapperClass='mb-4' label='Username' id='form1' type='text' value={username} onChange={e => onChange(e)} required/>
+          <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' value={password} onChange={e => onChange(e)} required/>
 
           <div className="d-flex justify-content-between mx-4 mb-4">
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
             <a href="!#">Forgot password?</a>
           </div>
 
-          <MDBBtn className="mb-4 w-100">Sign in</MDBBtn>
+          <MDBBtn className="mb-4 w-100" onClick={l(username, password)}>Sign in</MDBBtn>
           <p className="text-center">Not a member? <a href="food-saviour/src/pages/Login#!">Register</a></p>
 
         </MDBTabsPane>
