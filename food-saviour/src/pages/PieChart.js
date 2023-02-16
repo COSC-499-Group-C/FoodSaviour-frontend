@@ -15,7 +15,6 @@ const PieChart = props => {
     const format = d3.format(".2f");
 
     useEffect(() => {
-        console.log(Object.entries(props.data));
         const data = createPie(props.data);
         const group = d3.select(ref.current);
         const groupWithData = group.selectAll("g.arc").data(data);

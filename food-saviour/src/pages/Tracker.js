@@ -9,7 +9,7 @@ import {
     MDBDropdownItem,
     MDBRow,
     MDBCol,
-    MDBTextArea,
+    MDBInput,
     MDBBtn,
     MDBCard,
     MDBCardBody
@@ -17,6 +17,7 @@ import {
     from "mdb-react-ui-kit";
 
 function Tracker() {
+    const [type, setType] = useState("");
     const [total, setTotal] = useState(0);
     const [desc, setDesc] = useState("");
     const [charts, setCharts] = useState([]);
@@ -28,6 +29,10 @@ function Tracker() {
     const [percent5, setPercent5] = useState(0), [amount5, setAmount5] = useState(0);
     const [percent6, setPercent6] = useState(0), [amount6, setAmount6] = useState(0);
     const [percent7, setPercent7] = useState(0), [amount7, setAmount7] = useState(0);
+
+    const wasteType = (e) => {
+        setType(e.target.innerHTML);
+    }
 
     const totalAmount = (e) => {
         setTotal(e.target.value);
@@ -55,6 +60,7 @@ function Tracker() {
         setCharts([
             <MDBCard className="mb-5">
                 <MDBCardBody>
+                    <p className="mb-4 fw-bold border-bottom">{type}</p>
                     <PieChart
                         data = {data}
                         innerRadius = {50}
@@ -77,20 +83,23 @@ function Tracker() {
             <MDBCard className="mb-5 bg-pale-blue">
                 <MDBCardBody>
                     <MDBRow tag="form" className="g-3" between>
-                        <MDBCol md="6">
+                        <MDBCol md="5">
                             <MDBDropdown group>
-                                <MDBDropdownToggle>Waste Category</MDBDropdownToggle>
+                                <MDBDropdownToggle onClick={(event) => event.preventDefault()}>Waste Category</MDBDropdownToggle>
                                 <MDBDropdownMenu>
-                                    <MDBDropdownItem link>Produce</MDBDropdownItem>
-                                    <MDBDropdownItem link>Meat</MDBDropdownItem>
-                                    <MDBDropdownItem link>Dairy</MDBDropdownItem>
-                                    <MDBDropdownItem link>Bread</MDBDropdownItem>
-                                    <MDBDropdownItem link>Canned Food</MDBDropdownItem>
-                                    <MDBDropdownItem link>Reclaimed Food</MDBDropdownItem>
+                                    <MDBDropdownItem link onClick={wasteType}>Produce</MDBDropdownItem>
+                                    <MDBDropdownItem link onClick={wasteType}>Meat</MDBDropdownItem>
+                                    <MDBDropdownItem link onClick={wasteType}>Dairy</MDBDropdownItem>
+                                    <MDBDropdownItem link onClick={wasteType}>Bread</MDBDropdownItem>
+                                    <MDBDropdownItem link onClick={wasteType}>Canned Food</MDBDropdownItem>
+                                    <MDBDropdownItem link onClick={wasteType}>Reclaimed Food</MDBDropdownItem>
                                 </MDBDropdownMenu>
                             </MDBDropdown>
                         </MDBCol>
-                        <MDBCol md="6">
+                        <MDBCol md="3">
+                            <p className="m-0 p-1 float-end">Total Amount:</p>
+                        </MDBCol>
+                        <MDBCol md="4">
                             <div className="input-group has-validation" onChange={totalAmount}>
                                 <input
                                 type="text"
@@ -105,12 +114,18 @@ function Tracker() {
                             </div>
                         </MDBCol>
                         <MDBCol md="12" onChange={description}>
-                            <MDBTextArea
+                            <MDBInput
                                 name="desc"
                                 label="Description"
                                 className="bg-white"
                                 required
                             />
+                        </MDBCol>
+                        <MDBCol md="12">
+                           <p className="m-0 fw-bold border-bottom border-secondary">Distributed Amounts</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <p className="m-0 p-1 float-end">Donations:</p>
                         </MDBCol>
                         <MDBCol md="4">
                             <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent1, setAmount1)}>
@@ -126,8 +141,11 @@ function Tracker() {
                                 <div className="invalid-feedback">Please enter an amount.</div>
                             </div>
                         </MDBCol>
-                        <MDBCol md="2">
+                        <MDBCol md="4">
                             <p className="m-0 p-1">= {percent1.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <p className="m-0 p-1 float-end">Compost:</p>
                         </MDBCol>
                         <MDBCol md="4">
                             <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent2, setAmount2)}>
@@ -143,8 +161,11 @@ function Tracker() {
                                 <div className="invalid-feedback">Please enter an amount.</div>
                             </div>
                         </MDBCol>
-                        <MDBCol md="2">
+                        <MDBCol md="4">
                             <p className="m-0 p-1">= {percent2.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <p className="m-0 p-1 float-end">Partners:</p>
                         </MDBCol>
                         <MDBCol md="4">
                             <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent3, setAmount3)}>
@@ -160,8 +181,11 @@ function Tracker() {
                                 <div className="invalid-feedback">Please enter an amount.</div>
                             </div>
                         </MDBCol>
-                        <MDBCol md="2">
+                        <MDBCol md="4">
                             <p className="m-0 p-1">= {percent3.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <p className="m-0 p-1 float-end">Farmers:</p>
                         </MDBCol>
                         <MDBCol md="4">
                             <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent4, setAmount4)}>
@@ -177,8 +201,11 @@ function Tracker() {
                                 <div className="invalid-feedback">Please enter an amount.</div>
                             </div>
                         </MDBCol>
-                        <MDBCol md="2">
+                        <MDBCol md="4">
                             <p className="m-0 p-1">= {percent4.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <p className="m-0 p-1 float-end">Gardens:</p>
                         </MDBCol>
                         <MDBCol md="4">
                             <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent5, setAmount5)}>
@@ -194,8 +221,11 @@ function Tracker() {
                                 <div className="invalid-feedback">Please enter an amount.</div>
                             </div>
                         </MDBCol>
-                        <MDBCol md="2">
+                        <MDBCol md="4">
                             <p className="m-0 p-1">= {percent5.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <p className="m-0 p-1 float-end">Landfill:</p>
                         </MDBCol>
                         <MDBCol md="4">
                             <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent6, setAmount6)}>
@@ -211,8 +241,11 @@ function Tracker() {
                                 <div className="invalid-feedback">Please enter an amount.</div>
                             </div>
                         </MDBCol>
-                        <MDBCol md="2">
+                        <MDBCol md="4">
                             <p className="m-0 p-1">= {percent6.toFixed(2)}%</p>
+                        </MDBCol>
+                        <MDBCol md="4">
+                            <p className="m-0 p-1 float-end">Other:</p>
                         </MDBCol>
                         <MDBCol md="4">
                             <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent7, setAmount7)}>
@@ -228,10 +261,10 @@ function Tracker() {
                                 <div className="invalid-feedback">Please enter an amount.</div>
                             </div>
                         </MDBCol>
-                        <MDBCol md="2">
+                        <MDBCol md="4">
                             <p className="m-0 p-1">= {percent7.toFixed(2)}%</p>
                         </MDBCol>
-                        <MDBCol md="6">
+                        <MDBCol md="12">
                             <MDBBtn className="float-end" color="success" onClick={submitData}>
                                 Submit
                             </MDBBtn>
