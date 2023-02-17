@@ -38,7 +38,7 @@ function HomeLogin() {
                                 <MDBCardText>
                                     View combined shared food waste data and discuss with others.
                                 </MDBCardText>
-                                <MDBBtn href="#">Visit</MDBBtn>
+                                <MDBBtn href="/Sharing">Visit</MDBBtn>
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
