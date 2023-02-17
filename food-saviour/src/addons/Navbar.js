@@ -32,7 +32,7 @@ function Navbar() {
         <MDBCollapse navbar show={showBasic}>
           <MDBNavbarNav className="mr-auto mb-2 mb-lg-0">
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current="page" href="/Home">Home</MDBNavbarLink>
+              <MDBNavbarLink active aria-current="page" href="/HomeLogin">Home</MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
               <MDBNavbarLink href="/Tracker">Tracker</MDBNavbarLink>
@@ -42,7 +42,7 @@ function Navbar() {
             </MDBNavbarItem>
           </MDBNavbarNav>
 
-          <MDBBtn>Logout</MDBBtn>
+          <MDBBtn href="/">Logout</MDBBtn>
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>
