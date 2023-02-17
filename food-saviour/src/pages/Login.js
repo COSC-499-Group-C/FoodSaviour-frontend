@@ -39,7 +39,7 @@ const Login = () => {
   return (
     <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
       <div className="text-center text-black">
-        <img src={'/images/logo.png'} height={"100px"} />
+        <img src={'/images/logo.png'} height={"100px"} alt="Food Saviour"/>
         <h1>Food Saviour</h1>
       </div>
       <CSRFToken />
@@ -132,7 +132,7 @@ const Login = () => {
             <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='I have read and agree to the terms' />
           </div>
 
-          <MDBBtn className="mb-4 w-100">Sign up</MDBBtn>
+          <MDBBtn className="mb-4 w-100" href="/HomeLogin">Sign up</MDBBtn>
 
         </MDBTabsPane>
 
