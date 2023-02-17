@@ -20,76 +20,70 @@ function Sharing() {
                     <li><a href='#'></a></li>
                 </ul> */}
 
-            <div className="left">
+            {/* <div className="left">
                 <input type="text" name="search" id="search" />
                 <button className="btn btn-sm">Search</button>
-            </div>
+            </div> */}
             {/* </nav> */}
             <section className='d-flex flex-wrap justify-content-center'>
                 <div className="bg-white w-25 p-4 m-3 rounded-4">
                     <div className="org-logo"></div>
                     <div>
-                        <h1 className="fw-bold fs-4">UBC</h1>
-                        <p className="">Contact info</p>
+                        <h1 className="fw-bold fs-4">Filter 1</h1>
+                        <div>
+                            <div>
+                                <input type="checkbox" /> Value
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="bg-white w-25 p-4 m-3 rounded-4">
                     <div className="org-logo"></div>
                     <div>
-                        <h1 className="fw-bold fs-4">Food Saviour</h1>
-                        <img className = 'd-flex justify-content-center m-0' src='/images/logo.png' height="50px" />
-                        <p className="">Contact info</p>
-                        <p className="">Email</p>
-                        <p className="">Phone number (optional)</p>
+                        <h1 className="fw-bold fs-4">Organizations</h1>
+                        {/* <img className='d-flex justify-content-center m-0' src='/images/logo.png' height="50px" /> */}
+                        <div>
+                                <input type="checkbox" /> UBC
+                        </div>
+                        <div>
+                                <input type="checkbox" /> Farmer's market
+                        </div>
+                        <div>
+                            <input type="checkbox" /> Food bank
+                        </div>
                     </div>
                 </div>
                 <div className="bg-white w-25 p-4 m-3 rounded-4">
                     <div className="org-logo"></div>
                     <div>
-                        <h1 className="fw-bold fs-4">Farmer's Market</h1>
-                        <p className="">Contact info</p>
+                        <h1 className="fw-bold fs-4">Roles</h1>
+                        <div>
+                            <input type="checkbox" /> Manager
+                        </div>
+                        <div>
+                            <input type="checkbox" /> Volunteers
+                        </div>
+                        <div>
+                            <input type="checkbox" /> Supervisor
+                        </div>
                     </div>
                 </div>
-                <div className="bg-white w-25 p-4 m-3 rounded-4">
+                <div className='w-75 justify-content-center d-flex btn text-white bg-dark'>Generate data</div>
+            </section>
+            <section className='d-flex flex-wrap justify-content-center'>
+                <div className="bg-white w-75 p-4 m-3 rounded-4">
                     <div className="org-logo"></div>
                     <div>
-                        <h1 className="fw-bold fs-4">Organization name</h1>
-                        <p className="">Contact info</p>
+                        <h1 className="fw-bold fs-4">Generated graphs</h1>
+                        <p className="">Generate graphs here from tracker</p>
                     </div>
                 </div>
-                <div className="bg-white w-25 p-4 m-3 rounded-4">
+                <div className="bg-white w-75 p-4 m-3 rounded-4">
                     <div className="org-logo"></div>
                     <div>
-                        <h1 className="fw-bold fs-4">Organization name</h1>
-                        <p className="">Contact info</p>
-                    </div>
-                </div>
-                <div className="bg-white w-25 p-4 m-3 rounded-4">
-                    <div className="org-logo"></div>
-                    <div>
-                        <h1 className="fw-bold fs-4">Farmer's Market</h1>
-                        <p className="">Contact info</p>
-                    </div>
-                </div>
-                <div className="bg-white w-25 p-4 m-3 rounded-4">
-                    <div className="org-logo"></div>
-                    <div>
-                        <h1 className="fw-bold fs-4">Farmer's Market</h1>
-                        <p className="">Contact info</p>
-                    </div>
-                </div>
-                <div className="bg-white w-25 p-4 m-3 rounded-4">
-                    <div className="org-logo"></div>
-                    <div>
-                        <h1 className="fw-bold fs-4">Farmer's Market</h1>
-                        <p className="">Contact info</p>
-                    </div>
-                </div>
-                <div className="bg-white w-25 p-4 m-3 rounded-4">
-                    <div className="org-logo"></div>
-                    <div>
-                        <h1 className="fw-bold fs-4">Farmer's Market</h1>
-                        <p className="">Contact info</p>
+                        <h1 className="fw-bold fs-4">Discussion board</h1>
+                        <p className="">Jane: Hello</p>
+                        <p className="">John: Hello</p>
                     </div>
                 </div>
 
@@ -101,4 +95,4 @@ function Sharing() {
         </div>
     )
 }
-export default Sharing
+export default Sharing;

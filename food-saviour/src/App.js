@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import HomeLogin from "./pages/HomeLogin";
 import Tracker from "./pages/Tracker";
 import TestAPI from "./pages/TestAPI";
+import Sharing from "./pages/Sharing";
 import React from "react";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Login/>}/>
                 <Route path="/homelogin" element={<HomeLogin/>}/>
+                <Route path="/sharing" element={<Sharing/>}/>
                 <Route path="/tracker" element={<Tracker/>}/>
                 <Route path="/testapi" element={<TestAPI/>}/>
             </Routes>
