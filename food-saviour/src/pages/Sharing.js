@@ -1,9 +1,11 @@
 import React from 'react';
 import '../css/sharing.css';
+import Navbar from "../addons/Navbar.js";
 
 function Sharing() {
     return (
         <div className='blue vh-100 overflow-auto'>
+            <Navbar></Navbar>
             <div className='text-center'>
                 <img src='/images/logo.png' height="80px" />
                 <h1 className='fs-1 text-center mt-1 fw-bold text-white'>Sharing</h1>

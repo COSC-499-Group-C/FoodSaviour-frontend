@@ -38,7 +38,7 @@ function Navbar() {
               <MDBNavbarLink href="/Tracker">Tracker</MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href="#">Sharing</MDBNavbarLink>
+              <MDBNavbarLink href="/Sharing">Sharing</MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>
 
