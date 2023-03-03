@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axiosInstance from "../axios";
-import PieChart from "./PieChart.js";
-import Navbar from "../addons/Navbar.js";
+import PieChart from "../components/PieChart.js";
+import Navbar from "../components/Navbar.js";
 import "../css/tracker.css";
 import {
     MDBContainer,
@@ -59,13 +59,13 @@ function Tracker() {
                       { label: "Landfill", value: percent6.toString(), amount: amount6.toString() },
                       { label: "Other", value: percent7.toString(), amount: amount7.toString() }];
 
-        axiosInstance
-            .post("trackerData/", {
-                data: piedata,
-                user_id: 1,
-                waste_type_id: 1,
-                description: "test",
-            });
+        // axiosInstance
+        //     .post("trackerData/", {
+        //         data: piedata,
+        //         user_id: 1,
+        //         waste_type_id: 1,
+        //         description: "test",
+        //     });
 
         setCharts([
             <MDBCard className="mb-5">

@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/sharing.css';
-import Navbar from "../addons/Navbar.js";
+import Navbar from "../components/Navbar.js";
 
 function Sharing() {
     return (
