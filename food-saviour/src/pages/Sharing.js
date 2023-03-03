@@ -74,10 +74,9 @@ function Sharing() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-white w-25 p-4 m-3 rounded-4">
-                    <div className=""></div>
-                    <div>
-                        <h1 className="fw-bold fs-4">Waste category</h1>
+                {/* <div className="bg-white w-25 p-4 m-3 rounded-4"> */}
+                    {/* <div>
+                        <h1 className="fw-bold fs-4">Test category</h1>
                         <div>
                             <input type="checkbox" /> Produce
                         </div>
@@ -87,8 +86,8 @@ function Sharing() {
                         <div>
                             <input type="checkbox" /> Imperishable
                         </div>
-                    </div>
-                </div>
+                    </div> */}
+                {/* </div> */}
                 <div className='w-75 justify-content-center d-flex btn text-white bg-dark'>Generate data</div>
             </section>
             <section className='d-flex flex-wrap justify-content-center'>
