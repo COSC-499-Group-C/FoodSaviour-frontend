@@ -42,7 +42,7 @@ function Navbar() {
             </MDBNavbarItem>
           </MDBNavbarNav>
 
-          <MDBBtn href="/">Logout</MDBBtn>
+          <MDBBtn href="/logout">Logout</MDBBtn>
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>
