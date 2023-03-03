@@ -6,6 +6,7 @@ import HomeLogin from "./pages/HomeLogin";
 import Tracker from "./pages/Tracker";
 import TestAPI from "./pages/TestAPI";
 import Sharing from "./pages/Sharing";
+import Logout from './components/Logout';
 import React from "react";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/sharing" element={<Sharing/>}/>
                 <Route path="/tracker" element={<Tracker/>}/>
                 <Route path="/testapi" element={<TestAPI/>}/>
+                <Route exact path="/logout" element={<Logout />} />
             </Routes>
         </Router>
     );
