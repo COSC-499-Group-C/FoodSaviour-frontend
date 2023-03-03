@@ -29,13 +29,17 @@ function Sharing() {
             {/* </nav> */}
             <section className='d-flex flex-wrap justify-content-center'>
                 <div className="bg-white w-25 p-4 m-3 rounded-4">
-                    <div className="org-logo"></div>
+                    <div className=""></div>
                     <div>
-                        <h1 className="fw-bold fs-4">Filter 1</h1>
+                        <h1 className="fw-bold fs-4">Waste category</h1>
                         <div>
-                            <div>
-                                <input type="checkbox" /> Value
-                            </div>
+                            <input type="checkbox" /> Produce
+                        </div>
+                        <div>
+                            <input type="checkbox" /> Frozen food
+                        </div>
+                        <div>
+                            <input type="checkbox" /> Imperishable
                         </div>
                     </div>
                 </div>
@@ -70,6 +74,21 @@ function Sharing() {
                         </div>
                     </div>
                 </div>
+                <div className="bg-white w-25 p-4 m-3 rounded-4">
+                    <div className=""></div>
+                    <div>
+                        <h1 className="fw-bold fs-4">Waste category</h1>
+                        <div>
+                            <input type="checkbox" /> Produce
+                        </div>
+                        <div>
+                            <input type="checkbox" /> Frozen food
+                        </div>
+                        <div>
+                            <input type="checkbox" /> Imperishable
+                        </div>
+                    </div>
+                </div>
                 <div className='w-75 justify-content-center d-flex btn text-white bg-dark'>Generate data</div>
             </section>
             <section className='d-flex flex-wrap justify-content-center'>
@@ -78,16 +97,17 @@ function Sharing() {
                     <div>
                         <h1 className="fw-bold fs-4">Generated graphs</h1>
                         <p className="">Generate graphs here from tracker</p>
+                        <img src='/images/sample_graph.png' height="200px" />
                     </div>
                 </div>
-                <div className="bg-white w-75 p-4 m-3 rounded-4">
+                {/* <div className="bg-white w-75 p-4 m-3 rounded-4">
                     <div className="org-logo"></div>
                     <div>
                         <h1 className="fw-bold fs-4">Discussion board</h1>
                         <p className="">Jane: Hello</p>
                         <p className="">John: Hello</p>
                     </div>
-                </div>
+                </div> */}
 
                 <footer className="footer">
                     <p className="text-footer">
