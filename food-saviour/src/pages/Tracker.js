@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import axiosInstance from "../axios";
 import PieChart from "../components/PieChart.js";
 import Navbar from "../components/Navbar.js";
@@ -51,13 +51,13 @@ function Tracker() {
     }
 
     const submitData = (e) => {
-        const piedata = [{ label: "Donations", value: percent1.toString(), amount: amount1.toString() },
-                      { label: "Compost", value: percent2.toString(), amount: amount2.toString() },
-                      { label: "Partners", value: percent3.toString(), amount: amount3.toString() },
-                      { label: "Farmers", value: percent4.toString(), amount: amount4.toString() },
-                      { label: "Gardens", value: percent5.toString(), amount: amount5.toString() },
-                      { label: "Landfill", value: percent6.toString(), amount: amount6.toString() },
-                      { label: "Other", value: percent7.toString(), amount: amount7.toString() }];
+        const piedata = [{label: "Donations", value: percent1.toString(), amount: amount1.toString()},
+            {label: "Compost", value: percent2.toString(), amount: amount2.toString()},
+            {label: "Partners", value: percent3.toString(), amount: amount3.toString()},
+            {label: "Farmers", value: percent4.toString(), amount: amount4.toString()},
+            {label: "Gardens", value: percent5.toString(), amount: amount5.toString()},
+            {label: "Landfill", value: percent6.toString(), amount: amount6.toString()},
+            {label: "Other", value: percent7.toString(), amount: amount7.toString()}];
 
         // axiosInstance
         //     .post("trackerData/", {
@@ -72,15 +72,15 @@ function Tracker() {
                 <MDBCardBody>
                     <p className="mb-4 fw-bold border-bottom">{type}</p>
                     <PieChart
-                        data = {piedata}
-                        innerRadius = {50}
-                        outerRadius = {100}
+                        data={piedata}
+                        innerRadius={50}
+                        outerRadius={100}
                     />
                     <p className="mt-4 mb-3">{desc}</p>
                     <p className="m-0 small float-end">{new Date().toString()}</p>
                 </MDBCardBody>
             </MDBCard>,
-        charts]);
+            charts]);
         e.preventDefault();
     }
 
@@ -97,7 +97,8 @@ function Tracker() {
                         <MDBRow tag="form" className="g-3" between>
                             <MDBCol md="5">
                                 <MDBDropdown group>
-                                    <MDBDropdownToggle onClick={(event) => event.preventDefault()}>Waste Category</MDBDropdownToggle>
+                                    <MDBDropdownToggle onClick={(event) => event.preventDefault()}>Waste
+                                        Category</MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem link onClick={wasteType}>Produce</MDBDropdownItem>
                                         <MDBDropdownItem link onClick={wasteType}>Meat</MDBDropdownItem>
@@ -114,10 +115,10 @@ function Tracker() {
                             <MDBCol md="4">
                                 <div className="input-group has-validation" onChange={totalAmount}>
                                     <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Total Amount"
-                                    required
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Total Amount"
+                                        required
                                     />
                                     <span className="input-group-text bg-white">
                                         lbs
@@ -134,18 +135,19 @@ function Tracker() {
                                 />
                             </MDBCol>
                             <MDBCol md="12">
-                               <p className="m-0 fw-bold border-bottom border-secondary">Distributed Amounts</p>
+                                <p className="m-0 fw-bold border-bottom border-secondary">Distributed Amounts</p>
                             </MDBCol>
                             <MDBCol md="4">
                                 <p className="m-0 p-1 float-end">Donations:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent1, setAmount1)}>
+                                <div className="input-group has-validation"
+                                     onChange={(event) => percentCalc(event, setPercent1, setAmount1)}>
                                     <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Donations"
-                                    required
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Donations"
+                                        required
                                     />
                                     <span className="input-group-text bg-white">
                                         lbs
@@ -160,12 +162,13 @@ function Tracker() {
                                 <p className="m-0 p-1 float-end">Compost:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent2, setAmount2)}>
+                                <div className="input-group has-validation"
+                                     onChange={(event) => percentCalc(event, setPercent2, setAmount2)}>
                                     <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Compost"
-                                    required
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Compost"
+                                        required
                                     />
                                     <span className="input-group-text bg-white">
                                         lbs
@@ -180,12 +183,13 @@ function Tracker() {
                                 <p className="m-0 p-1 float-end">Partners:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent3, setAmount3)}>
+                                <div className="input-group has-validation"
+                                     onChange={(event) => percentCalc(event, setPercent3, setAmount3)}>
                                     <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Partners"
-                                    required
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Partners"
+                                        required
                                     />
                                     <span className="input-group-text bg-white">
                                         lbs
@@ -200,12 +204,13 @@ function Tracker() {
                                 <p className="m-0 p-1 float-end">Farmers:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent4, setAmount4)}>
+                                <div className="input-group has-validation"
+                                     onChange={(event) => percentCalc(event, setPercent4, setAmount4)}>
                                     <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Farmers"
-                                    required
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Farmers"
+                                        required
                                     />
                                     <span className="input-group-text bg-white">
                                         lbs
@@ -220,12 +225,13 @@ function Tracker() {
                                 <p className="m-0 p-1 float-end">Gardens:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent5, setAmount5)}>
+                                <div className="input-group has-validation"
+                                     onChange={(event) => percentCalc(event, setPercent5, setAmount5)}>
                                     <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Gardens"
-                                    required
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Gardens"
+                                        required
                                     />
                                     <span className="input-group-text bg-white">
                                         lbs
@@ -240,12 +246,13 @@ function Tracker() {
                                 <p className="m-0 p-1 float-end">Landfill:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent6, setAmount6)}>
+                                <div className="input-group has-validation"
+                                     onChange={(event) => percentCalc(event, setPercent6, setAmount6)}>
                                     <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Landfill"
-                                    required
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Landfill"
+                                        required
                                     />
                                     <span className="input-group-text bg-white">
                                         lbs
@@ -260,12 +267,13 @@ function Tracker() {
                                 <p className="m-0 p-1 float-end">Other:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation" onChange={(event) => percentCalc(event, setPercent7, setAmount7)}>
+                                <div className="input-group has-validation"
+                                     onChange={(event) => percentCalc(event, setPercent7, setAmount7)}>
                                     <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Other"
-                                    required
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Other"
+                                        required
                                     />
                                     <span className="input-group-text bg-white">
                                         lbs
@@ -287,7 +295,7 @@ function Tracker() {
                 {charts}
             </MDBContainer>
         </div>
-        );
+    );
 }
 
 export default Tracker;

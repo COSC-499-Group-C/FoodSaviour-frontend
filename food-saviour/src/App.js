@@ -11,7 +11,7 @@ import React from "react";
 
 function App() {
 
-        return (
+    return (
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>}/>
@@ -21,7 +21,7 @@ function App() {
                 <Route path="/sharing" element={<Sharing/>}/>
                 <Route path="/tracker" element={<Tracker/>}/>
                 <Route path="/testapi" element={<TestAPI/>}/>
-                <Route exact path="/logout" element={<Logout />} />
+                <Route exact path="/logout" element={<Logout/>}/>
             </Routes>
         </Router>
     );
