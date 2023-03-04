@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import PieChart from "./PieChart.js";
-import Navbar from "../addons/Navbar.js";
+import axiosInstance from "../axios";
+import PieChart from "../components/PieChart.js";
+import Navbar from "../components/Navbar.js";
 import "../css/tracker.css";
 import {
     MDBContainer,
@@ -50,7 +51,7 @@ function Tracker() {
     }
 
     const submitData = (e) => {
-        const data = [{ label: "Donations", value: percent1.toString(), amount: amount1.toString() },
+        const piedata = [{ label: "Donations", value: percent1.toString(), amount: amount1.toString() },
                       { label: "Compost", value: percent2.toString(), amount: amount2.toString() },
                       { label: "Partners", value: percent3.toString(), amount: amount3.toString() },
                       { label: "Farmers", value: percent4.toString(), amount: amount4.toString() },
@@ -58,12 +59,20 @@ function Tracker() {
                       { label: "Landfill", value: percent6.toString(), amount: amount6.toString() },
                       { label: "Other", value: percent7.toString(), amount: amount7.toString() }];
 
+        // axiosInstance
+        //     .post("trackerData/", {
+        //         data: piedata,
+        //         user_id: 1,
+        //         waste_type_id: 1,
+        //         description: "test",
+        //     });
+
         setCharts([
             <MDBCard className="mb-5">
                 <MDBCardBody>
                     <p className="mb-4 fw-bold border-bottom">{type}</p>
                     <PieChart
-                        data = {data}
+                        data = {piedata}
                         innerRadius = {50}
                         outerRadius = {100}
                     />

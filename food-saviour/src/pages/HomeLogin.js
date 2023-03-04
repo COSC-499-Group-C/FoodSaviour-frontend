@@ -1,4 +1,4 @@
-import Navbar from "../addons/Navbar";
+import Navbar from "../components/Navbar";
 import {
     MDBContainer,
     MDBCard,
