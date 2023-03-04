@@ -1,14 +1,15 @@
-import React, {Component, useEffect, useState} from 'react'
-import axios from 'axios';
+import React, {Component, useEffect, useState} from "react";
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000',
+    baseURL: "http://127.0.0.1:8000",
     withCredentials: true,
 })
 
-api.get('/login/').then(res => {
+api.get("/login/").then(res => {
     console.log(res.data);
 })
+
 class TestAPI extends Component {
     render() {
         return (
