@@ -9,6 +9,7 @@ const api = axios.create({
 api.get('/login/').then(res => {
     console.log(res.data);
 })
+
 class TestAPI extends Component {
     render() {
         return (
