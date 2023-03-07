@@ -21,7 +21,7 @@ import {
 function Tracker() {
     const [type, setType] = useState("");
     const [total, setTotal] = useState(0);
-    const [desc, setDesc] = useState("");
+    const [desc, setDesc] = useState("no description");
     const [charts, setCharts] = useState([]);
 
     const [percent1, setPercent1] = useState(0), [amount1, setAmount1] = useState(0);
@@ -51,7 +51,7 @@ function Tracker() {
     }
 
     const submitData = (e) => {
-        const piedata = [{label: "Donations", value: percent1.toString(), amount: amount1.toString()},
+        const data = [{label: "Donations", value: percent1.toString(), amount: amount1.toString()},
             {label: "Compost", value: percent2.toString(), amount: amount2.toString()},
             {label: "Partners", value: percent3.toString(), amount: amount3.toString()},
             {label: "Farmers", value: percent4.toString(), amount: amount4.toString()},
@@ -59,20 +59,20 @@ function Tracker() {
             {label: "Landfill", value: percent6.toString(), amount: amount6.toString()},
             {label: "Other", value: percent7.toString(), amount: amount7.toString()}];
 
-        // axiosInstance
-        //     .post("trackerData/", {
-        //         data: piedata,
-        //         user_id: 1,
-        //         waste_type_id: 1,
-        //         description: "test",
-        //     });
+        axiosInstance
+            .post("trackerData/", {
+                data: data,
+                user: 1,
+                waste_type: 1,
+                description: desc,
+            });
 
         setCharts([
             <MDBCard className="mb-5">
                 <MDBCardBody>
                     <p className="mb-4 fw-bold border-bottom">{type}</p>
                     <PieChart
-                        data={piedata}
+                        data={data}
                         innerRadius={50}
                         outerRadius={100}
                     />
