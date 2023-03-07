@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import axiosInstance from "../axios";
 import PieChart from "../components/PieChart.js";
 import Navbar from "../components/Navbar.js";
@@ -19,6 +19,47 @@ import {
     from "mdb-react-ui-kit";
 
 function Tracker() {
+    useEffect(() => {
+        getData();
+        displayData();
+    }, []);
+
+    const [data, setData] = useState([]);
+
+    const getData = () => {
+        axiosInstance
+            .get("trackerData/")
+            .then((response) => {
+                const allData = response.data;
+
+                for (let i = 0; i < allData.length; i++) {
+                    if(allData[i].user === 1) {
+                        setData([allData[i], data]);
+                    }
+                }
+            })
+            .catch(error => console.error(`Error: ${error}`));
+    }
+
+    const displayData = () => {
+        for (let i = 0; i < data.length-1; i++) {
+            setCharts([
+                <MDBCard className="mb-5">
+                    <MDBCardBody>
+                        <p className="mb-4 fw-bold border-bottom">{type}</p>
+                        <PieChart
+                            data={data[i].data}
+                            innerRadius={50}
+                            outerRadius={100}
+                        />
+                        <p className="mt-4 mb-3">{data[i].desc}</p>
+                        <p className="m-0 small float-end">{new Date().toString()}</p>
+                    </MDBCardBody>
+                </MDBCard>,
+            charts]);
+        }
+    }
+
     const [type, setType] = useState("");
     const [total, setTotal] = useState(0);
     const [desc, setDesc] = useState("no description");
@@ -51,7 +92,7 @@ function Tracker() {
     }
 
     const submitData = (e) => {
-        const data = [{label: "Donations", value: percent1.toString(), amount: amount1.toString()},
+        const newdata = [{label: "Donations", value: percent1.toString(), amount: amount1.toString()},
             {label: "Compost", value: percent2.toString(), amount: amount2.toString()},
             {label: "Partners", value: percent3.toString(), amount: amount3.toString()},
             {label: "Farmers", value: percent4.toString(), amount: amount4.toString()},
@@ -59,20 +100,26 @@ function Tracker() {
             {label: "Landfill", value: percent6.toString(), amount: amount6.toString()},
             {label: "Other", value: percent7.toString(), amount: amount7.toString()}];
 
+        console.log(newdata);
+
         axiosInstance
             .post("trackerData/", {
-                data: data,
+                data: newdata,
                 user: 1,
                 waste_type: 1,
                 description: desc,
-            });
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch(error => console.error(`Error: ${error}`));
 
         setCharts([
             <MDBCard className="mb-5">
                 <MDBCardBody>
                     <p className="mb-4 fw-bold border-bottom">{type}</p>
                     <PieChart
-                        data={data}
+                        data={newdata}
                         innerRadius={50}
                         outerRadius={100}
                     />
@@ -80,7 +127,7 @@ function Tracker() {
                     <p className="m-0 small float-end">{new Date().toString()}</p>
                 </MDBCardBody>
             </MDBCard>,
-            charts]);
+        charts]);
         e.preventDefault();
     }
 
