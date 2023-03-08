@@ -140,7 +140,7 @@ function Sharing() {
                     <p className="text-center text-white">Have items to share? Need items? You've found the right place!</p>
                 </div>
                 <div className="row justify-content-center justify-content-between m-auto mb-3">
-                    <div className="bg-white w-30 p-4 rounded-4 overflow-auto">
+                    <div className="bg-white w-30 p-4 ch-25 rounded-4 overflow-auto">
                         <h1 className="fw-bold fs-4">Waste category</h1>
                         <input type="checkbox" /> Produce <br />
                         <input type="checkbox" /> Frozen food <br />
@@ -149,8 +149,12 @@ function Sharing() {
                         <input type="checkbox" /> Liquid <br />
                         <input type="checkbox" /> Liquid <br />
                         <input type="checkbox" /> Liquid <br />
+                        <input type="checkbox" /> Dairy <br />
+                        <input type="checkbox" /> Liquid <br />
+                        <input type="checkbox" /> Liquid <br />
+                        <input type="checkbox" /> Liquid <br />
                     </div>
-                    <div className="bg-white w-30 p-4 rounded-4">
+                    <div className="bg-white w-30 ch-25 p-4 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Organizations</h1>
                             {/* <img className="d-flex justify-content-center m-0" src="/images/logo.png" height="50px" /> */}
@@ -165,7 +169,7 @@ function Sharing() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white w-30 p-4 rounded-4">
+                    <div className="bg-white w-30 ch-25 p-4 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Roles</h1>
                             <div>
