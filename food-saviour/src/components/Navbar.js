@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   MDBContainer,
   MDBNavbar,
@@ -10,7 +10,7 @@ import {
   MDBNavbarLink,
   MDBBtn,
   MDBCollapse,
-} from 'mdb-react-ui-kit';
+} from "mdb-react-ui-kit";
 
 function Navbar() {
   const [showBasic, setShowBasic] = useState(false);

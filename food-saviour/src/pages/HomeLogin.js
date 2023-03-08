@@ -1,4 +1,4 @@
-import Navbar from "../addons/Navbar";
+import Navbar from "../components/Navbar";
 import {
     MDBContainer,
     MDBCard,
@@ -20,7 +20,7 @@ function HomeLogin() {
                 <MDBRow>
                     <MDBCol md="6">
                         <MDBCard>
-                            <MDBCardImage className="p-3" src="/images/tracker.png" position="top" alt="Tracker Page" />
+                            <MDBCardImage className="p-3" src="/images/tracker.png" position="top" alt="Tracker Page"/>
                             <MDBCardBody>
                                 <MDBCardTitle>Tracker Page</MDBCardTitle>
                                 <MDBCardText>
@@ -32,7 +32,7 @@ function HomeLogin() {
                     </MDBCol>
                     <MDBCol md="6">
                         <MDBCard>
-                            <MDBCardImage className="p-3" src="/images/sharing.png" position="top" alt="Tracker Page" />
+                            <MDBCardImage className="p-3" src="/images/sharing.png" position="top" alt="Tracker Page"/>
                             <MDBCardBody>
                                 <MDBCardTitle>Sharing Page</MDBCardTitle>
                                 <MDBCardText>
