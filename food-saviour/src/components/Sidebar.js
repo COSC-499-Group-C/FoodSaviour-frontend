@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 function Sidebar() {
-  const [activeLink, setActiveLink] = useState(0);
+  const [activeLink, setActiveLink] = useState(-1);
 
   const handleLinkClick = (index) => {
     setActiveLink(index);
