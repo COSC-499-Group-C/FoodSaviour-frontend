@@ -1,11 +1,17 @@
 .blue {
-    background-color: #2596be;
+    /* background-color: #2596be; */
+    background-color: white;
 }
 
 .text-black {
     color: black;
 }
-
+.bg-lblue{
+    background-color: #e2ebf7;
+}
+.bg-dblue{
+    background-color: #4074cc;
+}
 .text-white {
     color: white;
 }
@@ -15,6 +21,6 @@
 .w-80{
     width: 80%;
 }
-.w-30{
-    width: 30%;
+.w-32{
+    width: 32%;
 }

@@ -136,11 +136,11 @@ function Sharing() {
             <div className="w-80 m-auto">
                 <div className="text-center">
                     <img src="/images/logo.png" height="80px" />
-                    <h1 className="fs-1 text-center mt-1 fw-bold text-white">Sharing</h1>
-                    <p className="text-center text-white">Have items to share? Need items? You've found the right place!</p>
+                    <h1 className="fs-1 text-center mt-1 fw-bold">Sharing</h1>
+                    <p className="text-center">Have items to share? Need items? You've found the right place!</p>
                 </div>
-                <div className="row justify-content-center justify-content-between m-auto mb-3">
-                    <div className="bg-white w-30 p-4 ch-25 rounded-4 overflow-auto">
+                <div className="row justify-content-center justify-content-between m-auto">
+                    <div className="bg-lblue w-32 p-4 ch-25 rounded-4 overflow-auto">
                         <h1 className="fw-bold fs-4">Waste category</h1>
                         <input type="checkbox" /> Produce <br />
                         <input type="checkbox" /> Frozen food <br />
@@ -154,7 +154,7 @@ function Sharing() {
                         <input type="checkbox" /> Liquid <br />
                         <input type="checkbox" /> Liquid <br />
                     </div>
-                    <div className="bg-white w-30 ch-25 p-4 rounded-4">
+                    <div className="bg-lblue w-32 ch-25 p-4 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Organizations</h1>
                             {/* <img className="d-flex justify-content-center m-0" src="/images/logo.png" height="50px" /> */}
@@ -169,7 +169,7 @@ function Sharing() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white w-30 ch-25 p-4 rounded-4">
+                    <div className="bg-lblue w-32 ch-25 p-4 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Roles</h1>
                             <div>
@@ -184,12 +184,12 @@ function Sharing() {
                         </div>
                     </div>
                 </div>
-                {/* <div className="row">
-                    <div className='w-25 justify-content-center d-flex btn text-white bg-dark m-2' onClick={() => {displayData();}}>Generate data</div>
-                    <div className='w-25 justify-content-center d-flex btn text-white bg-dark m-2' onClick={() => {submitData();}}>Share data</div>
-                </div> */}
+                <div className="row justify-content-center mt-2 mb-2">
+                    <div className='w-25 justify-content-center d-flex btn text-white bg-dblue m-2' onClick={() => {displayData();}}>Generate data</div>
+                    <div className='w-25 justify-content-center d-flex btn text-white bg-dblue m-2' onClick={() => {submitData();}}>Share data</div>
+                </div>
                 <div className="d-flex flex-wrap justify-content-center">
-                    <div className="bg-white w-100 p-4 rounded-4">
+                    <div className="bg-lblue w-100 p-4 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Generated graphs</h1>
                             <p className="">Generate graphs here from tracker</p>
