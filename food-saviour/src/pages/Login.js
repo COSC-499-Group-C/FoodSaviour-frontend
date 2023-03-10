@@ -185,8 +185,17 @@ export default function Login() {
                                   autoComplete="username" onChange={handleRegisterChange} required/>
                         <MDBInput wrapperClass="mb-4" label="Email Address" id="email" name="email" type="text"
                                   autoComplete="email" onChange={handleRegisterChange} required/>
-                        <MDBInput wrapperClass="mb-4" label="password" id="password" name="password" type="password"
+                        <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password" type="password"
                                   autoComplete="current-password" onChange={handleRegisterChange} required/>
+                        <button
+                            className="btn btn-primary dropdown-toggle"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-mdb-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            Join Organization
+                        </button>
 
                         <div className="d-flex justify-content-center mb-4">
                             <MDBCheckbox name="flexCheck" id="flexCheckDefault"
