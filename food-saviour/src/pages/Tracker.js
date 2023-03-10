@@ -19,62 +19,84 @@ import {
     from "mdb-react-ui-kit";
 
 function Tracker() {
+    const [charts, setCharts] = useState([]);
+
     useEffect(() => {
-        getData();
-        displayData();
+        getWasteType();
     }, []);
 
-    const [data, setData] = useState([]);
-
-    const getData = () => {
+    const getWasteType = () => {
         axiosInstance
-            .get("trackerData/")
+            .get("wasteType/")
             .then((response) => {
-                const allData = response.data;
+                let types = response.data;
 
-                for (let i = 0; i < allData.length; i++) {
-                    if(allData[i].user === 1) {
-                        setData([allData[i], data]);
-                    }
-                }
+                getData(types);
             })
             .catch(error => console.error(`Error: ${error}`));
     }
 
-    const displayData = () => {
-        for (let i = 0; i < data.length-1; i++) {
-            setCharts([
+    const getData = (types) => {
+        axiosInstance
+            .get("trackerData/")
+            .then((response) => {
+                const allData = response.data;
+                let data = [];
+
+                for (let i = 0; i < allData.length; i++) {
+                    if(allData[i].user === 1) {
+                        data.push(allData[i]);
+                    }
+                }
+
+                displayData(types, data);
+            })
+            .catch(error => console.error(`Error: ${error}`));
+    }
+
+    const displayData = (types, data) => {
+        let display = [];
+
+        for (let i = 0; i < data.length; i++) {
+            const type_name = types[data[i].waste_type - 1].name;
+
+            display.push(
                 <MDBCard className="mb-5">
                     <MDBCardBody>
-                        <p className="mb-4 fw-bold border-bottom">{type}</p>
+                        <p className="mb-4 fw-bold border-bottom">{type_name}</p>
                         <PieChart
                             data={data[i].data}
                             innerRadius={50}
                             outerRadius={100}
                         />
-                        <p className="mt-4 mb-3">{data[i].desc}</p>
+                        <p className="mt-4 mb-3">{data[i].description}</p>
                         <p className="m-0 small float-end">{new Date().toString()}</p>
                     </MDBCardBody>
-                </MDBCard>,
-            charts]);
+                </MDBCard>
+            );
         }
+
+         setCharts(display);
     }
 
-    const [type, setType] = useState("");
-    const [total, setTotal] = useState(0);
-    const [desc, setDesc] = useState("no description");
-    const [charts, setCharts] = useState([]);
+    const [type, setType] = useState("Waste Category");
+    const [type_id, setType_id] = useState(1);
+    const [total, setTotal] = useState();
+    const [desc, setDesc] = useState("");
 
-    const [percent1, setPercent1] = useState(0), [amount1, setAmount1] = useState(0);
-    const [percent2, setPercent2] = useState(0), [amount2, setAmount2] = useState(0);
-    const [percent3, setPercent3] = useState(0), [amount3, setAmount3] = useState(0);
-    const [percent4, setPercent4] = useState(0), [amount4, setAmount4] = useState(0);
-    const [percent5, setPercent5] = useState(0), [amount5, setAmount5] = useState(0);
-    const [percent6, setPercent6] = useState(0), [amount6, setAmount6] = useState(0);
-    const [percent7, setPercent7] = useState(0), [amount7, setAmount7] = useState(0);
+    const [percent1, setPercent1] = useState(0), [amount1, setAmount1] = useState();
+    const [percent2, setPercent2] = useState(0), [amount2, setAmount2] = useState();
+    const [percent3, setPercent3] = useState(0), [amount3, setAmount3] = useState();
+    const [percent4, setPercent4] = useState(0), [amount4, setAmount4] = useState();
+    const [percent5, setPercent5] = useState(0), [amount5, setAmount5] = useState();
+    const [percent6, setPercent6] = useState(0), [amount6, setAmount6] = useState();
+    const [percent7, setPercent7] = useState(0), [amount7, setAmount7] = useState();
 
-    const wasteType = (e) => {
+    const wasteType = (e, waste_type_id) => {
         setType(e.target.innerHTML);
+        setType_id(waste_type_id);
+
+        e.preventDefault();
     }
 
     const totalAmount = (e) => {
@@ -92,7 +114,7 @@ function Tracker() {
     }
 
     const submitData = (e) => {
-        const newdata = [{label: "Donations", value: percent1.toString(), amount: amount1.toString()},
+        const new_data = [{label: "Donations", value: percent1.toString(), amount: amount1.toString()},
             {label: "Compost", value: percent2.toString(), amount: amount2.toString()},
             {label: "Partners", value: percent3.toString(), amount: amount3.toString()},
             {label: "Farmers", value: percent4.toString(), amount: amount4.toString()},
@@ -100,13 +122,11 @@ function Tracker() {
             {label: "Landfill", value: percent6.toString(), amount: amount6.toString()},
             {label: "Other", value: percent7.toString(), amount: amount7.toString()}];
 
-        console.log(newdata);
-
         axiosInstance
             .post("trackerData/", {
-                data: newdata,
+                data: new_data,
                 user: 1,
-                waste_type: 1,
+                waste_type: type_id,
                 description: desc,
             })
             .then((response) => {
@@ -119,7 +139,7 @@ function Tracker() {
                 <MDBCardBody>
                     <p className="mb-4 fw-bold border-bottom">{type}</p>
                     <PieChart
-                        data={newdata}
+                        data={new_data}
                         innerRadius={50}
                         outerRadius={100}
                     />
@@ -128,6 +148,24 @@ function Tracker() {
                 </MDBCardBody>
             </MDBCard>,
         charts]);
+
+        e.preventDefault();
+    }
+
+    const clearForm = (e) => {
+        setType("Waste Category");
+        setType_id(1);
+        setTotal("");
+        setDesc("");
+
+        setPercent1(0); setAmount1("");
+        setPercent2(0); setAmount2("");
+        setPercent3(0); setAmount3("");
+        setPercent4(0); setAmount4("");
+        setPercent5(0); setAmount5("");
+        setPercent6(0); setAmount6("");
+        setPercent7(0); setAmount7("");
+
         e.preventDefault();
     }
 
@@ -137,22 +175,20 @@ function Tracker() {
             <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
                 <div className="mb-3 align-content-between">
                     <h2 className="d-inline">Tracker Page</h2>
-                    {/*<MDBBtn className="float-end">Generate Report</MDBBtn>*/}
                 </div>
                 <MDBCard className="mb-5 bg-pale-blue">
                     <MDBCardBody>
                         <MDBRow tag="form" className="g-3" between>
                             <MDBCol md="5">
                                 <MDBDropdown group>
-                                    <MDBDropdownToggle onClick={(event) => event.preventDefault()}>Waste
-                                        Category</MDBDropdownToggle>
+                                    <MDBDropdownToggle onClick={(event) => event.preventDefault()}>{type}</MDBDropdownToggle>
                                     <MDBDropdownMenu>
-                                        <MDBDropdownItem link onClick={wasteType}>Produce</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={wasteType}>Meat</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={wasteType}>Dairy</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={wasteType}>Bread</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={wasteType}>Canned Food</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={wasteType}>Reclaimed Food</MDBDropdownItem>
+                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 1)}>Produce</MDBDropdownItem>
+                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 2)}>Meat</MDBDropdownItem>
+                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 3)}>Dairy</MDBDropdownItem>
+                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 4)}>Bread</MDBDropdownItem>
+                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 5)}>Canned Food</MDBDropdownItem>
+                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 6)}>Reclaimed Food</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBCol>
@@ -165,6 +201,7 @@ function Tracker() {
                                         type="text"
                                         className="form-control"
                                         placeholder="Total Amount"
+                                        value={total}
                                         required
                                     />
                                     <span className="input-group-text bg-white">
@@ -178,6 +215,7 @@ function Tracker() {
                                     name="desc"
                                     label="Description"
                                     className="bg-white"
+                                    value={desc}
                                     required
                                 />
                             </MDBCol>
@@ -194,6 +232,7 @@ function Tracker() {
                                         type="text"
                                         className="form-control"
                                         placeholder="Donations"
+                                        value={amount1}
                                         required
                                     />
                                     <span className="input-group-text bg-white">
@@ -215,6 +254,7 @@ function Tracker() {
                                         type="text"
                                         className="form-control"
                                         placeholder="Compost"
+                                        value={amount2}
                                         required
                                     />
                                     <span className="input-group-text bg-white">
@@ -236,6 +276,7 @@ function Tracker() {
                                         type="text"
                                         className="form-control"
                                         placeholder="Partners"
+                                        value={amount3}
                                         required
                                     />
                                     <span className="input-group-text bg-white">
@@ -257,6 +298,7 @@ function Tracker() {
                                         type="text"
                                         className="form-control"
                                         placeholder="Farmers"
+                                        value={amount4}
                                         required
                                     />
                                     <span className="input-group-text bg-white">
@@ -278,6 +320,7 @@ function Tracker() {
                                         type="text"
                                         className="form-control"
                                         placeholder="Gardens"
+                                        value={amount5}
                                         required
                                     />
                                     <span className="input-group-text bg-white">
@@ -299,6 +342,7 @@ function Tracker() {
                                         type="text"
                                         className="form-control"
                                         placeholder="Landfill"
+                                        value={amount6}
                                         required
                                     />
                                     <span className="input-group-text bg-white">
@@ -320,6 +364,7 @@ function Tracker() {
                                         type="text"
                                         className="form-control"
                                         placeholder="Other"
+                                        value={amount7}
                                         required
                                     />
                                     <span className="input-group-text bg-white">
@@ -331,7 +376,12 @@ function Tracker() {
                             <MDBCol md="4">
                                 <p className="m-0 p-1">= {percent7.toFixed(2)}%</p>
                             </MDBCol>
-                            <MDBCol md="12">
+                            <MDBCol md="6">
+                                <MDBBtn className="float-start" color="danger" onClick={clearForm}>
+                                    Clear
+                                </MDBBtn>
+                            </MDBCol>
+                            <MDBCol md="6">
                                 <MDBBtn className="float-end" color="success" onClick={submitData}>
                                     Submit
                                 </MDBBtn>
