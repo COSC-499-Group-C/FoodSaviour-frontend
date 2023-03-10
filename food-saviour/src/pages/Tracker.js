@@ -19,7 +19,7 @@ import {
     from "mdb-react-ui-kit";
 
 function Tracker() {
-    const [charts, setCharts] = useState(null);
+    const [charts, setCharts] = useState([]);
 
     useEffect(() => {
         getWasteType();
@@ -55,10 +55,12 @@ function Tracker() {
     }
 
     const displayData = (types, data) => {
+        let display = [];
+
         for (let i = 0; i < data.length; i++) {
             const type_name = types[data[i].waste_type - 1].name;
 
-            setCharts([
+            display.push(
                 <MDBCard className="mb-5">
                     <MDBCardBody>
                         <p className="mb-4 fw-bold border-bottom">{type_name}</p>
@@ -70,9 +72,11 @@ function Tracker() {
                         <p className="mt-4 mb-3">{data[i].description}</p>
                         <p className="m-0 small float-end">{new Date().toString()}</p>
                     </MDBCardBody>
-                </MDBCard>,
-            charts]);
+                </MDBCard>
+            );
         }
+
+         setCharts(display);
     }
 
     const [type, setType] = useState("Waste Category");
@@ -163,14 +167,6 @@ function Tracker() {
         setPercent7(0); setAmount7("");
 
         e.preventDefault();
-    }
-
-    if (charts === null) {
-        return (
-            <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-                <h1 className="text-center">Loading...</h1>
-            </MDBContainer>
-        );
     }
 
     return (
