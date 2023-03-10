@@ -135,12 +135,12 @@ function Tracker() {
     return (
         <div>
             <Navbar></Navbar>
-            <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-                <div className="mb-3 align-content-between">
-                    <h2 className="d-inline">Tracker Page</h2>
-                    {/*<MDBBtn className="float-end">Generate Report</MDBBtn>*/}
-                </div>
+            <MDBContainer className="p-3 my-5 d-flex flex-column w-80">
                 <MDBRow>
+                    <div className="mb-3 align-content-between">
+                        <h2 className="d-inline">Tracker Page</h2>
+                        {/*<MDBBtn className="float-end">Generate Report</MDBBtn>*/}
+                    </div>
                     <MDBCol md="3">
                         <MDBCard className="mb-5">
                             <Sidebar></Sidebar>
