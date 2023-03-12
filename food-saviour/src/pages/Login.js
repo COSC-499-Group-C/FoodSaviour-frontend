@@ -11,18 +11,10 @@ import {
     MDBBtn,
     MDBIcon,
     MDBInput,
-    MDBCheckbox
+    MDBCheckbox, MDBDropdownToggle, MDBDropdown, MDBDropdownMenu, MDBDropdownItem,
 }
     from 'mdb-react-ui-kit';
-
-// const Login = () => {
-//
-//   const [formData, setFormData] = useState({
-//     username: '',
-//     password: ''
-//   });
-//
-//   const { username, password } = formData;
+import OrgDropdown from "../components/OrgDropdown";
 
 export default function Login() {
 
@@ -37,6 +29,9 @@ export default function Login() {
     };
 
     const navigate = useNavigate();
+
+    // Login form data //
+
 
     const initialLoginFormData = Object.freeze({
         email: "",
@@ -109,6 +104,13 @@ export default function Login() {
                 navigate(0);
             });
     };
+
+    // Handling organization data //
+
+    const [name, setName] = useState("");
+    const org = (e) => {
+        setName(e.target.innerHTML);
+    }
 
     if (localStorage.getItem('refresh_token')) {
         return <Navigate to="/homelogin"/>;
@@ -187,22 +189,18 @@ export default function Login() {
                                   autoComplete="email" onChange={handleRegisterChange} required/>
                         <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password" type="password"
                                   autoComplete="current-password" onChange={handleRegisterChange} required/>
-                        <div className="btn-group">
-                            <button type="button" className="btn btn-primary dropdown-toggle" data-mdb-toggle="dropdown"
-                                    aria-expanded="false">
-                                Join Organization
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">Add Organization</a></li>
-                                <li>
-                                    <hr className="dropdown-divider"/>
-                                </li>
-                                <li><a className="dropdown-item" href="#">Organization A</a></li>
-                                <li><a className="dropdown-item" href="#">Organization B</a></li>
-                                <li><a className="dropdown-item" href="#">Organization C</a></li>
-
-                            </ul>
-                        </div>
+                        {/*<MDBDropdown group className="mb-3">*/}
+                        {/*    <MDBDropdownToggle onClick={(event) => event.preventDefault()}>Join Organization</MDBDropdownToggle>*/}
+                        {/*    <MDBDropdownMenu>*/}
+                        {/*        <MDBDropdownItem link value="custom">Add Organization</MDBDropdownItem>*/}
+                        {/*        <MDBDropdownItem className="dropdown-divider"/>*/}
+                        {/*        <MDBDropdownItem link onClick={org}>Org A</MDBDropdownItem>*/}
+                        {/*        <MDBDropdownItem link onClick={org}>Org B</MDBDropdownItem>*/}
+                        {/*        <MDBDropdownItem link onClick={org}>Org C</MDBDropdownItem>*/}
+                        {/*        <MDBDropdownItem link onClick={org}>Org D</MDBDropdownItem>*/}
+                        {/*    </MDBDropdownMenu>*/}
+                        {/*</MDBDropdown>*/}
+                        <OrgDropdown/>
 
                         <div className="d-flex justify-content-center mb-4">
                             <MDBCheckbox name="flexCheck" id="flexCheckDefault"
