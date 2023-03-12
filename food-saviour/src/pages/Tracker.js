@@ -40,14 +40,7 @@ function Tracker() {
         axiosInstance
             .get("trackerData/")
             .then((response) => {
-                const allData = response.data;
-                let data = [];
-
-                for (let i = 0; i < allData.length; i++) {
-                    if(allData[i].user === 1) {
-                        data.push(allData[i]);
-                    }
-                }
+                let data = response.data;
 
                 displayData(types, data);
             })
@@ -172,7 +165,7 @@ function Tracker() {
 
             axiosInstance
                 .post("trackerData/", {
-                    user: 1,
+                    user: localStorage.getItem("store-id"),
                     waste_type: type_id,
                     description: desc,
                     donations: amount1,
