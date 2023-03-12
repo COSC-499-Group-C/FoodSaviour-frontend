@@ -69,9 +69,18 @@ export default function Login() {
                 localStorage.setItem("refresh_token", res.data.refresh);
                 axiosInstance.defaults.headers["Authorization"] =
                     "JWT " + localStorage.getItem("access_token");
-                navigate("/homelogin");
                 //console.log(res);
                 //console.log(res.data);
+            })
+            .then(() => {
+                axiosInstance
+                    .get('users/')
+                    .then((res) => {
+                        localStorage.setItem('currUserId', res.data[0].id);
+                        navigate("/homelogin");
+
+
+                    });
             });
     };
 
