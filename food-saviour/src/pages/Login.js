@@ -189,17 +189,6 @@ export default function Login() {
                                   autoComplete="email" onChange={handleRegisterChange} required/>
                         <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password" type="password"
                                   autoComplete="current-password" onChange={handleRegisterChange} required/>
-                        {/*<MDBDropdown group className="mb-3">*/}
-                        {/*    <MDBDropdownToggle onClick={(event) => event.preventDefault()}>Join Organization</MDBDropdownToggle>*/}
-                        {/*    <MDBDropdownMenu>*/}
-                        {/*        <MDBDropdownItem link value="custom">Add Organization</MDBDropdownItem>*/}
-                        {/*        <MDBDropdownItem className="dropdown-divider"/>*/}
-                        {/*        <MDBDropdownItem link onClick={org}>Org A</MDBDropdownItem>*/}
-                        {/*        <MDBDropdownItem link onClick={org}>Org B</MDBDropdownItem>*/}
-                        {/*        <MDBDropdownItem link onClick={org}>Org C</MDBDropdownItem>*/}
-                        {/*        <MDBDropdownItem link onClick={org}>Org D</MDBDropdownItem>*/}
-                        {/*    </MDBDropdownMenu>*/}
-                        {/*</MDBDropdown>*/}
                         <OrgDropdown/>
 
                         <div className="d-flex justify-content-center mb-4">
