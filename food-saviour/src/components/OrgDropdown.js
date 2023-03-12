@@ -14,6 +14,13 @@ function OrgDropdown() {
   const [activeElementType, setActiveElementType] = useState('dropdown');
   const [name, setName] = useState("");
 
+  const orgName = (e, name_id) => {
+    setName (e.target.innerHTML);
+    setName_id(name_id);
+
+    e.preventDefault();
+}
+
   const orgChanged = (e) => {
     setName(e.target.value);
   }
@@ -26,6 +33,7 @@ function OrgDropdown() {
         </MDBDropdownToggle>
         <MDBDropdownMenu>
           <MDBDropdownItem link onClick={orgChanged}>Org A</MDBDropdownItem>
+          <MDBDropdownItem link onClick={(event)=> orgName(event,1)}>Produce</MDBDropdownItem>
           <MDBDropdownItem link onClick={orgChanged}>Org B</MDBDropdownItem>
           <MDBDropdownItem link onClick={orgChanged}>Org C</MDBDropdownItem>
           <MDBDropdownItem link onClick={orgChanged}>Org D</MDBDropdownItem>
