@@ -60,17 +60,35 @@ function Tracker() {
         for (let i = 0; i < data.length; i++) {
             const type_name = types[data[i].waste_type - 1].name;
 
+            const total = +data[i].donations + +data[i].compost + +data[i].partners + +data[i].farmers + +data[i].gardens + +data[i].landfill + +data[i].other;
+
+            const percent1 = (data[i].donations / total * 100);
+            const percent2 = (data[i].compost / total * 100);
+            const percent3 = (data[i].partners / total * 100);
+            const percent4 = (data[i].farmers / total * 100);
+            const percent5 = (data[i].gardens / total * 100);
+            const percent6 = (data[i].landfill / total * 100);
+            const percent7 = (data[i].other / total * 100);
+
+            const pie_data = [{label: "Donations", value: percent1.toString(), amount: data[i].donations},
+            {label: "Compost", value: percent2.toString(), amount: data[i].compost},
+            {label: "Partners", value: percent3.toString(), amount: data[i].partners},
+            {label: "Farmers", value: percent4.toString(), amount: data[i].farmers},
+            {label: "Gardens", value: percent5.toString(), amount: data[i].gardens},
+            {label: "Landfill", value: percent6.toString(), amount: data[i].landfill},
+            {label: "Other", value: percent7.toString(), amount: data[i].other}];
+
             display.push(
                 <MDBCard className="mb-5">
                     <MDBCardBody>
                         <p className="mb-4 fw-bold border-bottom">{type_name}</p>
                         <PieChart
-                            data={data[i].data}
+                            data={pie_data}
                             innerRadius={50}
                             outerRadius={100}
                         />
                         <p className="mt-4 mb-3">{data[i].description}</p>
-                        <p className="m-0 small float-end">{new Date().toString()}</p>
+                        <p className="m-0 small float-end">{new Date(data[i].created_at).toString()}</p>
                     </MDBCardBody>
                 </MDBCard>
             );
@@ -82,6 +100,8 @@ function Tracker() {
     const [type, setType] = useState("Waste Category");
     const [type_id, setType_id] = useState(1);
     const [total, setTotal] = useState();
+    const [entered, setEntered] = useState([0, 0, 0, 0, 0, 0, 0]);
+    const [err_msg, setErr_msg] = useState("");
     const [desc, setDesc] = useState("");
 
     const [percent1, setPercent1] = useState(0), [amount1, setAmount1] = useState();
@@ -103,14 +123,38 @@ function Tracker() {
         setTotal(e.target.value);
     }
 
-    const percentCalc = (e, setPercent, setAmount) => {
+    const percentCalc = (e, setPercent, setAmount, i) => {
         const percent = (e.target.value / total * 100);
         setPercent(percent);
         setAmount(e.target.value);
+
+        let arr = [...entered];
+        arr[i] = e.target.value;
+        setEntered(arr);
     };
 
     const description = (e) => {
         setDesc(e.target.value);
+    }
+
+    const validateForm = (e) => {
+        e.preventDefault();
+        let type = document.getElementById("type");
+        let inputs = document.getElementsByTagName("input");
+
+        if (type.innerHTML === "Waste Category") {
+            setErr_msg("Please specify a waste category.");
+            return false;
+        }
+
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].value == null || inputs[i].value === "") {
+                setErr_msg("Please fill out all fields.");
+                return false;
+            }
+        }
+
+        submitData(e);
     }
 
     const submitData = (e) => {
@@ -122,32 +166,48 @@ function Tracker() {
             {label: "Landfill", value: percent6.toString(), amount: amount6.toString()},
             {label: "Other", value: percent7.toString(), amount: amount7.toString()}];
 
-        axiosInstance
-            .post("trackerData/", {
-                data: new_data,
-                user: 1,
-                waste_type: type_id,
-                description: desc,
-            })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch(error => console.error(`Error: ${error}`));
+        if (+total === entered.reduce((sum,i) =>  sum = sum + +i, 0)) {
 
-        setCharts([
-            <MDBCard className="mb-5">
-                <MDBCardBody>
-                    <p className="mb-4 fw-bold border-bottom">{type}</p>
-                    <PieChart
-                        data={new_data}
-                        innerRadius={50}
-                        outerRadius={100}
-                    />
-                    <p className="mt-4 mb-3">{desc}</p>
-                    <p className="m-0 small float-end">{new Date().toString()}</p>
-                </MDBCardBody>
-            </MDBCard>,
-        charts]);
+            const date = new Date();
+
+            axiosInstance
+                .post("trackerData/", {
+                    user: 1,
+                    waste_type: type_id,
+                    description: desc,
+                    donations: amount1,
+                    compost: amount2,
+                    partners: amount3,
+                    farmers: amount4,
+                    gardens: amount5,
+                    landfill: amount6,
+                    other: amount7,
+                    created_at: date
+                })
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch(error => console.error(`Error: ${error}`));
+
+            setCharts([
+                <MDBCard className="mb-5">
+                    <MDBCardBody>
+                        <p className="mb-4 fw-bold border-bottom">{type}</p>
+                        <PieChart
+                            data={new_data}
+                            innerRadius={50}
+                            outerRadius={100}
+                        />
+                        <p className="mt-4 mb-3">{desc}</p>
+                        <p className="m-0 small float-end">{date.toString()}</p>
+                    </MDBCardBody>
+                </MDBCard>,
+                charts]);
+
+            clearForm(e);
+        } else {
+            setErr_msg("Entered amount does not equal total amount.");
+        }
 
         e.preventDefault();
     }
@@ -156,6 +216,8 @@ function Tracker() {
         setType("Waste Category");
         setType_id(1);
         setTotal("");
+        setEntered([0, 0, 0, 0, 0, 0, 0]);
+        setErr_msg("");
         setDesc("");
 
         setPercent1(0); setAmount1("");
@@ -181,7 +243,7 @@ function Tracker() {
                         <MDBRow tag="form" className="g-3" between>
                             <MDBCol md="5">
                                 <MDBDropdown group>
-                                    <MDBDropdownToggle onClick={(event) => event.preventDefault()}>{type}</MDBDropdownToggle>
+                                    <MDBDropdownToggle id="type" onClick={(event) => event.preventDefault()}>{type}</MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem link onClick={(event) => wasteType(event, 1)}>Produce</MDBDropdownItem>
                                         <MDBDropdownItem link onClick={(event) => wasteType(event, 2)}>Meat</MDBDropdownItem>
@@ -214,10 +276,11 @@ function Tracker() {
                                 <MDBInput
                                     name="desc"
                                     label="Description"
-                                    className="bg-white"
+                                    className="bg-white has-validation"
                                     value={desc}
                                     required
                                 />
+                                <div className="invalid-feedback">Please provide a description.</div>
                             </MDBCol>
                             <MDBCol md="12">
                                 <p className="m-0 fw-bold border-bottom border-secondary">Distributed Amounts</p>
@@ -227,7 +290,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent1, setAmount1)}>
+                                     onChange={(event) => percentCalc(event, setPercent1, setAmount1, 0)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -249,7 +312,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent2, setAmount2)}>
+                                     onChange={(event) => percentCalc(event, setPercent2, setAmount2, 1)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -271,7 +334,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent3, setAmount3)}>
+                                     onChange={(event) => percentCalc(event, setPercent3, setAmount3, 2)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -293,7 +356,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent4, setAmount4)}>
+                                     onChange={(event) => percentCalc(event, setPercent4, setAmount4, 3)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -315,7 +378,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent5, setAmount5)}>
+                                     onChange={(event) => percentCalc(event, setPercent5, setAmount5, 4)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -337,7 +400,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent6, setAmount6)}>
+                                     onChange={(event) => percentCalc(event, setPercent6, setAmount6, 5)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -359,7 +422,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent7, setAmount7)}>
+                                     onChange={(event) => percentCalc(event, setPercent7, setAmount7, 6)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -376,13 +439,22 @@ function Tracker() {
                             <MDBCol md="4">
                                 <p className="m-0 p-1">= {percent7.toFixed(2)}%</p>
                             </MDBCol>
+                            <MDBCol md="4">
+                                <p className="m-0 p-1 fw-bold float-end">Entered Amount:</p>
+                            </MDBCol>
+                            <MDBCol md="4">
+                                <p className="m-0 p-1 text-center border-top border-secondary">{entered.reduce((sum,i) =>  sum = sum + +i, 0).toFixed(2)} lbs</p>
+                            </MDBCol>
+                            <MDBCol md="4">
+                                <p className="m-0 p-1">{err_msg}</p>
+                            </MDBCol>
                             <MDBCol md="6">
                                 <MDBBtn className="float-start" color="danger" onClick={clearForm}>
                                     Clear
                                 </MDBBtn>
                             </MDBCol>
                             <MDBCol md="6">
-                                <MDBBtn className="float-end" color="success" onClick={submitData}>
+                                <MDBBtn className="float-end" color="success" onClick={validateForm}>
                                     Submit
                                 </MDBBtn>
                             </MDBCol>
