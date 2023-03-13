@@ -165,7 +165,7 @@ function Tracker() {
 
             axiosInstance
                 .post("trackerData/", {
-                    user: localStorage.getItem("store-id"),
+                    user: localStorage.getItem("currUserId"),
                     waste_type: type_id,
                     description: desc,
                     donations: amount1,
