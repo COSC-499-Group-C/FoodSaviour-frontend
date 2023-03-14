@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   MDBInput,
   MDBBtn,
@@ -9,6 +9,7 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem,
 } from 'mdb-react-ui-kit';
+import axiosInstance from "../axios";
 
 function OrgDropdown() {
   const [activeElementType, setActiveElementType] = useState('dropdown');
@@ -68,6 +69,31 @@ function OrgDropdown() {
       </div>
     );
   }
+
+
+
+  useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = () => {
+        axiosInstance
+            .get("orgName/")
+            .then((response) => {
+                const allData = response.data;
+
+                const orgDropdown = document.querySelector('#orgdropdown');
+
+                // iterate over the organizations and create a new option element for each
+                allData.forEach((org) => {
+                    const option = document.createElement('option');
+                    option.value = org.id; // assuming the id is the value you want to set for each option
+                    option.text = org.name; // assuming the name is the text you want to display for each option
+                });
+
+            })
+            .catch(error => console.error(`Error: ${error}`));
+    }
 
   return (
     <div>
