@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useNavigate, Navigate} from "react-router-dom";
 import axiosInstance from '../axios';
 import {
@@ -11,13 +11,13 @@ import {
     MDBBtn,
     MDBIcon,
     MDBInput,
-    MDBCheckbox, MDBDropdownToggle, MDBDropdown, MDBDropdownMenu, MDBDropdownItem,
+    MDBCheckbox
 }
     from 'mdb-react-ui-kit';
 import OrgDropdown from "../components/OrgDropdown";
-import axios from "axios";
 
 export default function Login() {
+    const [selectedOrg, setSelectedOrg] = useState(null);
 
     const [justifyActive, setJustifyActive] = useState("tab1");
 
@@ -101,14 +101,46 @@ export default function Login() {
                 user_name: registerFormData.username,
                 password: registerFormData.password,
             })
+            .catch((err) => {
+                console.log("Register Error: " + err);
+            })
             .then((res) => {
-                navigate(0);
+                localStorage.setItem("access_token", res.data.access);
+                localStorage.setItem("refresh_token", res.data.refresh);
+                axiosInstance.defaults.headers["Authorization"] =
+                    "JWT " + localStorage.getItem("access_token");
+                //console.log(res);
+                //console.log(res.data);
+            })
+            .then(() => {
+                axiosInstance
+                    .get('users/')
+                    .then((res) => {
+                        localStorage.setItem('currUserId', res.data[0].id);
+                    });
+            })
+            .then((res) => {
+                console.log(res);
+                const userId = localStorage.getItem('currUserId'); // Extract the user id
+                const data = {
+                    group: selectedOrg,
+                    user: userId, // Update the user field with the extracted user id
+                };
+                console.log(data);
+
+                axiosInstance
+                    .post("orgGroup/", data)
+                    .then(() => {
+                        navigate(0);
+                    })
+                    .catch((err) => {
+                        console.error("Org Group Error: " + err);
+                    });
             });
     };
 
+
     // Handling organization data //
-
-
 
     if (localStorage.getItem('refresh_token')) {
         return <Navigate to="/homelogin"/>;
@@ -187,7 +219,7 @@ export default function Login() {
                                   autoComplete="email" onChange={handleRegisterChange} required/>
                         <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password" type="password"
                                   autoComplete="current-password" onChange={handleRegisterChange} required/>
-                        <OrgDropdown id="orgdropdown"/>
+                        <OrgDropdown onOrgSelected={setSelectedOrg}/>
 
                         <div className="d-flex justify-content-center mb-4">
                             <MDBCheckbox name="flexCheck" id="flexCheckDefault"
