@@ -31,7 +31,7 @@ function OrgDropdown(props) {
         if (orgNameInput) {
             // Make a POST request with the orgNameInput value
             axiosInstance
-                .post("orgName/", { name: orgNameInput })
+                .post("orgName/", {name: orgNameInput})
                 .then((response) => {
                     // Update the state with the new organization data returned from the server
                     const newOrg = response.data;
@@ -52,15 +52,19 @@ function OrgDropdown(props) {
                     {name}
                 </MDBDropdownToggle>
                 <MDBDropdownMenu>
-                    {orgList.map((org, index) => (
-                        <MDBDropdownItem key={index} link onClick={(event) => orgName(event, org.id)}>
-                            {org.name}
-                        </MDBDropdownItem>
-                    ))}
+                    {orgList
+                        .slice() // Create a shallow copy to avoid modifying the original orgList
+                        .sort((a, b) => a.name.localeCompare(b.name)) // Sort organizations alphabetically
+                        .map((org, index) => (
+                            <MDBDropdownItem key={index} link onClick={(event) => orgName(event, org.id)}>
+                                {org.name}
+                            </MDBDropdownItem>
+                        ))}
                 </MDBDropdownMenu>
             </MDBDropdown>
         );
     }
+
 
     function inputFieldComp() {
         return (

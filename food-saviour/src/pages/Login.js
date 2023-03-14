@@ -114,7 +114,7 @@ export default function Login() {
                 // const userId = localStorage.getItem('currUserId'); // Extract the user id
                 const data = {
                     group: selectedOrg,
-                    user: 24, // Update the user field with the extracted user id
+                    user: 2, // Update the user field with the extracted user id
                 };
                 console.log(data);
 
