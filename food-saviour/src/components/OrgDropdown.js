@@ -28,8 +28,13 @@ function OrgDropdown(props) {
         e.preventDefault();
         const orgNameInput = document.getElementById("org-name-input").value;
         if (orgNameInput) {
-            setOrgList([...orgList, orgNameInput]);
-            setName(orgNameInput);
+            const newOrg = {
+                id: orgList.length + 1, // generate a new ID for the organization
+                name: orgNameInput
+            };
+            setOrgList([...orgList, newOrg]);
+            setName(newOrg.name);
+            setOrg_id(newOrg.id);
             setActiveElementType("dropdown");
         }
     }

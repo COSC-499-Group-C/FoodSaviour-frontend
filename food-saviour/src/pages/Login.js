@@ -65,9 +65,18 @@ export default function Login() {
                 localStorage.setItem("refresh_token", res.data.refresh);
                 axiosInstance.defaults.headers["Authorization"] =
                     "JWT " + localStorage.getItem("access_token");
-                navigate("/homelogin");
                 //console.log(res);
                 //console.log(res.data);
+            })
+            .then(() => {
+                axiosInstance
+                    .get('users/')
+                    .then((res) => {
+                        localStorage.setItem('currUserId', res.data[0].id);
+                        navigate("/homelogin");
+
+
+                    });
             });
     };
 
@@ -101,41 +110,25 @@ export default function Login() {
                 user_name: registerFormData.username,
                 password: registerFormData.password,
             })
-            .catch((err) => {
-                console.log("Register Error: " + err);
-            })
-            .then((res) => {
-                localStorage.setItem("access_token", res.data.access);
-                localStorage.setItem("refresh_token", res.data.refresh);
-                axiosInstance.defaults.headers["Authorization"] =
-                    "JWT " + localStorage.getItem("access_token");
-                //console.log(res);
-                //console.log(res.data);
-            })
             .then(() => {
-                axiosInstance
-                    .get('users/')
-                    .then((res) => {
-                        localStorage.setItem('currUserId', res.data[0].id);
-                    });
-            })
-            .then((res) => {
-                console.log(res);
-                const userId = localStorage.getItem('currUserId'); // Extract the user id
+                // const userId = localStorage.getItem('currUserId'); // Extract the user id
                 const data = {
                     group: selectedOrg,
-                    user: userId, // Update the user field with the extracted user id
+                    user: 24, // Update the user field with the extracted user id
                 };
                 console.log(data);
 
                 axiosInstance
                     .post("orgGroup/", data)
-                    .then(() => {
+                    .then((res) => {
                         navigate(0);
                     })
                     .catch((err) => {
                         console.error("Org Group Error: " + err);
                     });
+            })
+            .catch((err) => {
+                console.log("Register Error: " + err);
             });
     };
 
@@ -168,33 +161,11 @@ export default function Login() {
 
                     <MDBTabsPane show={justifyActive === "tab1"}>
 
-                        <div className="text-center mb-3">
-                            <p>Sign in with:</p>
 
-                            <div className="d-flex justify-content-between mx-auto" style={{width: "40%"}}>
-                                <MDBBtn tag="a" color="none" className="m-1" style={{color: '#1266f1'}}>
-                                    <MDBIcon fab icon="facebook-f" size="sm"/>
-                                </MDBBtn>
-
-                                <MDBBtn tag="a" color="none" className="m-1" style={{color: '#1266f1'}}>
-                                    <MDBIcon fab icon="twitter" size="sm"/>
-                                </MDBBtn>
-
-                                <MDBBtn tag="a" color="none" className="m-1" style={{color: "#1266f1"}}>
-                                    <MDBIcon fab icon="google" size="sm"/>
-                                </MDBBtn>
-
-                                <MDBBtn tag="a" color="none" className="m-1" style={{color: "#1266f1"}}>
-                                    <MDBIcon fab icon="github" size="sm"/>
-                                </MDBBtn>
-                            </div>
-
-                            <p className="text-center mt-3">or:</p>
-                        </div>
 
                         <MDBInput wrapperClass="mb-4" label="Email Address" id="email" name="email" type="text"
                                   autoComplete="email" onChange={handleLoginChange} required/>
-                        <MDBInput wrapperClass="mb-4" label="password" id="password" name="password"
+                        <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password"
                                   autoComplete="current-password" type="password" onChange={handleLoginChange}
                                   required/>
 
