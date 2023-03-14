@@ -100,6 +100,12 @@ export default function Login() {
                 user_name: registerFormData.username,
                 password: registerFormData.password,
             })
+
+            //add org
+
+            //get org
+
+
             .then((res) => {
                 navigate(0);
             });
