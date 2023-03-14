@@ -60,10 +60,33 @@ function Sharing() {
         }
     }
 
+    const waste_category = [
+        { label: "Produce"},
+        { label: "Frozen"},
+        { label: "Imperishable"},
+        { label: "Dairy"},
+        { label: "Liquid"},
+      ];
+
+    const organization = [
+        { key: "UBC", label: "UBC" },
+        { key: "Farmer's market", label: "Farmer's market" },
+        { key: "Food bank", label: "Food bank" },
+    ];
+
+    const role = [
+        { key: "Manager", label: "Manager" },
+        { key: "Volunteers", label: "Volunteers" },
+        { key: "Supervisor", label: "Supervisor" },
+    ];
+    
     const [type, setType] = useState("");
     const [total, setTotal] = useState(0);
     const [desc, setDesc] = useState("no description");
     const [charts, setCharts] = useState([]);
+    const [isChecked, setIsChecked] = useState(
+        new Array(waste_category.length).fill(false)
+    );
 
     const [percent1, setPercent1] = useState(0), [amount1, setAmount1] = useState(0);
     const [percent2, setPercent2] = useState(0), [amount2, setAmount2] = useState(0);
@@ -87,18 +110,24 @@ function Sharing() {
         setAmount(e.target.value);
     };
 
+    const checkHandler = (e) => {
+        setIsChecked(!isChecked);
+    }    
+
     const description = (e) => {
         setDesc(e.target.value);
     }
 
     const submitData = (e) => {
-        const newdata = [{ label: "Donations", value: percent1.toString(), amount: amount1.toString() },
+        const newdata = [
+        { label: "Donations", value: percent1.toString(), amount: amount1.toString() },
         { label: "Compost", value: percent2.toString(), amount: amount2.toString() },
         { label: "Partners", value: percent3.toString(), amount: amount3.toString() },
         { label: "Farmers", value: percent4.toString(), amount: amount4.toString() },
         { label: "Gardens", value: percent5.toString(), amount: amount5.toString() },
         { label: "Landfill", value: percent6.toString(), amount: amount6.toString() },
-        { label: "Other", value: percent7.toString(), amount: amount7.toString() }];
+        { label: "Other", value: percent7.toString(), amount: amount7.toString() }
+    ];
 
         console.log(newdata);
 
@@ -142,8 +171,8 @@ function Sharing() {
                 <div className="row justify-content-center justify-content-between m-auto">
                     <div className="bg-lblue w-32 p-4 ch-25 rounded-4 overflow-auto">
                         <h1 className="fw-bold fs-4">Waste category</h1>
-                        <input type="checkbox" /> Produce <br />
-                        <input type="checkbox" /> Frozen food <br />
+                        <input type="checkbox" value = "produce" checked = {isChecked} onChange = {checkHandler}/> Produce <br />
+                        <input type="checkbox" checked={isChecked}/> Frozen food <br />
                         <input type="checkbox" /> Imperishable <br />
                         <input type="checkbox" /> Dairy <br />
                         <input type="checkbox" /> Liquid <br />
@@ -159,7 +188,7 @@ function Sharing() {
                             <h1 className="fw-bold fs-4">Organizations</h1>
                             {/* <img className="d-flex justify-content-center m-0" src="/images/logo.png" height="50px" /> */}
                             <div>
-                                <input type="checkbox" /> UBC
+                                <input type="checkbox" checked={isChecked} onChange={checkHandler}/> UBC
                             </div>
                             <div>
                                 <input type="checkbox" /> Farmer's market
@@ -189,6 +218,9 @@ function Sharing() {
                     <div className='w-25 justify-content-center d-flex btn text-white bg-dblue m-2' onClick={() => {submitData();}}>Share data</div>
                 </div>
                 <div className="d-flex flex-wrap justify-content-center">
+                <div className="result">
+                    Above checkbox is {isChecked ? "checked" : "unchecked"}.
+                </div>    
                     <div className="bg-lblue w-100 p-4 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Generated graphs</h1>
