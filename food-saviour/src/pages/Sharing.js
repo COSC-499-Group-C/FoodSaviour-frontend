@@ -192,8 +192,6 @@ function Sharing() {
                     <div className="bg-lblue w-100 p-4 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Generated graphs</h1>
-                            <p className="">Generate graphs here from tracker</p>
-                            <img src="/images/sample_graph.png" height="200px" />
                         </div>
                     </div>
                     {/* <div className="bg-white w-75 p-4 m-3 rounded-4">
