@@ -16,6 +16,7 @@ function OrgDropdown(props) {
     const [name, setName] = useState("Join Organization");
     const [org_id, setOrg_id] = useState(1);
     const [orgList, setOrgList] = useState([]);
+    const [showAddOrgButton, setShowAddOrgButton] = useState(true);
 
     const orgName = (e, org_id) => {
         setName(e.target.innerHTML);
@@ -28,14 +29,19 @@ function OrgDropdown(props) {
         e.preventDefault();
         const orgNameInput = document.getElementById("org-name-input").value;
         if (orgNameInput) {
-            const newOrg = {
-                id: orgList.length + 1, // generate a new ID for the organization
-                name: orgNameInput
-            };
-            setOrgList([...orgList, newOrg]);
-            setName(newOrg.name);
-            setOrg_id(newOrg.id);
-            setActiveElementType("dropdown");
+            // Make a POST request with the orgNameInput value
+            axiosInstance
+                .post("orgName/", { name: orgNameInput })
+                .then((response) => {
+                    // Update the state with the new organization data returned from the server
+                    const newOrg = response.data;
+                    setOrgList([...orgList, newOrg]);
+                    setName(newOrg.name);
+                    setOrg_id(newOrg.id);
+                    setActiveElementType("dropdown");
+                    setShowAddOrgButton(false);
+                })
+                .catch((error) => console.error(`Error: ${error}`));
         }
     }
 
@@ -97,9 +103,11 @@ function OrgDropdown(props) {
                 <div className="mb-3">
                     {dropDown()}
 
-                    <MDBBtn onClick={() => setActiveElementType('input')} color="secondary" className="float-end">
-                        Add Organization
-                    </MDBBtn>
+                    {showAddOrgButton && ( // Conditionally render the button based on the showAddOrgButton state
+                        <MDBBtn onClick={() => setActiveElementType('input')} color="secondary" className="float-end">
+                            Add Organization
+                        </MDBBtn>
+                    )}
                 </div>
             ) : null}
             {activeElementType === 'input' ? inputFieldComp() : null}
