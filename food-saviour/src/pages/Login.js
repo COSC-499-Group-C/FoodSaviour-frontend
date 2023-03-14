@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate, Navigate} from "react-router-dom";
 import axiosInstance from '../axios';
 import {
@@ -15,6 +15,7 @@ import {
 }
     from 'mdb-react-ui-kit';
 import OrgDropdown from "../components/OrgDropdown";
+import axios from "axios";
 
 export default function Login() {
 
@@ -38,7 +39,7 @@ export default function Login() {
         password: "",
     });
 
-    // Handling Login form data and request
+    // Handling Login form data and request //
 
     const [loginFormData, loginUpdateFormData] = useState(initialLoginFormData);
 
@@ -100,12 +101,6 @@ export default function Login() {
                 user_name: registerFormData.username,
                 password: registerFormData.password,
             })
-
-            //add org
-
-            //get org
-
-
             .then((res) => {
                 navigate(0);
             });
@@ -113,9 +108,27 @@ export default function Login() {
 
     // Handling organization data //
 
-    const [name, setName] = useState("");
-    const org = (e) => {
-        setName(e.target.innerHTML);
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = () => {
+        axiosInstance
+            .get("orgName/")
+            .then((response) => {
+                const allData = response.data;
+
+                const orgDropdown = document.querySelector('#orgdropdown');
+
+                // iterate over the organizations and create a new option element for each
+                allData.forEach((org) => {
+                    const option = document.createElement('option');
+                    option.value = org.id; // assuming the id is the value you want to set for each option
+                    option.text = org.name; // assuming the name is the text you want to display for each option
+                    orgDropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error(`Error: ${error}`));
     }
 
     if (localStorage.getItem('refresh_token')) {
@@ -195,7 +208,7 @@ export default function Login() {
                                   autoComplete="email" onChange={handleRegisterChange} required/>
                         <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password" type="password"
                                   autoComplete="current-password" onChange={handleRegisterChange} required/>
-                        <OrgDropdown/>
+                        <OrgDropdown id="orgdropdown"/>
 
                         <div className="d-flex justify-content-center mb-4">
                             <MDBCheckbox name="flexCheck" id="flexCheckDefault"

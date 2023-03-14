@@ -14,7 +14,7 @@ function OrgDropdown() {
   const [activeElementType, setActiveElementType] = useState('dropdown');
   const [name, setName] = useState("Join Organization");
   const [org_id, setOrg_id] = useState(1);
-  const [orgList, setOrgList] = useState(["Org A", "Org B", "Org C", "Org D"]);
+  const [orgList, setOrgList] = useState([]);
 
   const orgName = (e, org_id) => {
     setName(e.target.innerHTML);
