@@ -27,6 +27,7 @@ import {
 export default function Login() {
 
     const [justifyActive, setJustifyActive] = useState("tab1");
+    const [err_msg, setErr_msg] = useState("");
 
     const handleJustifyClick = (value) => {
         if (value === justifyActive) {
@@ -116,6 +117,21 @@ export default function Login() {
             })
             .then((res) => {
                 navigate(0);
+            })
+            .catch(error => {
+                document.getElementById("err_msg").classList.remove("d-none");
+
+                let fields = Object.keys(error.response.data);
+
+                if (fields.includes("user_name")) {
+                    setErr_msg("Username cannot be blank.");
+                } else if (fields.includes("email")) {
+                    setErr_msg("Enter a valid email address.");
+                } else if (fields.includes("password")) {
+                    setErr_msg("Password must be at least 8 characters.");
+                }
+
+                console.error(error.response.data);
             });
     };
 
@@ -178,7 +194,7 @@ export default function Login() {
                                          label="I have read and agree to the terms"/>
                         </div>
 
-
+                        <p id="err_msg" className="p-2 text-danger rounded d-none" style={{backgroundColor: "#f9e1e5"}}>{err_msg}</p>
                         <MDBBtn className="mb-4 w-100" onClick={handleRegisterSubmit}>Sign up</MDBBtn>
 
                     </MDBTabsPane>
