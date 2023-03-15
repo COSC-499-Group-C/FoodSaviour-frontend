@@ -3,6 +3,7 @@ import axiosInstance from "../axios";
 import PieChart from "../components/PieChart.js";
 import Navbar from "../components/Navbar.js";
 import "../css/tracker.css";
+import Sidebar from "../components/Sidebar.js";
 import {
     MDBContainer,
     MDBDropdown,
