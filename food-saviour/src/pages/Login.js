@@ -14,19 +14,13 @@ import {
     MDBCheckbox
 }
     from 'mdb-react-ui-kit';
-
-// const Login = () => {
-//
-//   const [formData, setFormData] = useState({
-//     username: '',
-//     password: ''
-//   });
-//
-//   const { username, password } = formData;
+import OrgDropdown from "../components/OrgDropdown";
 
 export default function Login() {
+    const [selectedOrg, setSelectedOrg] = useState(null);
 
     const [justifyActive, setJustifyActive] = useState("tab1");
+    const [err_msg, setErr_msg] = useState("");
 
     const handleJustifyClick = (value) => {
         if (value === justifyActive) {
@@ -38,12 +32,15 @@ export default function Login() {
 
     const navigate = useNavigate();
 
+    // Login form data //
+
+
     const initialLoginFormData = Object.freeze({
         email: "",
         password: "",
     });
 
-    // Handling Login form data and request
+    // Handling Login form data and request //
 
     const [loginFormData, loginUpdateFormData] = useState(initialLoginFormData);
 
@@ -74,12 +71,10 @@ export default function Login() {
             })
             .then(() => {
                 axiosInstance
-                    .get('users/')
+                    .get("users/")
                     .then((res) => {
-                        localStorage.setItem('currUserId', res.data[0].id);
+                        localStorage.setItem("currUserId", res.data[0].id);
                         navigate("/homelogin");
-
-
                     });
             });
     };
@@ -114,10 +109,63 @@ export default function Login() {
                 user_name: registerFormData.username,
                 password: registerFormData.password,
             })
-            .then((res) => {
-                navigate(0);
+            .then(() => {
+                axiosInstance
+                .post("api/token/", {
+                    email: registerFormData.email,
+                    password: registerFormData.password,
+                })
+                .then((res) => {
+                    localStorage.setItem("access_token", res.data.access);
+                    localStorage.setItem("refresh_token", res.data.refresh);
+                    axiosInstance.defaults.headers["Authorization"] =
+                        "JWT " + localStorage.getItem("access_token");
+                    //console.log(res);
+                    //console.log(res.data);
+                })
+                .then(() => {
+                    axiosInstance
+                        .get("users/")
+                        .then((res) => {
+                            localStorage.setItem("currUserId", res.data[0].id);
+                        })
+                        .then(() => {
+                            const data = {
+                                group: selectedOrg,
+                                user: localStorage.getItem("currUserId"),
+                            };
+                            console.log(data);
+
+                            axiosInstance
+                                .post("orgGroup/", data)
+                                .then(() => {
+                                    navigate("/homelogin");
+                                })
+                                .catch((err) => {
+                                    console.error("Org Group Error: " + err);
+                                });
+                        });
+                });
+            })
+            .catch(error => {
+                document.getElementById("err_msg").classList.remove("d-none");
+
+                let fields = Object.keys(error.response.data);
+
+                if (fields.includes("user_name")) {
+                    setErr_msg("Username cannot be blank.");
+                } else if (fields.includes("email")) {
+                    setErr_msg("Enter a valid email address.");
+                } else if (fields.includes("password")) {
+                    setErr_msg("Password must be at least 8 characters.");
+                }
+
+                console.error(error.response.data);
             });
     };
+
+
+    // Handling organization data //
 
     if (localStorage.getItem('refresh_token')) {
         return <Navigate to="/homelogin"/>;
@@ -170,15 +218,16 @@ export default function Login() {
                                   autoComplete="username" onChange={handleRegisterChange} required/>
                         <MDBInput wrapperClass="mb-4" label="Email Address" id="email" name="email" type="text"
                                   autoComplete="email" onChange={handleRegisterChange} required/>
-                        <MDBInput wrapperClass="mb-4" label="password" id="password" name="password" type="password"
+                        <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password" type="password"
                                   autoComplete="current-password" onChange={handleRegisterChange} required/>
+                        <OrgDropdown onOrgSelected={setSelectedOrg}/>
 
                         <div className="d-flex justify-content-center mb-4">
                             <MDBCheckbox name="flexCheck" id="flexCheckDefault"
                                          label="I have read and agree to the terms"/>
                         </div>
 
-
+                        <p id="err_msg" className="p-2 text-danger rounded d-none" style={{backgroundColor: "#f9e1e5"}}>{err_msg}</p>
                         <MDBBtn className="mb-4 w-100" onClick={handleRegisterSubmit}>Sign up</MDBBtn>
 
                     </MDBTabsPane>
