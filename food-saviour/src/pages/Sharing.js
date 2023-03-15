@@ -109,8 +109,8 @@ function Sharing(props) {
                     <h1 className="fs-1 text-center mt-1 fw-bold">Sharing</h1>
                     <p className="text-center">Have items to share? Need items? You've found the right place!</p>
                 </div>
-                <div className="row justify-content-center justify-content-between m-auto">
-                    <div className="bg-lblue w-32 p-4 ch-25 rounded-4 overflow-auto">
+                <div className="row justify-content-center m-auto">
+                    <div className="bg-lblue w-32 p-4 ch-25 mx-1 rounded-4 overflow-auto">
                         <div>
                             <h1 className="fw-bold fs-4">Waste category</h1>
                             {WasteData.map((data) => {
@@ -123,7 +123,7 @@ function Sharing(props) {
                             })}
                         </div>
                     </div>
-                    <div className="bg-lblue w-32 ch-25 p-4 rounded-4">
+                    <div className="bg-lblue w-32 ch-25 p-4 mx-1 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Organization</h1>
                             {OrgData.map((data) => {
