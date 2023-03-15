@@ -1,11 +1,26 @@
 .blue {
-    background-color: #2596be;
+    /* background-color: #2596be; */
+    background-color: white;
 }
 
 .text-black {
     color: black;
 }
-
+.bg-lblue{
+    background-color: #e2ebf7;
+}
+.bg-dblue{
+    background-color: #4074cc;
+}
 .text-white {
     color: white;
+}
+.ch-25{
+    height: 15em;
+}
+.w-80{
+    width: 80%;
+}
+.w-32{
+    width: 32%;
 }
