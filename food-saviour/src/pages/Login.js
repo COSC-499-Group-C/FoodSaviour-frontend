@@ -70,12 +70,10 @@ export default function Login() {
             })
             .then(() => {
                 axiosInstance
-                    .get('users/')
+                    .get("users/")
                     .then((res) => {
-                        localStorage.setItem('currUserId', res.data[0].id);
+                        localStorage.setItem("currUserId", res.data[0].id);
                         navigate("/homelogin");
-
-
                     });
             });
     };
@@ -111,21 +109,42 @@ export default function Login() {
                 password: registerFormData.password,
             })
             .then(() => {
-                // const userId = localStorage.getItem('currUserId'); // Extract the user id
-                const data = {
-                    group: selectedOrg,
-                    user: 2, // Update the user field with the extracted user id
-                };
-                console.log(data);
-
                 axiosInstance
-                    .post("orgGroup/", data)
-                    .then((res) => {
-                        navigate(0);
-                    })
-                    .catch((err) => {
-                        console.error("Org Group Error: " + err);
-                    });
+                .post("api/token/", {
+                    email: registerFormData.email,
+                    password: registerFormData.password,
+                })
+                .then((res) => {
+                    localStorage.setItem("access_token", res.data.access);
+                    localStorage.setItem("refresh_token", res.data.refresh);
+                    axiosInstance.defaults.headers["Authorization"] =
+                        "JWT " + localStorage.getItem("access_token");
+                    //console.log(res);
+                    //console.log(res.data);
+                })
+                .then(() => {
+                    axiosInstance
+                        .get("users/")
+                        .then((res) => {
+                            localStorage.setItem("currUserId", res.data[0].id);
+                        })
+                        .then(() => {
+                            const data = {
+                                group: selectedOrg,
+                                user: localStorage.getItem("currUserId"),
+                            };
+                            console.log(data);
+
+                            axiosInstance
+                                .post("orgGroup/", data)
+                                .then(() => {
+                                    navigate("/homelogin");
+                                })
+                                .catch((err) => {
+                                    console.error("Org Group Error: " + err);
+                                });
+                        });
+                });
             })
             .catch((err) => {
                 console.log("Register Error: " + err);
