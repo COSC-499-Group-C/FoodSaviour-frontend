@@ -136,18 +136,18 @@ function Sharing(props) {
                         </div>
                     </div>
                     <div className="bg-lblue w-32 ch-25 p-4 rounded-4">
-                        <div>
-                            <h1 className="fw-bold fs-4">Roles</h1>
-                            <div>
-                                <input type="checkbox"/> Manager
-                            </div>
-                            <div>
-                                <input type="checkbox"/> Volunteers
-                            </div>
-                            <div>
-                                <input type="checkbox"/> Supervisor
-                            </div>
-                        </div>
+                        {/*<div>*/}
+                        {/*    <h1 className="fw-bold fs-4">Roles</h1>*/}
+                        {/*    <div>*/}
+                        {/*        <input type="checkbox"/> Manager*/}
+                        {/*    </div>*/}
+                        {/*    <div>*/}
+                        {/*        <input type="checkbox"/> Volunteers*/}
+                        {/*    </div>*/}
+                        {/*    <div>*/}
+                        {/*        <input type="checkbox"/> Supervisor*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
                 <div className="row justify-content-center mt-2 mb-2">
