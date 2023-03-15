@@ -135,20 +135,20 @@ function Sharing(props) {
                             })}
                         </div>
                     </div>
-                    <div className="bg-lblue w-32 ch-25 p-4 rounded-4">
-                        {/*<div>*/}
-                        {/*    <h1 className="fw-bold fs-4">Roles</h1>*/}
-                        {/*    <div>*/}
-                        {/*        <input type="checkbox"/> Manager*/}
-                        {/*    </div>*/}
-                        {/*    <div>*/}
-                        {/*        <input type="checkbox"/> Volunteers*/}
-                        {/*    </div>*/}
-                        {/*    <div>*/}
-                        {/*        <input type="checkbox"/> Supervisor*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-                    </div>
+                    {/*<div className="bg-lblue w-32 ch-25 p-4 rounded-4">*/}
+                    {/*    <div>*/}
+                    {/*        <h1 className="fw-bold fs-4">Roles</h1>*/}
+                    {/*        <div>*/}
+                    {/*            <input type="checkbox"/> Manager*/}
+                    {/*        </div>*/}
+                    {/*        <div>*/}
+                    {/*            <input type="checkbox"/> Volunteers*/}
+                    {/*        </div>*/}
+                    {/*        <div>*/}
+                    {/*            <input type="checkbox"/> Supervisor*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
                 <div className="row justify-content-center mt-2 mb-2">
                     <div className='w-25 justify-content-center d-flex btn text-white bg-dblue m-2' onClick={handleSubmit}>
