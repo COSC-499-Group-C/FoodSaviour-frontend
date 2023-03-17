@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "../axios";
 import PieChart from "../components/PieChart.js";
 import Navbar from "../components/Navbar.js";
@@ -19,7 +19,8 @@ import {
 }
     from "mdb-react-ui-kit";
 
-function Tracker() {
+function Tracker(props) {
+    const { WasteData } = props;
     const [charts, setCharts] = useState([]);
 
     useEffect(() => {
@@ -64,13 +65,13 @@ function Tracker() {
             const percent6 = (data[i].landfill / total * 100);
             const percent7 = (data[i].other / total * 100);
 
-            const pie_data = [{label: "Donations", value: percent1.toString(), amount: data[i].donations},
-            {label: "Compost", value: percent2.toString(), amount: data[i].compost},
-            {label: "Partners", value: percent3.toString(), amount: data[i].partners},
-            {label: "Farmers", value: percent4.toString(), amount: data[i].farmers},
-            {label: "Gardens", value: percent5.toString(), amount: data[i].gardens},
-            {label: "Landfill", value: percent6.toString(), amount: data[i].landfill},
-            {label: "Other", value: percent7.toString(), amount: data[i].other}];
+            const pie_data = [{ label: "Donations", value: percent1.toString(), amount: data[i].donations },
+            { label: "Compost", value: percent2.toString(), amount: data[i].compost },
+            { label: "Partners", value: percent3.toString(), amount: data[i].partners },
+            { label: "Farmers", value: percent4.toString(), amount: data[i].farmers },
+            { label: "Gardens", value: percent5.toString(), amount: data[i].gardens },
+            { label: "Landfill", value: percent6.toString(), amount: data[i].landfill },
+            { label: "Other", value: percent7.toString(), amount: data[i].other }];
 
             display.push(
                 <MDBCard className="mb-5">
@@ -88,7 +89,7 @@ function Tracker() {
             );
         }
 
-         setCharts(display);
+        setCharts(display);
     }
 
     const [type, setType] = useState("Waste Category");
@@ -152,15 +153,15 @@ function Tracker() {
     }
 
     const submitData = (e) => {
-        const new_data = [{label: "Donations", value: percent1.toString(), amount: amount1.toString()},
-            {label: "Compost", value: percent2.toString(), amount: amount2.toString()},
-            {label: "Partners", value: percent3.toString(), amount: amount3.toString()},
-            {label: "Farmers", value: percent4.toString(), amount: amount4.toString()},
-            {label: "Gardens", value: percent5.toString(), amount: amount5.toString()},
-            {label: "Landfill", value: percent6.toString(), amount: amount6.toString()},
-            {label: "Other", value: percent7.toString(), amount: amount7.toString()}];
+        const new_data = [{ label: "Donations", value: percent1.toString(), amount: amount1.toString() },
+        { label: "Compost", value: percent2.toString(), amount: amount2.toString() },
+        { label: "Partners", value: percent3.toString(), amount: amount3.toString() },
+        { label: "Farmers", value: percent4.toString(), amount: amount4.toString() },
+        { label: "Gardens", value: percent5.toString(), amount: amount5.toString() },
+        { label: "Landfill", value: percent6.toString(), amount: amount6.toString() },
+        { label: "Other", value: percent7.toString(), amount: amount7.toString() }];
 
-        if (+total === entered.reduce((sum,i) =>  sum = sum + +i, 0)) {
+        if (+total === entered.reduce((sum, i) => sum = sum + +i, 0)) {
 
             const date = new Date();
 
@@ -224,7 +225,7 @@ function Tracker() {
 
         e.preventDefault();
     }
-
+    if (!WasteData) return;
     return (
         <div>
             <Navbar></Navbar>
@@ -239,12 +240,11 @@ function Tracker() {
                                 <MDBDropdown group>
                                     <MDBDropdownToggle id="type" onClick={(event) => event.preventDefault()}>{type}</MDBDropdownToggle>
                                     <MDBDropdownMenu>
-                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 1)}>Produce</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 2)}>Meat</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 3)}>Dairy</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 4)}>Bread</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 5)}>Canned Food</MDBDropdownItem>
-                                        <MDBDropdownItem link onClick={(event) => wasteType(event, 6)}>Reclaimed Food</MDBDropdownItem>
+                                        {WasteData.map((list) => {
+                                            return (
+                                                <MDBDropdownItem link onClick={(event) => wasteType(event, list.id)}>{list.name}</MDBDropdownItem>
+                                            );
+                                        })}
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBCol>
@@ -284,7 +284,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent1, setAmount1, 0)}>
+                                    onChange={(event) => percentCalc(event, setPercent1, setAmount1, 0)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -306,7 +306,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent2, setAmount2, 1)}>
+                                    onChange={(event) => percentCalc(event, setPercent2, setAmount2, 1)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -328,7 +328,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent3, setAmount3, 2)}>
+                                    onChange={(event) => percentCalc(event, setPercent3, setAmount3, 2)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -350,7 +350,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent4, setAmount4, 3)}>
+                                    onChange={(event) => percentCalc(event, setPercent4, setAmount4, 3)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -372,7 +372,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent5, setAmount5, 4)}>
+                                    onChange={(event) => percentCalc(event, setPercent5, setAmount5, 4)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -394,7 +394,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent6, setAmount6, 5)}>
+                                    onChange={(event) => percentCalc(event, setPercent6, setAmount6, 5)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -416,7 +416,7 @@ function Tracker() {
                             </MDBCol>
                             <MDBCol md="4">
                                 <div className="input-group has-validation"
-                                     onChange={(event) => percentCalc(event, setPercent7, setAmount7, 6)}>
+                                    onChange={(event) => percentCalc(event, setPercent7, setAmount7, 6)}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -437,7 +437,7 @@ function Tracker() {
                                 <p className="m-0 p-1 fw-bold float-end">Entered Amount:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <p className="m-0 p-1 text-center border-top border-secondary">{entered.reduce((sum,i) =>  sum = sum + +i, 0).toFixed(2)} lbs</p>
+                                <p className="m-0 p-1 text-center border-top border-secondary">{entered.reduce((sum, i) => sum = sum + +i, 0).toFixed(2)} lbs</p>
                             </MDBCol>
                             <MDBCol md="4">
                                 <p className="m-0 p-1">{err_msg}</p>
