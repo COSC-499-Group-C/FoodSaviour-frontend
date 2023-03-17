@@ -3,11 +3,11 @@ import './css/App.css';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import HomeLogin from "./pages/HomeLogin";
-import Tracker from "./pages/Tracker";
 import SharingLoading from "./util/SharingLoading";
 import Logout from './components/Logout';
 import React from "react";
 import AuthProtected from './util/authProtected'
+import TrackerLoading from "./util/TrackerLoading";
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
                 <Route element={<AuthProtected/>}>
                     <Route path="/homelogin" element={<HomeLogin/>}/>
                     <Route path="/sharing" element={<SharingLoading/>}/>
-                    <Route path="/tracker" element={<Tracker/>}/>
+                    <Route path="/tracker" element={<TrackerLoading/>}/>
                     <Route exact path="/logout" element={<Logout/>}/>
                 </Route>
 
