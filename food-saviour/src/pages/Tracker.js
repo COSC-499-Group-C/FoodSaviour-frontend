@@ -24,36 +24,25 @@ function Tracker(props) {
     const [charts, setCharts] = useState([]);
 
     useEffect(() => {
-        getWasteType();
+        getData();
     }, []);
 
-    const getWasteType = () => {
-        axiosInstance
-            .get("wasteType/")
-            .then((response) => {
-                let types = response.data;
-
-                getData(types);
-            })
-            .catch(error => console.error(`Error: ${error}`));
-    }
-
-    const getData = (types) => {
+    const getData = () => {
         axiosInstance
             .get("trackerData/")
             .then((response) => {
                 let data = response.data;
 
-                displayData(types, data);
+                displayData(data);
             })
             .catch(error => console.error(`Error: ${error}`));
     }
 
-    const displayData = (types, data) => {
+    const displayData = (data) => {
         let display = [];
 
         for (let i = 0; i < data.length; i++) {
-            const type_name = types[data[i].waste_type - 1].name;
+            const type_name = WasteData[data[i].waste_type - 1].name;
 
             const total = +data[i].donations + +data[i].compost + +data[i].partners + +data[i].farmers + +data[i].gardens + +data[i].landfill + +data[i].other;
 
