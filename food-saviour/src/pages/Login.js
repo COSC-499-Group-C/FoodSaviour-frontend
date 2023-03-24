@@ -205,8 +205,6 @@ export default function Login() {
                         </div>
 
                         <MDBBtn className="mb-4 w-100" onClick={handleLoginSubmit}>Sign in</MDBBtn>
-                        <p className="text-center">Not a member? <a href="food-saviour/src/pages/Login#!">Register</a>
-                        </p>
 
                     </MDBTabsPane>
 
