@@ -100,7 +100,17 @@ export default function Login() {
 
     const handleRegisterSubmit = (e) => {
         e.preventDefault();
-        setShowConsentPopup(true); // Show the consent popup instead of submitting data directly
+        if (
+            registerFormData.name &&
+            registerFormData.username &&
+            registerFormData.email &&
+            registerFormData.password &&
+            selectedOrg
+        ) {
+            setShowConsentPopup(true);
+        } else {
+            alert("Please fill in all fields.");
+        }
     };
 
     const onConsent = () => {
@@ -181,66 +191,66 @@ export default function Login() {
     } else {
         return (
             <>
-            {showConsentPopup && <Consent onConsent={onConsent} onCancel={() => setShowConsentPopup(false)} />}
-            <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-                <div className="text-center text-black">
-                    <img src={"/images/logo.png"} height={"100px"} alt="Food Saviour"/>
-                    <h1>Food Saviour</h1>
-                </div>
-                <MDBTabs pills justify className="mb-3 d-flex flex-row justify-content-between">
-                    <MDBTabsItem>
-                        <MDBTabsLink onClick={() => handleJustifyClick("tab1")} active={justifyActive === "tab1"}>
-                            Login
-                        </MDBTabsLink>
-                    </MDBTabsItem>
-                    <MDBTabsItem>
-                        <MDBTabsLink onClick={() => handleJustifyClick("tab2")} active={justifyActive === "tab2"}>
-                            Register
-                        </MDBTabsLink>
-                    </MDBTabsItem>
-                </MDBTabs>
+                {showConsentPopup && <Consent onConsent={onConsent} onCancel={() => setShowConsentPopup(false)}/>}
+                <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
+                    <div className="text-center text-black">
+                        <img src={"/images/logo.png"} height={"100px"} alt="Food Saviour"/>
+                        <h1>Food Saviour</h1>
+                    </div>
+                    <MDBTabs pills justify className="mb-3 d-flex flex-row justify-content-between">
+                        <MDBTabsItem>
+                            <MDBTabsLink onClick={() => handleJustifyClick("tab1")} active={justifyActive === "tab1"}>
+                                Login
+                            </MDBTabsLink>
+                        </MDBTabsItem>
+                        <MDBTabsItem>
+                            <MDBTabsLink onClick={() => handleJustifyClick("tab2")} active={justifyActive === "tab2"}>
+                                Register
+                            </MDBTabsLink>
+                        </MDBTabsItem>
+                    </MDBTabs>
 
-                <MDBTabsContent>
+                    <MDBTabsContent>
 
-                    <MDBTabsPane show={justifyActive === "tab1"}>
+                        <MDBTabsPane show={justifyActive === "tab1"}>
 
-                        <MDBInput wrapperClass="mb-4" label="Email Address" id="email" name="email" type="text"
-                                  autoComplete="email" onChange={handleLoginChange} required/>
-                        <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password"
-                                  autoComplete="current-password" type="password" onChange={handleLoginChange}
-                                  required/>
+                            <MDBInput wrapperClass="mb-4" label="Email Address" id="email" name="email" type="text"
+                                      autoComplete="email" onChange={handleLoginChange} required/>
+                            <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password"
+                                      autoComplete="current-password" type="password" onChange={handleLoginChange}
+                                      required/>
 
-                        <div className="d-flex justify-content-between mx-4 mb-4">
-                            <MDBCheckbox name="flexCheck" value="" id="flexCheckDefault" label="Remember me"/>
-                            <a href="!#">Forgot password?</a>
-                        </div>
+                            <div className="d-flex justify-content-between mx-4 mb-4">
+                                <MDBCheckbox name="flexCheck" value="" id="flexCheckDefault" label="Remember me"/>
+                                <a href="!#">Forgot password?</a>
+                            </div>
 
-                        <MDBBtn className="mb-4 w-100" onClick={handleLoginSubmit}>Sign in</MDBBtn>
+                            <MDBBtn className="mb-4 w-100" onClick={handleLoginSubmit}>Sign in</MDBBtn>
 
-                    </MDBTabsPane>
+                        </MDBTabsPane>
 
-                    <MDBTabsPane show={justifyActive === "tab2"}>
+                        <MDBTabsPane show={justifyActive === "tab2"}>
 
-                        <MDBInput wrapperClass="mb-4" label="Name" id="name" name="name" type="text"
-                                  autoComplete="name" onChange={handleRegisterChange} required/>
-                        <MDBInput wrapperClass="mb-4" label="Username" id="username" name="username" type="text"
-                                  autoComplete="username" onChange={handleRegisterChange} required/>
-                        <MDBInput wrapperClass="mb-4" label="Email Address" id="email" name="email" type="text"
-                                  autoComplete="email" onChange={handleRegisterChange} required/>
-                        <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password" type="password"
-                                  autoComplete="current-password" onChange={handleRegisterChange} required/>
-                        <OrgDropdown onOrgSelected={setSelectedOrg}/>
+                            <MDBInput wrapperClass="mb-4" label="Name" id="name" name="name" type="text"
+                                      autoComplete="name" onChange={handleRegisterChange} required/>
+                            <MDBInput wrapperClass="mb-4" label="Username" id="username" name="username" type="text"
+                                      autoComplete="username" onChange={handleRegisterChange} required/>
+                            <MDBInput wrapperClass="mb-4" label="Email Address" id="email" name="email" type="text"
+                                      autoComplete="email" onChange={handleRegisterChange} required/>
+                            <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password" type="password"
+                                      autoComplete="current-password" onChange={handleRegisterChange} required/>
+                            <OrgDropdown onOrgSelected={setSelectedOrg}/>
 
-                        <p id="err_msg" className="p-2 text-danger rounded d-none"
-                           style={{backgroundColor: "#f9e1e5"}}>{err_msg}</p>
-                        <MDBBtn className="mb-4 w-100" onClick={handleRegisterSubmit}>Sign up</MDBBtn>
+                            <p id="err_msg" className="p-2 text-danger rounded d-none"
+                               style={{backgroundColor: "#f9e1e5"}}>{err_msg}</p>
+                            <MDBBtn className="mb-4 w-100" onClick={handleRegisterSubmit}>Sign up</MDBBtn>
 
-                    </MDBTabsPane>
+                        </MDBTabsPane>
 
-                </MDBTabsContent>
+                    </MDBTabsContent>
 
-            </MDBContainer>
-                </>
+                </MDBContainer>
+            </>
         );
     }
 }
