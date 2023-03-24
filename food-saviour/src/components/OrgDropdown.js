@@ -18,6 +18,14 @@ function OrgDropdown(props) {
     const [orgList, setOrgList] = useState([]);
     const [showAddOrgButton, setShowAddOrgButton] = useState(true);
 
+    const handleInputChange = (e) => {
+        if (e.target.value) {
+            setShowAddOrgButton(true);
+        } else {
+            setShowAddOrgButton(false);
+        }
+    }
+
     const orgName = (e, org_id) => {
         setName(e.target.innerHTML);
         setOrg_id(org_id);
@@ -71,15 +79,20 @@ function OrgDropdown(props) {
             <div className="mb-3">
                 <MDBRow className="align-items-center mb-3">
                     <MDBCol className="flex-grow-1">
-                        <MDBInput id="org-name-input" label="Organization Name"/>
+                        <MDBInput id="org-name-input" label="Organization Name" onChange={handleInputChange}/>
                     </MDBCol>
                     <MDBCol>
-                        <MDBBtn color="success" type="submit" className="float-end" onClick={addOrganization}>
-                            Add Organization
-                        </MDBBtn>
+                        {showAddOrgButton && (
+                            <MDBBtn color="success" type="submit" className="float-end" onClick={addOrganization}>
+                                Add Organization
+                            </MDBBtn>
+                        )}
                     </MDBCol>
                 </MDBRow>
-                <div onClick={() => setActiveElementType('dropdown')}>
+                <div onClick={() => {
+                    setActiveElementType('dropdown');
+                    setShowAddOrgButton(true);
+                }}>
                     <MDBBtn color="primary">Cancel</MDBBtn>
                 </div>
             </div>
@@ -107,8 +120,11 @@ function OrgDropdown(props) {
                 <div className="mb-3">
                     {dropDown()}
 
-                    {showAddOrgButton && ( // Conditionally render the button based on the showAddOrgButton state
-                        <MDBBtn onClick={() => setActiveElementType('input')} color="secondary" className="float-end">
+                    {showAddOrgButton && (
+                        <MDBBtn onClick={() => {
+                            setActiveElementType('input');
+                            setShowAddOrgButton(false);
+                        }} color="secondary" className="float-end">
                             Add Organization
                         </MDBBtn>
                     )}
