@@ -1,3 +1,15 @@
+/*For dark mode*/
+/*body {*/
+/*    background-color: #4C5C68;*/
+/*}*/
+
 .bg-pale-blue {
     background-color: #e3ebf7;
 }
+
+/*For tracker form dark mode*/
+.bs-pale-blue {
+    box-shadow: 0 4px 9px -4px #e3ebf7;
+}
+
+/*test-white on page title for dark mode*/
