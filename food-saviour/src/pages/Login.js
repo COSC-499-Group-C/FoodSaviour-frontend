@@ -9,16 +9,16 @@ import {
     MDBTabsContent,
     MDBTabsPane,
     MDBBtn,
-    MDBIcon,
     MDBInput,
     MDBCheckbox
 }
     from 'mdb-react-ui-kit';
 import OrgDropdown from "../components/OrgDropdown";
+import Consent from "../components/Consent";
 
 export default function Login() {
     const [selectedOrg, setSelectedOrg] = useState(null);
-
+    const [showConsentPopup, setShowConsentPopup] = useState(false);
     const [justifyActive, setJustifyActive] = useState("tab1");
     const [err_msg, setErr_msg] = useState("");
 
@@ -100,6 +100,15 @@ export default function Login() {
 
     const handleRegisterSubmit = (e) => {
         e.preventDefault();
+        setShowConsentPopup(true); // Show the consent popup instead of submitting data directly
+    };
+
+    const onConsent = () => {
+        setShowConsentPopup(false); // Hide the consent popup
+        submitRegisterData(); // Submit the registration data after user agrees to the consent terms
+    };
+
+    const submitRegisterData = (e) => {
         console.log(registerFormData);
 
         axiosInstance
@@ -111,41 +120,41 @@ export default function Login() {
             })
             .then(() => {
                 axiosInstance
-                .post("api/token/", {
-                    email: registerFormData.email,
-                    password: registerFormData.password,
-                })
-                .then((res) => {
-                    localStorage.setItem("access_token", res.data.access);
-                    localStorage.setItem("refresh_token", res.data.refresh);
-                    axiosInstance.defaults.headers["Authorization"] =
-                        "JWT " + localStorage.getItem("access_token");
-                    //console.log(res);
-                    //console.log(res.data);
-                })
-                .then(() => {
-                    axiosInstance
-                        .get("users/")
-                        .then((res) => {
-                            localStorage.setItem("currUserId", res.data[0].id);
-                        })
-                        .then(() => {
-                            const data = {
-                                group: selectedOrg,
-                                user: localStorage.getItem("currUserId"),
-                            };
-                            console.log(data);
+                    .post("api/token/", {
+                        email: registerFormData.email,
+                        password: registerFormData.password,
+                    })
+                    .then((res) => {
+                        localStorage.setItem("access_token", res.data.access);
+                        localStorage.setItem("refresh_token", res.data.refresh);
+                        axiosInstance.defaults.headers["Authorization"] =
+                            "JWT " + localStorage.getItem("access_token");
+                        //console.log(res);
+                        //console.log(res.data);
+                    })
+                    .then(() => {
+                        axiosInstance
+                            .get("users/")
+                            .then((res) => {
+                                localStorage.setItem("currUserId", res.data[0].id);
+                            })
+                            .then(() => {
+                                const data = {
+                                    group: selectedOrg,
+                                    user: localStorage.getItem("currUserId"),
+                                };
+                                console.log(data);
 
-                            axiosInstance
-                                .post("orgGroup/", data)
-                                .then(() => {
-                                    navigate("/homelogin");
-                                })
-                                .catch((err) => {
-                                    console.error("Org Group Error: " + err);
-                                });
-                        });
-                });
+                                axiosInstance
+                                    .post("orgGroup/", data)
+                                    .then(() => {
+                                        navigate("/homelogin");
+                                    })
+                                    .catch((err) => {
+                                        console.error("Org Group Error: " + err);
+                                    });
+                            });
+                    });
             })
             .catch(error => {
                 document.getElementById("err_msg").classList.remove("d-none");
@@ -171,6 +180,8 @@ export default function Login() {
         return <Navigate to="/homelogin"/>;
     } else {
         return (
+            <>
+            {showConsentPopup && <Consent onConsent={onConsent} onCancel={() => setShowConsentPopup(false)} />}
             <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
                 <div className="text-center text-black">
                     <img src={"/images/logo.png"} height={"100px"} alt="Food Saviour"/>
@@ -220,12 +231,8 @@ export default function Login() {
                                   autoComplete="current-password" onChange={handleRegisterChange} required/>
                         <OrgDropdown onOrgSelected={setSelectedOrg}/>
 
-                        <div className="d-flex justify-content-center mb-4">
-                            <MDBCheckbox name="flexCheck" id="flexCheckDefault"
-                                         label="I have read and agree to the terms"/>
-                        </div>
-
-                        <p id="err_msg" className="p-2 text-danger rounded d-none" style={{backgroundColor: "#f9e1e5"}}>{err_msg}</p>
+                        <p id="err_msg" className="p-2 text-danger rounded d-none"
+                           style={{backgroundColor: "#f9e1e5"}}>{err_msg}</p>
                         <MDBBtn className="mb-4 w-100" onClick={handleRegisterSubmit}>Sign up</MDBBtn>
 
                     </MDBTabsPane>
@@ -233,6 +240,7 @@ export default function Login() {
                 </MDBTabsContent>
 
             </MDBContainer>
+                </>
         );
     }
 }
