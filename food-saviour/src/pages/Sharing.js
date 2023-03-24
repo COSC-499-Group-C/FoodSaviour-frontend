@@ -55,10 +55,6 @@ function Sharing(props) {
         }
     };
 
-    const checkHandler = (e) => {
-        setIsChecked(!isChecked);
-    }    
-
     const processData = (raw) => {
         if (raw.length > 0) {
             let amount1 = 0, amount2 = 0, amount3 = 0, amount4 = 0, amount5 = 0, amount6 = 0, amount7 = 0;
@@ -116,17 +112,15 @@ function Sharing(props) {
                 <div className="row justify-content-center m-auto">
                     <div className="bg-lblue w-32 p-4 ch-25 mx-1 rounded-4 overflow-auto">
                         <div>
-                            <h1 className="fw-bold fs-4">Organizations</h1>
-                            
-                            <div>
-                                <input type="checkbox" /> UBC
-                            </div>
-                            <div>
-                                <input type="checkbox" /> Farmer's market
-                            </div>
-                            <div>
-                                <input type="checkbox" /> Food bank
-                            </div>
+                            <h1 className="fw-bold fs-4">Waste category</h1>
+                            {WasteData.map((data) => {
+                                return (
+                                    <div key={data.id}>
+                                        <input type="checkbox" onChange={handleChange} name="waste"
+                                               value={data.id}/> {data.name}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                     <div className="bg-lblue w-32 ch-25 p-4 mx-1 rounded-4">
@@ -141,25 +135,19 @@ function Sharing(props) {
                             })}
                         </div>
                     </div>
-                    
                 </div>
                 <div className="row justify-content-center mt-2 mb-2">
                     <div className='w-25 justify-content-center d-flex btn text-white bg-dblue m-2' onClick={handleSubmit}>
                         Generate data
                     </div>
-                    
                 </div>
                 <div className="d-flex flex-wrap justify-content-center">
-                <div className="result">
-                    Above checkbox is {isChecked ? "checked" : "unchecked"}.
-                </div>    
                     <div className="bg-lblue w-100 p-4 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Generated graphs</h1>
                             <Loading isLoading={appState.loading} data={appState.data} />
                         </div>
                     </div>
-
                     <footer className="footer">
                         <p className="text-footer">
                         </p>
