@@ -162,6 +162,7 @@ function Sharing() {
 
     return (
         <div className="blue overflow-hidden mw-100 min-vh-100 col">
+            <Navbar></Navbar>
             <div className="w-80 m-auto">
                 <div className="text-center">
                     <img src="/images/logo.png" height="80px" />
