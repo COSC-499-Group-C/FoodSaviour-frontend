@@ -6,16 +6,10 @@ import axiosInstance from "../axios";
 import "../css/sharing.css";
 import {
     MDBContainer,
-    MDBDropdown,
-    MDBDropdownMenu,
-    MDBDropdownToggle,
-    MDBDropdownItem,
+    MDBCheckbox,
     MDBRow,
     MDBCol,
-    MDBInput,
     MDBBtn,
-    MDBCard,
-    MDBCardBody
 }
     from "mdb-react-ui-kit";
 import LoadingComponent from "../util/Loading";
@@ -23,14 +17,15 @@ import Generate from "../util/Generate";
 
 let wasteId = [];
 let orgId = [];
+
 function Sharing(props) {
 
     const {WasteData, OrgData} = props;
 
     const [appState, setAppState] = useState({
-		loading: false,
-		data: [],
-	});
+        loading: false,
+        data: [],
+    });
 
     const Loading = LoadingComponent(Generate);
 
@@ -73,7 +68,8 @@ function Sharing(props) {
             }
 
             const new_data = [{
-                label: "Donations", value: (100 * amount1 / total).toString(), amount: amount1.toString()},
+                label: "Donations", value: (100 * amount1 / total).toString(), amount: amount1.toString()
+            },
                 {label: "Compost", value: (100 * amount2 / total).toString(), amount: amount2.toString()},
                 {label: "Partners", value: (100 * amount3 / total).toString(), amount: amount3.toString()},
                 {label: "Farmers", value: (100 * amount4 / total).toString(), amount: amount4.toString()},
@@ -81,7 +77,7 @@ function Sharing(props) {
                 {label: "Landfill", value: (100 * amount6 / total).toString(), amount: amount6.toString()},
                 {label: "Other", value: (100 * amount7 / total).toString(), amount: amount7.toString()}];
 
-            setAppState({ loading: false, data: new_data});
+            setAppState({loading: false, data: new_data});
         }
     }
 
@@ -90,9 +86,13 @@ function Sharing(props) {
         let url = `filteredTrackerData/?`;
         console.log(wasteId);
         console.log(orgId);
-        wasteId.forEach((item) => {url += 'waste_type=' + item + '&'});
-        orgId.forEach((item) => {url += 'group=' + item + '&'});
-        axiosInstance.get(url).then((res) =>{
+        wasteId.forEach((item) => {
+            url += 'waste_type=' + item + '&'
+        });
+        orgId.forEach((item) => {
+            url += 'group=' + item + '&'
+        });
+        axiosInstance.get(url).then((res) => {
             processData(res.data);
         });
 
@@ -101,61 +101,76 @@ function Sharing(props) {
     if (!WasteData || !OrgData) return;
 
     return (
-        <div className="blue overflow-hidden mw-100 min-vh-100 col">
-            <Navbar></Navbar>
-            <div className="w-80 m-auto">
-                <div className="text-center">
+        <MDBContainer fluid className="blue min-vh-100">
+            <Navbar/>
+            <MDBContainer className="w-80 m-auto">
+                <MDBContainer className="text-center">
                     <img src="/images/logo.png" height="80px"/>
                     <h1 className="fs-1 text-center mt-1 fw-bold">Sharing</h1>
-                    <p className="text-center">Have items to share? Need items? You've found the right place!</p>
-                </div>
-                <div className="row justify-content-center m-auto">
-                    <div className="bg-lblue w-32 p-4 ch-25 mx-1 rounded-4 overflow-auto">
+                    <p className="text-center">
+                        Have items to share? Need items? You've found the right place!
+                    </p>
+                </MDBContainer>
+                <MDBRow className="justify-content-center m-auto">
+                    <MDBCol
+                        className="bg-lblue w-32 p-4 ch-25 mx-1 rounded-4 overflow-auto"
+                        md="4"
+                    >
                         <div>
                             <h1 className="fw-bold fs-4">Waste category</h1>
                             {WasteData.map((data) => {
                                 return (
-                                    <div key={data.id}>
-                                        <input type="checkbox" onChange={handleChange} name="waste"
-                                               value={data.id}/> {data.name}
+                                    <div key={data.id} className="mb-0">
+                                        <MDBCheckbox
+                                            name="waste"
+                                            value={data.id}
+                                            label={data.name}
+                                            onChange={handleChange}
+                                            inline
+                                        />
                                     </div>
                                 );
                             })}
                         </div>
-                    </div>
-                    <div className="bg-lblue w-32 ch-25 p-4 mx-1 rounded-4">
+                    </MDBCol>
+                    <MDBCol className="bg-lblue w-32 ch-25 p-4 mx-1 rounded-4" md="4">
                         <div>
                             <h1 className="fw-bold fs-4">Organization</h1>
                             {OrgData.map((data) => {
                                 return (
-                                    <div key={data.id}>
-                                        <input type="checkbox" onChange={handleChange} name="org" value={data.id} /> {data.name}
+                                    <div key={data.id} className="mb-0">
+                                        <MDBCheckbox
+                                            name="org"
+                                            value={data.id}
+                                            label={data.name}
+                                            onChange={handleChange}
+                                            inline
+                                        />
                                     </div>
                                 );
                             })}
                         </div>
-                    </div>
-                </div>
-                <div className="row justify-content-center mt-2 mb-2">
-                    <div className='w-25 justify-content-center d-flex btn text-white bg-dblue m-2' onClick={handleSubmit}>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow className="justify-content-center mt-2 mb-2">
+                    <MDBBtn className="w-25 m-2" color="primary" onClick={handleSubmit}>
                         Generate data
-                    </div>
-                </div>
-                <div className="d-flex flex-wrap justify-content-center">
-                    <div className="bg-lblue w-100 p-4 rounded-4">
+                    </MDBBtn>
+                </MDBRow>
+                <MDBRow className="justify-content-center">
+                    <MDBCol className="bg-lblue w-100 p-4 rounded-4">
                         <div>
                             <h1 className="fw-bold fs-4">Generated graphs</h1>
-                            <Loading isLoading={appState.loading} data={appState.data} />
+                            <Loading isLoading={appState.loading} data={appState.data}/>
                         </div>
-                    </div>
-                    <footer className="footer">
-                        <p className="text-footer">
-                        </p>
-                    </footer>
-                </div>
-            </div>
-        </div>
-    )
+                    </MDBCol>
+                </MDBRow>
+                <MDBContainer className="footer">
+                    <p className="text-footer"></p>
+                </MDBContainer>
+            </MDBContainer>
+        </MDBContainer>
+    );
 }
 
 export default Sharing;
