@@ -20,7 +20,7 @@ function Home() {
             info.style.top = top;
 
             if (state === "on") {
-                info.className = "bg-light position-fixed rounded text-black p-2 m-3 fs-6";
+                info.className = "bg-light position-fixed rounded text-black p-3 m-3 fs-6";
             } else if (state === "off") {
                 info.className = "d-none position-fixed";
             }
