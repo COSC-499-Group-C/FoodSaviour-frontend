@@ -1,9 +1,9 @@
 import React from "react";
 
-function Documentation() {
+function Documentation({className}) {
   return (
     <div className="btm-right m-3">
-        <a className="text-decoration-none text-white fs-5" href="#top">Documentation</a>
+        <a className={className} href="/documentation.pdf">Documentation</a>
     </div>
   );
 }

@@ -12,10 +12,6 @@ code {
     monospace;
 }
 
-.img-md {
-    width: 96px;
-}
-
 .home {
     background-image: radial-gradient(#1c448e,#731dd8);
     background-size: 100% 100%;

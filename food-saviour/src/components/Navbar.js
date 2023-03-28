@@ -18,7 +18,10 @@ function Navbar() {
   return (
     <MDBNavbar expand="lg" light bgColor="light">
       <MDBContainer fluid>
-        <MDBNavbarBrand href="#">Food Saviour</MDBNavbarBrand>
+        <MDBNavbarBrand href="#">
+          <img src={"/images/foodsaviour_logo_bg.svg"} className="mx-2" height="48px" alt="logo"/>
+          <p className="my-0 mx-2 fw-bold">Food Saviour</p>
+        </MDBNavbarBrand>
 
         <MDBNavbarToggler
           aria-controls="navbarSupportedContent"
