@@ -170,7 +170,7 @@ function Sharing(props) {
                                 return (
                                     <div key={data.id} className="mb-0">
                                         <MDBCheckbox
-                                            name="org"
+                                            name="role"
                                             value={data.id}
                                             label={data.name}
                                             onChange={handleChange}
