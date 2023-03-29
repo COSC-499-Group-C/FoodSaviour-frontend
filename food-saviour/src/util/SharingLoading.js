@@ -15,6 +15,11 @@ const SharingLoading = () => {
         OrgData: null
     });
 
+    const [role, setRole] = useState({
+        loading: false,
+        RoleData: null
+    });
+
     useEffect(() => {
         axiosInstance.get('wasteType/').then((res) => {
             const data = res.data;
@@ -29,9 +34,17 @@ const SharingLoading = () => {
         });
     }, [setOrg]);
 
+    useEffect(() => {
+        axiosInstance.get('role/').then((res) => {
+            const data = res.data;
+            setRole({loading: false, RoleData: data});
+        });
+    }, [setRole]);
+
     return(
         <div>
-            <Loading isLoading={waste.loading && org.loading} WasteData={waste.WasteData} OrgData={org.OrgData}/>
+            <Loading isLoading={waste.loading && org.loading && role.loading}
+                     WasteData={waste.WasteData} OrgData={org.OrgData} RoleData={role.RoleData}/>
         </div>
     );
 }
