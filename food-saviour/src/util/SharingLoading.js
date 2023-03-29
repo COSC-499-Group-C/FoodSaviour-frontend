@@ -35,7 +35,7 @@ const SharingLoading = () => {
     }, [setOrg]);
 
     useEffect(() => {
-        axiosInstance.get('role/').then((res) => {
+        axiosInstance.get('roleName/').then((res) => {
             const data = res.data;
             setRole({loading: false, RoleData: data});
         });
