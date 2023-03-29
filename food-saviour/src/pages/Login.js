@@ -14,10 +14,12 @@ import {
 }
     from 'mdb-react-ui-kit';
 import OrgDropdown from "../components/OrgDropdown";
+import RoleDropdown from "../components/RoleDropdown";
 import Consent from "../components/Consent";
 
 export default function Login() {
     const [selectedOrg, setSelectedOrg] = useState(null);
+    const [selectedRole, setSelectedRole] = useState(null);
     const [showConsentPopup, setShowConsentPopup] = useState(false);
     const [justifyActive, setJustifyActive] = useState("tab1");
     const [err_msg, setErr_msg] = useState("");
@@ -105,12 +107,14 @@ export default function Login() {
             registerFormData.username &&
             registerFormData.email &&
             registerFormData.password &&
-            selectedOrg
+            selectedOrg &&
+            selectedRole
         ) {
             setShowConsentPopup(true);
         } else {
             alert("Please fill in all fields.");
         }
+
     };
 
     const onConsent = () => {
@@ -157,11 +161,24 @@ export default function Login() {
 
                                 axiosInstance
                                     .post("orgGroup/", data)
+                                    .catch((err) => {
+                                        console.error("Org Group Error: " + err);
+                                    });
+                            })
+                            .then(() => {
+                                const data = {
+                                    group: selectedRole,
+                                    user: localStorage.getItem("currUserId"),
+                                };
+                                console.log(data);
+
+                                axiosInstance
+                                    .post("roleGroup/", data)
                                     .then(() => {
                                         navigate("/homelogin");
                                     })
                                     .catch((err) => {
-                                        console.error("Org Group Error: " + err);
+                                        console.error("Role Group Error: " + err);
                                     });
                             });
                     });
@@ -240,6 +257,7 @@ export default function Login() {
                             <MDBInput wrapperClass="mb-4" label="Password" id="password" name="password" type="password"
                                       autoComplete="current-password" onChange={handleRegisterChange} required/>
                             <OrgDropdown onOrgSelected={setSelectedOrg}/>
+                            <RoleDropdown onRoleSelected={setSelectedRole}/>
 
                             <p id="err_msg" className="p-2 text-danger rounded d-none"
                                style={{backgroundColor: "#f9e1e5"}}>{err_msg}</p>
