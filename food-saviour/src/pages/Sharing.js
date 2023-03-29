@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "../css/sharing.css";
 import Navbar from "../components/Navbar.js";
-import PieChart from "../components/PieChart";
 import axiosInstance from "../axios";
 import "../css/sharing.css";
 import {
@@ -17,10 +16,11 @@ import Generate from "../util/Generate";
 
 let wasteId = [];
 let orgId = [];
+let roleId =[];
 
 function Sharing(props) {
 
-    const {WasteData, OrgData} = props;
+    const {WasteData, OrgData, RoleData} = props;
 
     const [appState, setAppState] = useState({
         loading: false,
@@ -44,6 +44,15 @@ function Sharing(props) {
                 orgId.push(e.target.value);
             } else {
                 orgId = orgId.filter(function (value) {
+                    return value != e.target.value;
+                });
+            }
+        }
+        if (e.target.name === 'role') {
+            if (!roleId.includes(e.target.value)) {
+                roleId.push(e.target.value);
+            } else {
+                roleId = roleId.filter(function (value) {
                     return value != e.target.value;
                 });
             }
@@ -86,11 +95,15 @@ function Sharing(props) {
         let url = `filteredTrackerData/?`;
         console.log(wasteId);
         console.log(orgId);
+        console.log(roleId);
         wasteId.forEach((item) => {
             url += 'waste_type=' + item + '&'
         });
         orgId.forEach((item) => {
             url += 'group=' + item + '&'
+        });
+        roleId.forEach((item) => {
+            url += 'role=' + item + '&'
         });
         axiosInstance.get(url).then((res) => {
             processData(res.data);
@@ -98,7 +111,7 @@ function Sharing(props) {
 
     };
 
-    if (!WasteData || !OrgData) return;
+    if (!WasteData || !OrgData || !RoleData) return;
 
     return (
         <MDBContainer fluid className="blue min-vh-100">
@@ -113,11 +126,10 @@ function Sharing(props) {
                 </MDBContainer>
                 <MDBRow className="justify-content-center m-auto">
                     <MDBCol
-                        className="bg-lblue w-32 p-4 ch-25 mx-1 rounded-4 overflow-auto"
-                        md="4"
+                        className="bg-lblue p-4 ch-25 mx-1 rounded-4 overflow-auto" md="3"
                     >
                         <div>
-                            <h1 className="fw-bold fs-4">Waste category</h1>
+                            <h1 className="fw-bold fs-4">Waste Category</h1>
                             {WasteData.map((data) => {
                                 return (
                                     <div key={data.id} className="mb-0">
@@ -133,10 +145,28 @@ function Sharing(props) {
                             })}
                         </div>
                     </MDBCol>
-                    <MDBCol className="bg-lblue w-32 ch-25 p-4 mx-1 rounded-4" md="4">
+                    <MDBCol className="bg-lblue ch-25 p-4 mx-1 rounded-4 overflow-auto" md="3">
                         <div>
                             <h1 className="fw-bold fs-4">Organization</h1>
                             {OrgData.map((data) => {
+                                return (
+                                    <div key={data.id} className="mb-0">
+                                        <MDBCheckbox
+                                            name="org"
+                                            value={data.id}
+                                            label={data.name}
+                                            onChange={handleChange}
+                                            inline
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </MDBCol>
+                    <MDBCol className="bg-lblue ch-25 p-4 mx-1 rounded-4 overflow-auto" md="3">
+                        <div>
+                            <h1 className="fw-bold fs-4">Roles</h1>
+                            {RoleData.map((data) => {
                                 return (
                                     <div key={data.id} className="mb-0">
                                         <MDBCheckbox
@@ -160,7 +190,7 @@ function Sharing(props) {
                 <MDBRow className="justify-content-center">
                     <MDBCol className="bg-lblue w-100 p-4 rounded-4">
                         <div>
-                            <h1 className="fw-bold fs-4">Generated graphs</h1>
+                            <h1 className="fw-bold fs-4">Generated Graphs</h1>
                             <Loading isLoading={appState.loading} data={appState.data}/>
                         </div>
                     </MDBCol>
