@@ -6,7 +6,6 @@ const Generate = (props) => {
     const { data } = props;
 
     const date = new Date();
-
     if (!data || data.length === 0) return;
     return(
         <div>

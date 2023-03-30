@@ -87,15 +87,14 @@ function Sharing(props) {
                 {label: "Other", value: (100 * amount7 / total).toString(), amount: amount7.toString()}];
 
             setAppState({loading: false, data: new_data});
+        }else {
+            setAppState({loading: false, data: []});
         }
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         let url = `filteredTrackerData/?`;
-        console.log(wasteId);
-        console.log(orgId);
-        console.log(roleId);
         wasteId.forEach((item) => {
             url += 'waste_type=' + item + '&'
         });
