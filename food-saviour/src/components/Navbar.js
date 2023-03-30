@@ -16,7 +16,7 @@ function Navbar() {
   const [showBasic, setShowBasic] = useState(false);
 
   return (
-    <MDBNavbar expand="lg" light bgColor="light">
+    <MDBNavbar expand="lg" fixed="top" light bgColor="light">
       <MDBContainer fluid>
         <MDBNavbarBrand href="#">
           <img src={"/images/foodsaviour_logo_bg.svg"} className="mx-2" height="48px" alt="logo"/>

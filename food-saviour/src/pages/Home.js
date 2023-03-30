@@ -1,5 +1,5 @@
-import '../css/App.css';
 import React from "react";
+import '../css/home.css';
 import Documentation from "../components/Documentation.js";
 import { Navigate } from "react-router-dom";
 import { FaQuestionCircle } from "react-icons/fa";
@@ -16,8 +16,8 @@ function Home() {
         return <Navigate to="/homelogin"/>;
     } else {
         return (
-            <div className="home">
-            <MDBContainer className="App-header fadein">
+            <div className="home-bg">
+            <MDBContainer className="home fadein">
                 <MDBRow className="align-items-center">
                     <MDBCol md="12" className="text-center my-5">
                         <img src={"/images/foodsaviour_logo.svg"} className="d-inline" width="96px" alt="logo"/>
