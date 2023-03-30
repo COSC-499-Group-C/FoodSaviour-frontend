@@ -3,7 +3,7 @@ import * as d3 from "d3";
 
 const PieChart = props => {
     const ref = useRef(null);
-    const width = 700;
+    const width = 750;
     const height = 400;
     const margin = 60;
     const radius = Math.min(width, height) / 2 - margin;
@@ -26,34 +26,6 @@ const PieChart = props => {
         .outerRadius(radius * 0.9);
 
     const colors = d3.scaleOrdinal(d3.schemeDark2);
-
-    const createLegend = (group) => {
-        const legendData = props.data.map((d, i) => ({
-            color: colors(i),
-            label: d.label,
-            amount: d.value,
-        }));
-
-        const legend = group
-            .selectAll(".legend")
-            .data(legendData)
-            .enter()
-            .append("g")
-            .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(${radius * 1.8}, ${i * 25 - margin * 2})`);
-
-        legend
-            .append("rect")
-            .attr("width", 12)
-            .attr("height", 12)
-            .attr("fill", (d) => d.color);
-
-        legend
-            .append("text")
-            .attr("x", 20)
-            .attr("y", 11)
-            .text((d) => `${d.label} = ${format(d.amount)} lbs`);
-    };
 
 
     useEffect(() => {
@@ -103,7 +75,7 @@ const PieChart = props => {
                 if (d.data.value === 0) {
                     return "";
                 } else {
-                    return `${d.data.label} (${format((d.data.value / total) * 100)}%)`;
+                    return `${d.data.label} = ${format(d.data.amount)} lbs (${format((d.data.value / total) * 100)}%)`;
                 }
             })
             .attr("transform", (d) => {
@@ -116,10 +88,8 @@ const PieChart = props => {
                 const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
                 return midangle < Math.PI ? "start" : "end";
             })
-            .style("font-size", "14px");
+            .style("font-size", "16px");
 
-        // Create legend
-        createLegend(group);
 
 
     }, [props.data]);
@@ -130,7 +100,7 @@ const PieChart = props => {
             <svg width={width} height={height}>
                 <g
                     ref={ref}
-                    transform={`translate(${width / 2 - margin * 2}, ${height / 2})`}
+                    transform={`translate(${width / 2}, ${height / 2})`}
                 />
             </svg>
         </div>
