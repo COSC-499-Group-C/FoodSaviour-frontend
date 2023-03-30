@@ -66,11 +66,9 @@ function Tracker(props) {
             display.push(
                 <MDBCard className="mb-5">
                     <MDBCardBody>
-                        <p className="mb-4 fw-bold border-bottom">{type_name}</p>
+                        <p className="mb-4 fs-5 fw-bold border-bottom">{type_name}</p>
                         <PieChart
                             data={pie_data}
-                            innerRadius={50}
-                            outerRadius={100}
                         />
                         <p className="mt-4 mb-3">{data[i].description}</p>
                         <p className="m-0 small float-end">{new Date(data[i].created_at).toString()}</p>
@@ -177,11 +175,9 @@ function Tracker(props) {
             setCharts([
                 <MDBCard className="mb-5">
                     <MDBCardBody>
-                        <p className="mb-4 fw-bold border-bottom">{type}</p>
+                        <p className="mb-4 fs-5 fw-bold border-bottom">{type}</p>
                         <PieChart
                             data={new_data}
-                            innerRadius={50}
-                            outerRadius={100}
                         />
                         <p className="mt-4 mb-3">{desc}</p>
                         <p className="m-0 small float-end">{date.toString()}</p>
@@ -223,7 +219,7 @@ function Tracker(props) {
                 <div className="mb-3 align-content-between">
                     <h2 className="d-inline">Tracker Page</h2>
                 </div>
-                <MDBCard className="mb-5 bg-pale-blue">
+                <MDBCard className="mb-5 bg-form bs-form">
                     <MDBCardBody>
                         <MDBRow tag="form" className="g-3" between>
                             <MDBCol md="5">
