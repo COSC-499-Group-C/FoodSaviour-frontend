@@ -7,6 +7,8 @@ const PieChart = props => {
     const height = 400;
     const margin = 60;
     const radius = Math.min(width, height) / 2 - margin;
+    const format = d3.format(".2f");
+    const total = d3.sum(props.data, (d) => d.value);
 
     const createPie = d3
         .pie()
@@ -29,6 +31,7 @@ const PieChart = props => {
         const legendData = props.data.map((d, i) => ({
             color: colors(i),
             label: d.label,
+            amount: d.value,
         }));
 
         const legend = group
@@ -37,7 +40,7 @@ const PieChart = props => {
             .enter()
             .append("g")
             .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(${radius * 1.8}, ${i * 25 - height / 3})`);
+            .attr("transform", (d, i) => `translate(${radius * 1.8}, ${i * 25 - margin * 2})`);
 
         legend
             .append("rect")
@@ -49,8 +52,9 @@ const PieChart = props => {
             .append("text")
             .attr("x", 20)
             .attr("y", 11)
-            .text((d) => d.label);
+            .text((d) => `${d.label} = ${format(d.amount)} lbs`);
     };
+
 
     useEffect(() => {
         const data = createPie(props.data);
@@ -95,19 +99,28 @@ const PieChart = props => {
         groupWithUpdate
             .append("text")
             .merge(groupWithData.select("text.label"))
-            .text(d => d.data.label)
-            .attr("transform", d => {
+            .text((d) => {
+                if (d.data.value === 0) {
+                    return "";
+                } else {
+                    return `${d.data.label} (${format((d.data.value / total) * 100)}%)`;
+                }
+            })
+            .attr("transform", (d) => {
                 const pos = createOuterArc.centroid(d);
                 const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
                 pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
                 return `translate(${pos})`;
             })
-            .style("text-anchor", d => {
+            .style("text-anchor", (d) => {
                 const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                return (midangle < Math.PI ? "start" : "end");
-            });
+                return midangle < Math.PI ? "start" : "end";
+            })
+            .style("font-size", "14px");
+
         // Create legend
         createLegend(group);
+
 
     }, [props.data]);
 
