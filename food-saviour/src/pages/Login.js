@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useNavigate, Navigate} from "react-router-dom";
+import Documentation from "../components/Documentation.js";
 import axiosInstance from '../axios';
 import {
     MDBContainer,
@@ -211,8 +212,8 @@ export default function Login() {
                 {showConsentPopup && <Consent onConsent={onConsent} onCancel={() => setShowConsentPopup(false)}/>}
                 <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
                     <div className="text-center text-black">
-                        <img src={"/images/logo.png"} height={"100px"} alt="Food Saviour"/>
-                        <h1>Food Saviour</h1>
+                        <img src={"/images/foodsaviour_logo_bg.svg"} height="96px" alt="logo"/>
+                        <h1 className="mt-2">Food Saviour</h1>
                     </div>
                     <MDBTabs pills justify className="mb-3 d-flex flex-row justify-content-between">
                         <MDBTabsItem>
@@ -266,7 +267,7 @@ export default function Login() {
                         </MDBTabsPane>
 
                     </MDBTabsContent>
-
+                    <Documentation className="text-decoration-none fs-5"></Documentation>
                 </MDBContainer>
             </>
         );

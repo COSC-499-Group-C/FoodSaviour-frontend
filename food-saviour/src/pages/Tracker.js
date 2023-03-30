@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../axios";
 import PieChart from "../components/PieChart.js";
 import Navbar from "../components/Navbar.js";
+import Documentation from "../components/Documentation.js";
 import "../css/tracker.css";
 import Sidebar from "../components/Sidebar.js";
 import {
@@ -445,6 +446,7 @@ function Tracker(props) {
                     </MDBCardBody>
                 </MDBCard>
                 {charts}
+                <Documentation className="text-decoration-none fs-5"></Documentation>
             </MDBContainer>
         </div>
     );

@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import Documentation from "../components/Documentation.js";
 import {
     MDBContainer,
     MDBCard,
@@ -43,6 +44,7 @@ function HomeLogin() {
                         </MDBCard>
                     </MDBCol>
                 </MDBRow>
+                <Documentation className="text-decoration-none fs-5"></Documentation>
             </MDBContainer>
         </div>
     );
