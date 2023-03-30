@@ -3,7 +3,7 @@ import * as d3 from "d3";
 
 const PieChart = props => {
     const ref = useRef(null);
-    const width = 500;
+    const width = 700;
     const height = 400;
     const margin = 60;
     const radius = Math.min(width, height) / 2 - margin;
@@ -24,6 +24,33 @@ const PieChart = props => {
         .outerRadius(radius * 0.9);
 
     const colors = d3.scaleOrdinal(d3.schemeDark2);
+
+    const createLegend = (group) => {
+        const legendData = props.data.map((d, i) => ({
+            color: colors(i),
+            label: d.label,
+        }));
+
+        const legend = group
+            .selectAll(".legend")
+            .data(legendData)
+            .enter()
+            .append("g")
+            .attr("class", "legend")
+            .attr("transform", (d, i) => `translate(${radius * 1.8}, ${i * 25 - height / 3})`);
+
+        legend
+            .append("rect")
+            .attr("width", 12)
+            .attr("height", 12)
+            .attr("fill", (d) => d.color);
+
+        legend
+            .append("text")
+            .attr("x", 20)
+            .attr("y", 11)
+            .text((d) => d.label);
+    };
 
     useEffect(() => {
         const data = createPie(props.data);
@@ -79,6 +106,8 @@ const PieChart = props => {
                 const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
                 return (midangle < Math.PI ? "start" : "end");
             });
+        // Create legend
+        createLegend(group);
 
     }, [props.data]);
 
@@ -88,7 +117,7 @@ const PieChart = props => {
             <svg width={width} height={height}>
                 <g
                     ref={ref}
-                    transform={`translate(${width / 2}, ${height / 2})`}
+                    transform={`translate(${width / 2 - margin * 2}, ${height / 2})`}
                 />
             </svg>
         </div>
