@@ -1,18 +1,29 @@
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef} from "react";
 import * as d3 from "d3";
 
 const PieChart = props => {
     const ref = useRef(null);
+    const width = 500;
+    const height = 400;
+    const margin = 60;
+    const radius = Math.min(width, height) / 2 - margin;
+
     const createPie = d3
         .pie()
-        .value(d => d.value)
-        .sort(null);
+        .sort(null)
+        .value(d => d.value);
+
     const createArc = d3
         .arc()
-        .innerRadius(props.innerRadius)
-        .outerRadius(props.outerRadius);
-    const colors = d3.scaleOrdinal(d3.schemeCategory10);
-    const format = d3.format(".2f");
+        .innerRadius(radius * 0.5)
+        .outerRadius(radius * 0.8);
+
+    const createOuterArc = d3
+        .arc()
+        .innerRadius(radius * 0.9)
+        .outerRadius(radius * 0.9);
+
+    const colors = d3.scaleOrdinal(d3.schemeDark2);
 
     useEffect(() => {
         const data = createPie(props.data);
@@ -26,61 +37,58 @@ const PieChart = props => {
             .append("g")
             .attr("class", "arc");
 
-        const path = groupWithUpdate
+        // Create paths
+        groupWithUpdate
             .append("path")
-            .merge(groupWithData.select("path.arc"));
-
-        path
+            .merge(groupWithData.select("path.arc"))
             .attr("class", "arc")
             .attr("d", createArc)
-            .attr("fill", (d, i) => colors(i));
-
-        const text = groupWithUpdate
-            .append("text")
-            .merge(groupWithData.select("text.label"));
-
-        text
-            .attr("class", "label")
-            .attr("text-anchor", "middle")
-            .attr("alignment-baseline", "middle")
-            .attr("transform", d => `translate(${createArc.centroid(d)})`)
-            .style("fill", "white")
-            .style("font-size", 10)
-            .text(d => format(d.value) + "%");
-
-        const circles = groupWithUpdate
-            .append("circle")
-            .merge(groupWithData.select("circle"));
-
-        circles
-            .attr("cx", 140)
-            .attr("cy", function(d,i){ return i*25 - 75})
-            .attr("r", 7)
-            .attr("fill", (d, i) => colors(i));
-
-
-        const legend = groupWithUpdate
-            .append("text")
-            .merge(groupWithData.select("text.legend"));
-
-        legend
-            .attr("class", "legend")
-            .attr("x", 160)
-            .attr("y", function(d,i){ return i*25 - 75})
             .attr("fill", (d, i) => colors(i))
-            .text(d => d.data.label + " = " + format(d.data.amount) + " lbs")
-            .attr("text-anchor", "left")
-            .style("alignment-baseline", "middle");
-    },
-    [props.data]
-    );
+            .attr("stroke", "white")
+            .style("stroke-width", "2px")
+            .style("opacity", 0.7);
+
+        // Create polylines
+        groupWithUpdate
+            .append("polyline")
+            .merge(groupWithData.select("polyline"))
+            .attr("stroke", "black")
+            .style("fill", "none")
+            .attr("stroke-width", 1)
+            .attr("points", d => {
+                const posA = createArc.centroid(d);
+                const posB = createOuterArc.centroid(d);
+                const posC = createOuterArc.centroid(d);
+                const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1);
+                return [posA, posB, posC];
+            });
+
+        // Create labels
+        groupWithUpdate
+            .append("text")
+            .merge(groupWithData.select("text.label"))
+            .text(d => d.data.label)
+            .attr("transform", d => {
+                const pos = createOuterArc.centroid(d);
+                const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+                return `translate(${pos})`;
+            })
+            .style("text-anchor", d => {
+                const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                return (midangle < Math.PI ? "start" : "end");
+            });
+
+    }, [props.data]);
+
 
     return (
         <div>
-            <svg width={"100%"} height={200}>
+            <svg width={width} height={height}>
                 <g
                     ref={ref}
-                    transform={`translate(${props.outerRadius} ${props.outerRadius})`}
+                    transform={`translate(${width / 2}, ${height / 2})`}
                 />
             </svg>
         </div>
