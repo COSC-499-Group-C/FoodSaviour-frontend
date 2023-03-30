@@ -117,7 +117,7 @@ function OrgDropdown(props) {
     return (
         <div>
             {activeElementType === 'dropdown' ? (
-                <div className="mb-3">
+                <div >
                     {dropDown()}
 
                     {showAddOrgButton && (
