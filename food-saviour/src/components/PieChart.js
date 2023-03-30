@@ -3,7 +3,7 @@ import * as d3 from "d3";
 
 const PieChart = props => {
     const ref = useRef(null);
-    const width = 700;
+    const width = 750;
     const height = 400;
     const margin = 60;
     const radius = Math.min(width, height) / 2 - margin;
@@ -31,7 +31,8 @@ const PieChart = props => {
         const legendData = props.data.map((d, i) => ({
             color: colors(i),
             label: d.label,
-            amount: d.value,
+            amount: d.amount,
+            value: d.value,
         }));
 
         const legend = group
@@ -40,7 +41,7 @@ const PieChart = props => {
             .enter()
             .append("g")
             .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(${radius * 1.8}, ${i * 25 - margin * 2})`);
+            .attr("transform", (d, i) => `translate(${radius * 2.1}, ${i * 25 - margin * 2})`);
 
         legend
             .append("rect")
@@ -130,7 +131,7 @@ const PieChart = props => {
             <svg width={width} height={height}>
                 <g
                     ref={ref}
-                    transform={`translate(${width / 2 - margin * 2}, ${height / 2})`}
+                    transform={`translate(${width / 2 - margin * 1.5}, ${height / 2})`}
                 />
             </svg>
         </div>
