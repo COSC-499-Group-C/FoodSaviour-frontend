@@ -113,7 +113,7 @@ function Sharing(props) {
     if (!WasteData || !OrgData || !RoleData) return;
 
     return (
-        <MDBContainer fluid className="blue min-vh-100">
+        <MDBContainer fluid className="blue mt-7 min-vh-100">
             <Navbar/>
             <MDBContainer className="w-80 m-auto">
                 <MDBContainer className="text-center">
