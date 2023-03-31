@@ -73,6 +73,8 @@ const PieChart = props => {
         groupWithUpdate
             .append("path")
             .merge(groupWithData.select("path.arc"))
+            .transition()
+            .duration(2000)
             .attr("class", "arc")
             .attr("d", createArc)
             .attr("fill", (d, i) => colors(i))
@@ -87,6 +89,8 @@ const PieChart = props => {
         groupWithUpdate
             .append("polyline")
             .merge(groupWithData.select("polyline"))
+            .transition()
+            .duration(2000)
             .attr("stroke", "black")
             .style("fill", "none")
             .attr("stroke-width", 1)
@@ -103,6 +107,8 @@ const PieChart = props => {
         groupWithUpdate
             .append("text")
             .merge(groupWithData.select("text.label"))
+            .transition()
+            .duration(2000)
             .text((d) => {
                 if (d.data.value === 0) {
                     return "";

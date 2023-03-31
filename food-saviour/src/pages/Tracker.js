@@ -4,7 +4,6 @@ import PieChart from "../components/PieChart.js";
 import Navbar from "../components/Navbar.js";
 import Documentation from "../components/Documentation.js";
 import "../css/tracker.css";
-import Sidebar from "../components/Sidebar.js";
 import {
     MDBContainer,
     MDBDropdown,
@@ -69,6 +68,7 @@ function Tracker(props) {
                         <p className="mb-4 fs-5 fw-bold border-bottom">{type_name}</p>
                         <PieChart
                             data={pie_data}
+                            key={data[i].id}
                         />
                         <p className="mt-4 mb-3">{data[i].description}</p>
                         <p className="m-0 small float-end">{new Date(data[i].created_at).toString()}</p>
