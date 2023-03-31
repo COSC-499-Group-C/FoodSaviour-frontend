@@ -293,7 +293,7 @@ function Tracker(props) {
     return (
         <div>
             <Navbar></Navbar>
-            <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
+            <MDBContainer className="p-3 mt-7 mb-5 d-flex flex-column w-50">
                 <h2 className="d-inline mb-3">Tracker Page</h2>
                 <MDBCard className="mb-5 bg-pale-blue">
                     <MDBCardBody>
