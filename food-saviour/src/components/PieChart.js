@@ -3,7 +3,7 @@ import * as d3 from "d3";
 
 const PieChart = props => {
     const ref = useRef(null);
-    const width = 750;
+    const width = 760;
     const height = 400;
     const margin = 60;
     const radius = Math.min(width, height) / 2 - margin;
@@ -12,8 +12,9 @@ const PieChart = props => {
 
     const createPie = d3
         .pie()
-        .sort(null)
-        .value(d => d.value);
+        .value(d => d.value)
+        .sort(null);
+
 
     const createArc = d3
         .arc()
@@ -25,7 +26,7 @@ const PieChart = props => {
         .innerRadius(radius * 0.9)
         .outerRadius(radius * 0.9);
 
-    const colors = d3.scaleOrdinal(["#a7e846","#f22c3f","#1ac8ed","#1c448e","#731dd8","#df99f0","#87f1ff"]);
+    const colors = d3.scaleOrdinal(["#a7e846", "#f22c3f", "#1ac8ed", "#1c448e", "#731dd8", "#df99f0", "#87f1ff"]);
 
     const createLegend = (group) => {
         const legendData = props.data.map((d, i) => ({
@@ -64,36 +65,63 @@ const PieChart = props => {
 
         groupWithData.exit().remove();
 
-        const groupWithUpdate = groupWithData
+        const groupEnter = groupWithData
             .enter()
             .append("g")
             .attr("class", "arc");
 
-        // Create paths
-        groupWithUpdate
+        // Paths
+        const pathUpdate = groupWithData.select("path.arc");
+        const pathEnter = groupEnter
             .append("path")
-            .merge(groupWithData.select("path.arc"))
-            .transition()
-            .duration(2000)
             .attr("class", "arc")
-            .attr("d", createArc)
             .attr("fill", (d, i) => colors(i))
             .attr("stroke", "white")
-            .attr("data-toggle", "tooltip")
-            .attr("data-placement","top")
-            .attr("title","test")
             .style("stroke-width", "2px");
-            // .style("opacity", 0.7);
 
-        // Create polylines
-        groupWithUpdate
+        // Polylines
+        const polylineUpdate = groupWithData.select("polyline");
+        const polylineEnter = groupEnter
             .append("polyline")
-            .merge(groupWithData.select("polyline"))
-            .transition()
-            .duration(2000)
             .attr("stroke", "black")
             .style("fill", "none")
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 1);
+
+        // Labels
+        const labelTextUpdate = groupWithData.select("text.label");
+        const labelTextEnter = groupEnter
+            .append("text")
+            .attr("class", "label")
+            .style("text-anchor", (d) => {
+                const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                return midangle < Math.PI ? "start" : "end";
+            })
+            .style("font-size", "14px");
+
+        // Remove existing legend
+        group.selectAll(".legend").remove();
+
+        // Remove existing total amount
+        group.selectAll(".total-amount").remove();
+
+        // Create legend
+        createLegend(group);
+
+        // Transition
+        const t = d3.transition().duration(2000);
+
+        // Update and enter paths
+        pathUpdate
+            .transition(t)
+            .attr("d", createArc);
+
+        pathEnter
+            .transition(t)
+            .attr("d", createArc);
+
+        // Update and enter polylines
+        polylineUpdate
+            .transition(t)
             .attr("points", d => {
                 const posA = createArc.centroid(d);
                 const posB = createOuterArc.centroid(d);
@@ -103,12 +131,20 @@ const PieChart = props => {
                 return [posA, posB, posC];
             });
 
-        // Create labels
-        groupWithUpdate
-            .append("text")
-            .merge(groupWithData.select("text.label"))
-            .transition()
-            .duration(2000)
+        polylineEnter
+            .transition(t)
+            .attr("points", d => {
+                const posA = createArc.centroid(d);
+                const posB = createOuterArc.centroid(d);
+                const posC = createOuterArc.centroid(d);
+                const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1);
+                return [posA, posB, posC];
+            });
+
+        // Update and enter labels
+        labelTextUpdate
+            .transition(t)
             .text((d) => {
                 if (d.data.value === 0) {
                     return "";
@@ -121,34 +157,26 @@ const PieChart = props => {
                 const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
                 pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
                 return `translate(${pos})`;
+            });
+
+        labelTextEnter
+            .merge(labelTextUpdate)
+            .transition(t)
+            .text((d) => {
+                if (d.data.value === 0) {
+                    return "";
+                } else {
+                    return `${d.data.label} (${format(d.data.value)}%)`;
+                }
             })
-            .style("text-anchor", (d) => {
+            .attr("transform", (d) => {
+                const pos = createOuterArc.centroid(d);
                 const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                return midangle < Math.PI ? "start" : "end";
-            })
-            .style("font-size", "14px");
-
-        // Create legend
-        createLegend(group);
-
-         // Create total amount
-        const total_amount = group
-            .selectAll(".total-amount")
-            .data(props.data)
-            .enter()
-            .append("g")
-            .attr("class", "total-amount")
-            .attr("transform", `translate(${radius * 2.1}, ${7.5 * 25 - margin * 1.5})`);
-
-        total_amount
-            .append("text")
-            .attr("x", 20)
-            .attr("y", 11)
-            .attr("class", "fw-bold")
-            .text("Total = " + format(total) + " lbs");
+                pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+                return `translate(${pos})`;
+            });
 
     }, [props.data]);
-
 
     return (
         <div>
