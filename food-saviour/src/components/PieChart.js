@@ -173,7 +173,6 @@ const PieChart = props => {
             });
 
         labelTextEnter
-            .merge(labelTextUpdate)
             .transition(t)
             .text((d) => {
                 if (d.data.value === 0) {
@@ -188,6 +187,7 @@ const PieChart = props => {
                 pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
                 return `translate(${pos})`;
             });
+
 
     }, [props.data]);
 

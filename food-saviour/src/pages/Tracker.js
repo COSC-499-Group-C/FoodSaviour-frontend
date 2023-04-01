@@ -23,6 +23,8 @@ function Tracker(props) {
     const { WasteData } = props;
     const [charts, setCharts] = useState([]);
 
+    const dataKey = JSON.stringify(charts);
+
     useEffect(() => {
         getData();
     }, []);
@@ -68,7 +70,6 @@ function Tracker(props) {
                         <p className="mb-4 fs-5 fw-bold border-bottom">{type_name}</p>
                         <PieChart
                             data={pie_data}
-                            key={data[i].id}
                         />
                         <p className="mt-4 mb-3">{data[i].description}</p>
                         <p className="m-0 small float-end">{new Date(data[i].created_at).toString()}</p>
@@ -178,6 +179,7 @@ function Tracker(props) {
                         <p className="mb-4 fs-5 fw-bold border-bottom">{type}</p>
                         <PieChart
                             data={new_data}
+                            key={dataKey}
                         />
                         <p className="mt-4 mb-3">{desc}</p>
                         <p className="m-0 small float-end">{date.toString()}</p>
