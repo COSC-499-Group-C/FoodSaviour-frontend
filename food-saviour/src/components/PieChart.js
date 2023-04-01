@@ -107,6 +107,19 @@ const PieChart = props => {
         // Create legend
         createLegend(group);
 
+        // Create total amount
+        const total_amount = group
+            .append("g")
+            .attr("class", "total-amount")
+            .attr("transform", `translate(${radius * 2.1}, ${7.5 * 25 - margin * 1.5})`);
+
+        total_amount
+            .append("text")
+            .attr("x", 20)
+            .attr("y", 11)
+            .attr("class", "fw-bold")
+            .text("Total = " + format(total) + " lbs");
+
         // Transition
         const t = d3.transition().duration(2000);
 
