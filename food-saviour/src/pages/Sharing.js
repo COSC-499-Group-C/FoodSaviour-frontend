@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
-import "../css/sharing.css";
-import Navbar from "../components/Navbar.js";
+import React, { useState } from "react";
 import axiosInstance from "../axios";
+import Navbar from "../components/Navbar.js";
+import Documentation from "../components/Documentation.js";
 import "../css/sharing.css";
 import {
     MDBContainer,
@@ -9,6 +9,7 @@ import {
     MDBRow,
     MDBCol,
     MDBBtn,
+    MDBCard,
 }
     from "mdb-react-ui-kit";
 import LoadingComponent from "../util/Loading";
@@ -35,7 +36,7 @@ function Sharing(props) {
                 wasteId.push(e.target.value);
             } else {
                 wasteId = wasteId.filter(function (value) {
-                    return value != e.target.value;
+                    return value !== e.target.value;
                 });
             }
         }
@@ -44,7 +45,7 @@ function Sharing(props) {
                 orgId.push(e.target.value);
             } else {
                 orgId = orgId.filter(function (value) {
-                    return value != e.target.value;
+                    return value !== e.target.value;
                 });
             }
         }
@@ -53,7 +54,7 @@ function Sharing(props) {
                 roleId.push(e.target.value);
             } else {
                 roleId = roleId.filter(function (value) {
-                    return value != e.target.value;
+                    return value !== e.target.value;
                 });
             }
         }
@@ -113,22 +114,14 @@ function Sharing(props) {
     if (!WasteData || !OrgData || !RoleData) return;
 
     return (
-        <MDBContainer fluid className="blue mt-7 min-vh-100">
-            <Navbar/>
-            <MDBContainer className="w-80 m-auto">
-                <MDBContainer className="text-center">
-                    <img src="/images/logo.png" height="80px"/>
-                    <h1 className="fs-1 text-center mt-1 fw-bold">Sharing</h1>
-                    <p className="text-center">
-                        Have items to share? Need items? You've found the right place!
-                    </p>
-                </MDBContainer>
-                <MDBRow className="justify-content-center m-auto">
-                    <MDBCol
-                        className="bg-lblue p-4 ch-25 mx-1 rounded-4 overflow-auto" md="3"
-                    >
-                        <div>
-                            <h1 className="fw-bold fs-4">Waste Category</h1>
+        <div>
+            <Navbar></Navbar>
+            <MDBContainer className="p-3 mt-7 mb-5 d-flex flex-column w-50">
+                <h1 className="mb-3 fw-bold text-center">Sharing Page</h1>
+                <MDBRow>
+                    <MDBCol md="4">
+                        <MDBCard className="h-15 p-3 bg-green bs-form overflow-auto">
+                            <p className="fw-bold fs-4">Waste Category</p>
                             {WasteData.map((data) => {
                                 return (
                                     <div key={data.id} className="mb-0">
@@ -142,11 +135,11 @@ function Sharing(props) {
                                     </div>
                                 );
                             })}
-                        </div>
+                        </MDBCard>
                     </MDBCol>
-                    <MDBCol className="bg-lblue ch-25 p-4 mx-1 rounded-4 overflow-auto" md="3">
-                        <div>
-                            <h1 className="fw-bold fs-4">Organization</h1>
+                    <MDBCol md="4">
+                        <MDBCard className="h-15 p-3 bg-blue bs-form overflow-auto">
+                            <p className="fw-bold fs-4">Organization</p>
                             {OrgData.map((data) => {
                                 return (
                                     <div key={data.id} className="mb-0">
@@ -160,11 +153,11 @@ function Sharing(props) {
                                     </div>
                                 );
                             })}
-                        </div>
+                        </MDBCard>
                     </MDBCol>
-                    <MDBCol className="bg-lblue ch-25 p-4 mx-1 rounded-4 overflow-auto" md="3">
-                        <div>
-                            <h1 className="fw-bold fs-4">Roles</h1>
+                    <MDBCol md="4">
+                        <MDBCard className="h-15 p-3 bg-purple bs-form overflow-auto">
+                            <p className="fw-bold fs-4">Roles</p>
                             {RoleData.map((data) => {
                                 return (
                                     <div key={data.id} className="mb-0">
@@ -178,27 +171,20 @@ function Sharing(props) {
                                     </div>
                                 );
                             })}
-                        </div>
+                        </MDBCard>
                     </MDBCol>
                 </MDBRow>
-                <MDBRow className="justify-content-center mt-2 mb-2">
-                    <MDBBtn className="w-25 m-2" color="primary" onClick={handleSubmit}>
-                        Generate data
+                <MDBRow className="justify-content-center m-3">
+                    <MDBBtn className="w-25" color="primary" onClick={handleSubmit}>
+                        Generate Data
                     </MDBBtn>
                 </MDBRow>
                 <MDBRow className="justify-content-center">
-                    <MDBCol className="bg-lblue w-100 p-4 rounded-4">
-                        <div>
-                            <h1 className="fw-bold fs-4">Generated Graphs</h1>
-                            <Loading isLoading={appState.loading} data={appState.data}/>
-                        </div>
-                    </MDBCol>
+                            <Loading isLoading={appState.loading} data={appState.data}></Loading>
                 </MDBRow>
-                <MDBContainer className="footer">
-                    <p className="text-footer"></p>
-                </MDBContainer>
+                <Documentation className="text-decoration-none fs-5"></Documentation>
             </MDBContainer>
-        </MDBContainer>
+        </div>
     );
 }
 
