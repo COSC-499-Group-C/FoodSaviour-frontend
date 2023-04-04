@@ -57,6 +57,62 @@ const PieChart = props => {
             .text((d) => `${d.label} = ${format(d.amount)} lbs`);
     };
 
+    const relaxLabels = (textLabels, lines) => {
+        const alpha = 0.5;
+        const spacing = 15;
+
+        const relax = () => {
+            let again = false;
+            textLabels.each(function () {
+                const a = this;
+                const da = d3.select(a);
+                const y1 = da.attr("y");
+                textLabels.each(function (d, j) {
+                    const b = this;
+                    if (a === b) {
+                        return;
+                    }
+
+                    const db = d3.select(b);
+                    if (da.attr("text-anchor") !== db.attr("text-anchor")) {
+                        return;
+                    }
+
+                    const y2 = db.attr("y");
+                    const deltaY = y1 - y2;
+
+                    if (Math.abs(deltaY) > spacing) {
+                        return;
+                    }
+
+                    again = true;
+                    const sign = deltaY > 0 ? 1 : -1;
+                    const adjust = sign * alpha;
+                    da.attr("y", +y1 + adjust);
+                    db.attr("y", +y2 - adjust);
+                });
+            });
+
+            if (again) {
+                lines.attr("points", (d, i) => {
+                    const posA = createArc.centroid(d);
+                    const posB = createOuterArc.centroid(d);
+                    const posC = createOuterArc.centroid(d);
+                    const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                    posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1);
+                    const labelForLine = d3.select(textLabels.nodes()[i]);
+                    const y = labelForLine.attr("y");
+                    posC[1] = y;
+                    posB[1] = y; // Update the middle point of the polyline based on the new y position
+                    return [posA, posB, posC];
+                });
+                setTimeout(relax, 20);
+            }
+        };
+
+        relax();
+    };
+
 
     useEffect(() => {
         const data = createPie(props.data);
@@ -187,6 +243,8 @@ const PieChart = props => {
                 pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
                 return `translate(${pos})`;
             });
+
+        relaxLabels(labelTextEnter.merge(labelTextUpdate), polylineEnter.merge(polylineUpdate));
 
 
     }, [props.data]);
