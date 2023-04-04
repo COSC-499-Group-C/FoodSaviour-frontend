@@ -12,32 +12,13 @@ code {
     monospace;
 }
 
-.home {
-    background-image: radial-gradient(#1c448e,#731dd8);
-    background-size: 100% 100%;
-    background-position: center center;
-    animation: 3s entrance;
-}
-
-@keyframes entrance {
-    from {background-size: 400% 400%; background-position: center center;}
-    to {background-size: 100% 100%; background-position: center center;}
-
-}
-
-.fadein {
-    animation: 2s ease-in fadeIn;
-    opacity: 100%;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0%;}
-    to {opacity: 100%;}
-}
-
 .btm-right {
     position: fixed;
     bottom: 0;
     right: 0;
+}
+
+.mt-7 {
+    margin-top: 7rem;
 }
 

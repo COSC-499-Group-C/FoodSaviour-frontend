@@ -12,7 +12,6 @@ import {
     MDBDropdownItem,
     MDBRow,
     MDBCol,
-    MDBInput,
     MDBBtn,
     MDBCard,
     MDBCardBody
@@ -70,6 +69,8 @@ function Tracker(props) {
                         <p className="mb-4 fs-5 fw-bold border-bottom">{type_name}</p>
                         <PieChart
                             data={pie_data}
+                            innerRadius={60}
+                            outerRadius={120}
                         />
                         <p className="mt-4 mb-3">{data[i].description}</p>
                         <p className="m-0 small float-end">{new Date(data[i].created_at).toString()}</p>
@@ -83,114 +84,175 @@ function Tracker(props) {
 
     const [type, setType] = useState("Waste Category");
     const [type_id, setType_id] = useState(1);
-    const [total, setTotal] = useState();
+    const [total, setTotal] = useState("");
     const [entered, setEntered] = useState([0, 0, 0, 0, 0, 0, 0]);
     const [err_msg, setErr_msg] = useState("");
     const [desc, setDesc] = useState("");
 
-    const [percent1, setPercent1] = useState(0), [amount1, setAmount1] = useState();
-    const [percent2, setPercent2] = useState(0), [amount2, setAmount2] = useState();
-    const [percent3, setPercent3] = useState(0), [amount3, setAmount3] = useState();
-    const [percent4, setPercent4] = useState(0), [amount4, setAmount4] = useState();
-    const [percent5, setPercent5] = useState(0), [amount5, setAmount5] = useState();
-    const [percent6, setPercent6] = useState(0), [amount6, setAmount6] = useState();
-    const [percent7, setPercent7] = useState(0), [amount7, setAmount7] = useState();
+    const [percent1, setPercent1] = useState(NaN), [amount1, setAmount1] = useState();
+    const [percent2, setPercent2] = useState(NaN), [amount2, setAmount2] = useState();
+    const [percent3, setPercent3] = useState(NaN), [amount3, setAmount3] = useState();
+    const [percent4, setPercent4] = useState(NaN), [amount4, setAmount4] = useState();
+    const [percent5, setPercent5] = useState(NaN), [amount5, setAmount5] = useState();
+    const [percent6, setPercent6] = useState(NaN), [amount6, setAmount6] = useState();
+    const [percent7, setPercent7] = useState(NaN), [amount7, setAmount7] = useState();
 
     const wasteType = (e, waste_type_id) => {
         setType(e.target.innerHTML);
         setType_id(waste_type_id);
+
+        if (e.target.innerHTML !== "Waste Category") {
+            let type = document.getElementById("type");
+            type.classList.remove("border");
+            type.classList.remove("border-danger");
+        }
 
         e.preventDefault();
     }
 
     const totalAmount = (e) => {
         setTotal(e.target.value);
+
+        if (e.target.value != null && e.target.value !== "") {
+            e.target.classList.remove("border");
+            e.target.classList.remove("border-danger");
+        }
     }
 
     const percentCalc = (e, setPercent, setAmount, i) => {
-        const percent = (e.target.value / total * 100);
-        setPercent(percent);
+        if (total !== "") {
+            const percent = (e.target.value / total * 100);
+            setPercent(percent);
+        } else {
+            setPercent(NaN);
+        }
         setAmount(e.target.value);
 
         let arr = [...entered];
         arr[i] = e.target.value;
         setEntered(arr);
+
+        if (e.target.value != null && e.target.value !== "") {
+            e.target.classList.remove("border");
+            e.target.classList.remove("border-danger");
+        }
+
+        if (+total === arr.reduce((sum, i) => sum = sum + +i, 0)) {
+            let entered_amount = document.getElementById("entered");
+            entered_amount.classList.remove("fw-bold");
+            entered_amount.classList.remove("text-danger");
+        }
     };
 
     const description = (e) => {
         setDesc(e.target.value);
+
+        if (e.target.value != null && e.target.value !== "") {
+            e.target.classList.remove("border");
+            e.target.classList.remove("border-danger");
+        }
     }
 
     const validateForm = (e) => {
         e.preventDefault();
         let type = document.getElementById("type");
         let inputs = document.getElementsByTagName("input");
+        let entered_amount = document.getElementById("entered");
 
         if (type.innerHTML === "Waste Category") {
+            document.getElementById("err_msg").classList.remove("d-none");
+            type.classList.add("border");
+            type.classList.add("border-danger");
             setErr_msg("Please specify a waste category.");
             return false;
         }
 
+        let empty = false;
+
         for (let i = 0; i < inputs.length; i++) {
             if (inputs[i].value == null || inputs[i].value === "") {
-                setErr_msg("Please fill out all fields.");
-                return false;
+                inputs[i].classList.add("border");
+                inputs[i].classList.add("border-danger");
+                empty = true;
             }
         }
 
+        if (empty) {
+            document.getElementById("err_msg").classList.remove("d-none");
+            setErr_msg("Please fill out all fields.");
+            return false;
+        }
+
+        if (+total !== entered.reduce((sum, i) => sum = sum + +i, 0)) {
+            document.getElementById("err_msg").classList.remove("d-none");
+            entered_amount.classList.add("fw-bold");
+            entered_amount.classList.add("text-danger");
+            setErr_msg("Entered amount does not equal total amount.");
+            return false;
+        }
+
+        document.getElementById("err_msg").classList.add("d-none");
         submitData(e);
     }
 
     const submitData = (e) => {
-        const new_data = [{ label: "Donations", value: percent1.toString(), amount: amount1.toString() },
-        { label: "Compost", value: percent2.toString(), amount: amount2.toString() },
-        { label: "Partners", value: percent3.toString(), amount: amount3.toString() },
-        { label: "Farmers", value: percent4.toString(), amount: amount4.toString() },
-        { label: "Gardens", value: percent5.toString(), amount: amount5.toString() },
-        { label: "Landfill", value: percent6.toString(), amount: amount6.toString() },
-        { label: "Other", value: percent7.toString(), amount: amount7.toString() }];
 
-        if (+total === entered.reduce((sum, i) => sum = sum + +i, 0)) {
+        const total = +amount1 + +amount2 + +amount3 + +amount4 + +amount5 + +amount6 + +amount7;
 
-            const date = new Date();
+        const percent1 = (amount1 / total * 100);
+        const percent2 = (amount2 / total * 100);
+        const percent3 = (amount3 / total * 100);
+        const percent4 = (amount4 / total * 100);
+        const percent5 = (amount5 / total * 100);
+        const percent6 = (amount6 / total * 100);
+        const percent7 = (amount7 / total * 100);
 
-            axiosInstance
-                .post("trackerData/", {
-                    user: localStorage.getItem("currUserId"),
-                    waste_type: type_id,
-                    description: desc,
-                    donations: amount1,
-                    compost: amount2,
-                    partners: amount3,
-                    farmers: amount4,
-                    gardens: amount5,
-                    landfill: amount6,
-                    other: amount7,
-                    created_at: date
-                })
-                .then((response) => {
-                    console.log(response);
-                })
-                .catch(error => console.error(`Error: ${error}`));
+        const new_data = [{ label: "Donations", value: percent1.toString(), amount: amount1 },
+        { label: "Compost", value: percent2.toString(), amount: amount2 },
+        { label: "Partners", value: percent3.toString(), amount: amount3 },
+        { label: "Farmers", value: percent4.toString(), amount: amount4 },
+        { label: "Gardens", value: percent5.toString(), amount: amount5 },
+        { label: "Landfill", value: percent6.toString(), amount: amount6 },
+        { label: "Other", value: percent7.toString(), amount: amount7 }];
 
-            setCharts([
-                <MDBCard className="mb-5">
-                    <MDBCardBody>
-                        <p className="mb-4 fs-5 fw-bold border-bottom">{type}</p>
-                        <PieChart
-                            data={new_data}
-                            key={dataKey}
-                        />
-                        <p className="mt-4 mb-3">{desc}</p>
-                        <p className="m-0 small float-end">{date.toString()}</p>
-                    </MDBCardBody>
-                </MDBCard>,
-                charts]);
+        const date = new Date();
 
-            clearForm(e);
-        } else {
-            setErr_msg("Entered amount does not equal total amount.");
-        }
+        axiosInstance
+            .post("trackerData/", {
+                user: localStorage.getItem("currUserId"),
+                waste_type: type_id,
+                description: desc,
+                donations: amount1,
+                compost: amount2,
+                partners: amount3,
+                farmers: amount4,
+                gardens: amount5,
+                landfill: amount6,
+                other: amount7,
+                created_at: date
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch(error => console.error(`Error: ${error}`));
+
+        console.log(new_data);
+        setCharts([
+            <MDBCard className="mb-5">
+                <MDBCardBody>
+                    <p className="mb-4 fw-bold border-bottom">{type}</p>
+                    <PieChart
+                        data={new_data}
+                        innerRadius={60}
+                        outerRadius={120}
+                    />
+                    <p className="mt-4 mb-3">{desc}</p>
+                    <p className="m-0 small float-end">{date.toString()}</p>
+                </MDBCardBody>
+            </MDBCard>,
+            charts]);
+
+        clearForm(e);
 
         e.preventDefault();
     }
@@ -200,16 +262,33 @@ function Tracker(props) {
         setType_id(1);
         setTotal("");
         setEntered([0, 0, 0, 0, 0, 0, 0]);
-        setErr_msg("");
         setDesc("");
 
-        setPercent1(0); setAmount1("");
-        setPercent2(0); setAmount2("");
-        setPercent3(0); setAmount3("");
-        setPercent4(0); setAmount4("");
-        setPercent5(0); setAmount5("");
-        setPercent6(0); setAmount6("");
-        setPercent7(0); setAmount7("");
+        let type = document.getElementById("type");
+        let inputs = document.getElementsByTagName("input");
+        let entered_amount = document.getElementById("entered");
+
+        type.classList.remove("border");
+        type.classList.remove("border-danger");
+
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].classList.remove("border");
+            inputs[i].classList.remove("border-danger");
+        }
+
+        entered_amount.classList.remove("fw-bold");
+        entered_amount.classList.remove("text-danger");
+
+        document.getElementById("err_msg").classList.add("d-none");
+        setErr_msg("");
+
+        setPercent1(NaN); setAmount1("");
+        setPercent2(NaN); setAmount2("");
+        setPercent3(NaN); setAmount3("");
+        setPercent4(NaN); setAmount4("");
+        setPercent5(NaN); setAmount5("");
+        setPercent6(NaN); setAmount6("");
+        setPercent7(NaN); setAmount7("");
 
         e.preventDefault();
     }
@@ -217,14 +296,12 @@ function Tracker(props) {
     return (
         <div>
             <Navbar></Navbar>
-            <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-                <div className="mb-3 align-content-between">
-                    <h2 className="d-inline">Tracker Page</h2>
-                </div>
-                <MDBCard className="mb-5 bg-form bs-form">
+            <MDBContainer className="p-3 mt-7 mb-5 d-flex flex-column w-50">
+                <h2 className="d-inline mb-3">Tracker Page</h2>
+                <MDBCard className="mb-5 bg-pale-blue">
                     <MDBCardBody>
                         <MDBRow tag="form" className="g-3" between>
-                            <MDBCol md="5">
+                            <MDBCol md="8">
                                 <MDBDropdown group>
                                     <MDBDropdownToggle id="type" onClick={(event) => event.preventDefault()}>{type}</MDBDropdownToggle>
                                     <MDBDropdownMenu>
@@ -236,11 +313,23 @@ function Tracker(props) {
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBCol>
-                            <MDBCol md="3">
-                                <p className="m-0 p-1 float-end">Total Amount:</p>
+                            <MDBCol md="4" onChange={description}>
+                                <input
+                                    type="text"
+                                    placeholder="Description"
+                                    className="form-control"
+                                    value={desc}
+                                    required
+                                />
+                            </MDBCol>
+                            <MDBCol md="12">
+                                <hr></hr>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation" onChange={totalAmount}>
+                                <p className="m-0 p-1 fw-bold float-end">Total Amount:</p>
+                            </MDBCol>
+                            <MDBCol md="4">
+                                <div className="input-group" onChange={totalAmount}>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -251,27 +340,19 @@ function Tracker(props) {
                                     <span className="input-group-text bg-white">
                                         lbs
                                     </span>
-                                    <div className="invalid-feedback">Please enter an amount.</div>
                                 </div>
                             </MDBCol>
-                            <MDBCol md="12" onChange={description}>
-                                <MDBInput
-                                    name="desc"
-                                    label="Description"
-                                    className="bg-white has-validation"
-                                    value={desc}
-                                    required
-                                />
-                                <div className="invalid-feedback">Please provide a description.</div>
+                            <MDBCol md="4"></MDBCol>
+                            <MDBCol md="4"></MDBCol>
+                            <MDBCol md="4">
+                                <p className="m-0 fw-bold text-center border-bottom border-secondary"></p>
                             </MDBCol>
-                            <MDBCol md="12">
-                                <p className="m-0 fw-bold border-bottom border-secondary">Distributed Amounts</p>
-                            </MDBCol>
+                            <MDBCol md="4"></MDBCol>
                             <MDBCol md="4">
                                 <p className="m-0 p-1 float-end">Donations:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation"
+                                <div className="input-group"
                                     onChange={(event) => percentCalc(event, setPercent1, setAmount1, 0)}>
                                     <input
                                         type="text"
@@ -283,7 +364,6 @@ function Tracker(props) {
                                     <span className="input-group-text bg-white">
                                         lbs
                                     </span>
-                                    <div className="invalid-feedback">Please enter an amount.</div>
                                 </div>
                             </MDBCol>
                             <MDBCol md="4">
@@ -293,7 +373,7 @@ function Tracker(props) {
                                 <p className="m-0 p-1 float-end">Compost:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation"
+                                <div className="input-group"
                                     onChange={(event) => percentCalc(event, setPercent2, setAmount2, 1)}>
                                     <input
                                         type="text"
@@ -305,7 +385,6 @@ function Tracker(props) {
                                     <span className="input-group-text bg-white">
                                         lbs
                                     </span>
-                                    <div className="invalid-feedback">Please enter an amount.</div>
                                 </div>
                             </MDBCol>
                             <MDBCol md="4">
@@ -315,7 +394,7 @@ function Tracker(props) {
                                 <p className="m-0 p-1 float-end">Partners:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation"
+                                <div className="input-group"
                                     onChange={(event) => percentCalc(event, setPercent3, setAmount3, 2)}>
                                     <input
                                         type="text"
@@ -327,7 +406,6 @@ function Tracker(props) {
                                     <span className="input-group-text bg-white">
                                         lbs
                                     </span>
-                                    <div className="invalid-feedback">Please enter an amount.</div>
                                 </div>
                             </MDBCol>
                             <MDBCol md="4">
@@ -337,7 +415,7 @@ function Tracker(props) {
                                 <p className="m-0 p-1 float-end">Farmers:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation"
+                                <div className="input-group"
                                     onChange={(event) => percentCalc(event, setPercent4, setAmount4, 3)}>
                                     <input
                                         type="text"
@@ -349,7 +427,6 @@ function Tracker(props) {
                                     <span className="input-group-text bg-white">
                                         lbs
                                     </span>
-                                    <div className="invalid-feedback">Please enter an amount.</div>
                                 </div>
                             </MDBCol>
                             <MDBCol md="4">
@@ -359,7 +436,7 @@ function Tracker(props) {
                                 <p className="m-0 p-1 float-end">Gardens:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation"
+                                <div className="input-group"
                                     onChange={(event) => percentCalc(event, setPercent5, setAmount5, 4)}>
                                     <input
                                         type="text"
@@ -371,7 +448,6 @@ function Tracker(props) {
                                     <span className="input-group-text bg-white">
                                         lbs
                                     </span>
-                                    <div className="invalid-feedback">Please enter an amount.</div>
                                 </div>
                             </MDBCol>
                             <MDBCol md="4">
@@ -381,7 +457,7 @@ function Tracker(props) {
                                 <p className="m-0 p-1 float-end">Landfill:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation"
+                                <div className="input-group"
                                     onChange={(event) => percentCalc(event, setPercent6, setAmount6, 5)}>
                                     <input
                                         type="text"
@@ -393,7 +469,6 @@ function Tracker(props) {
                                     <span className="input-group-text bg-white">
                                         lbs
                                     </span>
-                                    <div className="invalid-feedback">Please enter an amount.</div>
                                 </div>
                             </MDBCol>
                             <MDBCol md="4">
@@ -403,7 +478,7 @@ function Tracker(props) {
                                 <p className="m-0 p-1 float-end">Other:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <div className="input-group has-validation"
+                                <div className="input-group"
                                     onChange={(event) => percentCalc(event, setPercent7, setAmount7, 6)}>
                                     <input
                                         type="text"
@@ -415,20 +490,21 @@ function Tracker(props) {
                                     <span className="input-group-text bg-white">
                                         lbs
                                     </span>
-                                    <div className="invalid-feedback">Please enter an amount.</div>
                                 </div>
                             </MDBCol>
                             <MDBCol md="4">
                                 <p className="m-0 p-1">= {percent7.toFixed(2)}%</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <p className="m-0 p-1 fw-bold float-end">Entered Amount:</p>
+                                <p className="m-0 p-1 pt-3 fw-bold float-end">Entered Amount:</p>
                             </MDBCol>
                             <MDBCol md="4">
-                                <p className="m-0 p-1 text-center border-top border-secondary">{entered.reduce((sum, i) => sum = sum + +i, 0).toFixed(2)} lbs</p>
+                                <p id="entered" className="m-0 p-1 pt-3 text-center border-top border-secondary">{entered.reduce((sum, i) => sum = sum + +i, 0).toFixed(2)} lbs</p>
                             </MDBCol>
-                            <MDBCol md="4">
-                                <p className="m-0 p-1">{err_msg}</p>
+                            <MDBCol md="4"></MDBCol>
+                            <MDBCol md="12">
+                                <p id="err_msg" className="p-2 text-danger rounded d-none"
+                               style={{backgroundColor: "#f9e1e5"}}>{err_msg}</p>
                             </MDBCol>
                             <MDBCol md="6">
                                 <MDBBtn className="float-start" color="danger" onClick={clearForm}>

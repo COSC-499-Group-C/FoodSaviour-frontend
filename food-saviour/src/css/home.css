@@ -1,0 +1,65 @@
+.home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.home-bg {
+    background-image: radial-gradient(#1c448e,#731dd8);
+    background-size: 100% 100%;
+    background-position: center center;
+    animation: 3s entrance;
+}
+
+@keyframes entrance {
+    from {background-size: 400% 400%; background-position: center center;}
+    to {background-size: 100% 100%; background-position: center center;}
+}
+
+.fadein {
+    animation: 2s ease-in fadeIn;
+    opacity: 100%;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0%;}
+    to {opacity: 100%;}
+}
+
+.tracker-card {
+    transform: scale(0.9);
+    transition: transform 0.5s ease-in-out;
+}
+
+.tracker-card:hover {
+    transform: scale(1);
+}
+
+.tracker-card img {
+    transition: filter 0.5s ease-in-out;
+}
+
+.tracker-card:hover img {
+    filter: invert(1);
+}
+
+.sharing-card {
+    transform: scale(0.9);
+    transition: transform 0.5s ease-in-out;
+}
+
+.sharing-card:hover {
+    transform: scale(1);
+}
+
+.sharing-card img {
+    transition: filter 0.5s ease-in-out;
+}
+
+.sharing-card:hover img {
+    filter: invert(1);
+}
