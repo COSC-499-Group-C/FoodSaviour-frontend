@@ -1,15 +1,7 @@
-/*For dark mode*/
-/*body {*/
-/*    background-color: #4C5C68;*/
-/*}*/
-
-.bg-pale-blue {
-    background-color: #e3ebf7;
+.bg-form {
+    background-image: linear-gradient(to bottom right,rgba(28, 68, 142, 0.15) 15%,rgba(115, 29, 216, 0.15) 85%);
 }
 
-/*For tracker form dark mode*/
-.bs-pale-blue {
-    box-shadow: 0 4px 9px -4px #e3ebf7;
+.bs-form {
+    box-shadow: 0 2px 15px -3px rgba(28, 68, 142, 0.2), 0 10px 20px -2px rgba(115, 29, 216, 0.1);
 }
-
-/*test-white on page title for dark mode*/

@@ -22,6 +22,8 @@ function Tracker(props) {
     const { WasteData } = props;
     const [charts, setCharts] = useState([]);
 
+    const dataKey = JSON.stringify(charts);
+
     useEffect(() => {
         getData();
     }, []);
@@ -64,7 +66,7 @@ function Tracker(props) {
             display.push(
                 <MDBCard className="mb-5">
                     <MDBCardBody>
-                        <p className="mb-4 fw-bold border-bottom">{type_name}</p>
+                        <p className="mb-4 fs-5 fw-bold border-bottom">{type_name}</p>
                         <PieChart
                             data={pie_data}
                             innerRadius={60}
@@ -194,6 +196,7 @@ function Tracker(props) {
     }
 
     const submitData = (e) => {
+
         const total = +amount1 + +amount2 + +amount3 + +amount4 + +amount5 + +amount6 + +amount7;
 
         const percent1 = (amount1 / total * 100);
