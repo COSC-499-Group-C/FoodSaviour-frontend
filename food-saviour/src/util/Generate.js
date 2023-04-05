@@ -11,11 +11,9 @@ const Generate = (props) => {
         <div>
             <MDBCard className="mb-5">
                 <MDBCardBody>
-                    <p className="mb-4 fw-bold border-bottom">Generated Graph</p>
+                    <p className="mb-4 fs-5 fw-bold border-bottom">Generated Graph</p>
                     <PieChart
                         data={data}
-                        innerRadius={60}
-                        outerRadius={120}
                     />
                     <p className="mt-4 m-0 small float-end">{date.toString()}</p>
                 </MDBCardBody>
