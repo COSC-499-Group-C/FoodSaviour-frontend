@@ -120,7 +120,7 @@ function Sharing(props) {
                 <h1 className="mb-3 fw-bold text-center">Sharing Page</h1>
                 <MDBRow>
                     <MDBCol md="4">
-                        <MDBCard className="h-15 p-3 bg-green bs-form overflow-auto">
+                        <MDBCard className="h-15 p-3 bg-lblue overflow-auto">
                             <p className="fw-bold fs-4">Waste Category</p>
                             {WasteData.map((data) => {
                                 return (
@@ -138,7 +138,7 @@ function Sharing(props) {
                         </MDBCard>
                     </MDBCol>
                     <MDBCol md="4">
-                        <MDBCard className="h-15 p-3 bg-blue bs-form overflow-auto">
+                        <MDBCard className="h-15 p-3 bg-blue overflow-auto">
                             <p className="fw-bold fs-4">Organization</p>
                             {OrgData.map((data) => {
                                 return (
@@ -156,7 +156,7 @@ function Sharing(props) {
                         </MDBCard>
                     </MDBCol>
                     <MDBCol md="4">
-                        <MDBCard className="h-15 p-3 bg-purple bs-form overflow-auto">
+                        <MDBCard className="h-15 p-3 bg-purple overflow-auto">
                             <p className="fw-bold fs-4">Roles</p>
                             {RoleData.map((data) => {
                                 return (
